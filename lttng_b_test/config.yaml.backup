@@ -1,0 +1,63 @@
+lttng-tools:
+        - marker: lttng-tools-2.7
+          url: https://github.com/lttng/lttng-tools
+          ref: stable-2.7
+        - marker: lttng-tools-2.8
+          url: https://github.com/lttng/lttng-tools
+          ref: stable-2.8
+        - marker: lttng-tools-2.9
+          url: https://github.com/lttng/lttng-tools
+          ref: stable-2.9
+        - marker: lttng-tools-2.10
+          url: https://github.com/lttng/lttng-tools
+          ref: stable-2.10
+        - marker: lttng-tools-master
+          url: https://github.com/lttng/lttng-tools
+          ref: stable-2.10
+lttng-ust:
+        - marker: lttng-ust-2.7
+          url: https://github.com/lttng/lttng-ust
+          ref: stable-2.7
+        - marker: lttng-ust-2.8
+          url: https://github.com/lttng/lttng-ust
+          ref: stable-2.8
+        - marker: lttng-ust-2.9
+          url: https://github.com/lttng/lttng-ust
+          ref: stable-2.9
+        - marker: lttng-ust-2.10
+          url: https://github.com/lttng/lttng-ust
+          ref: stable-2.10
+        - marker: lttng-ust-master
+          url: https://github.com/lttng/lttng-ust
+          ref: stable-2.10
+
+lttng-modules:
+        - marker: lttng-modules-2.7
+          url: https://github.com/lttng/lttng-modules
+          ref: stable-2.7
+        - marker: lttng-modules-2.8
+          url: https://github.com/lttng/lttng-modules
+          ref: stable-2.8
+        - marker: lttng-modules-2.9
+          url: https://github.com/lttng/lttng-modules
+          ref: stable-2.9
+        - marker: lttng-modules-2.10
+          url: https://github.com/lttng/lttng-modules
+          ref: stable-2.10
+        - marker: lttng-modules-master
+          url: https://github.com/lttng/lttng-modules
+          ref: stable-2.10
+
+babeltrace:
+        - marker: babeltrace-1.3
+          url: https://github.com/efficios/babeltrace
+          ref: stable-1.3
+        - marker: babeltrace-1.4
+          url: https://github.com/efficios/babeltrace
+          ref: stable-1.4
+        - marker: babeltrace-1.5
+          url: https://github.com/efficios/babeltrace
+          ref: stable-1.5
+        - marker: babeltrace-master
+          url: https://github.com/efficios/babeltrace
+          ref: master

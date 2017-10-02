@@ -1,0 +1,30 @@
+babeltrace-master:
+  path: /home/jonathan/lttng/lttngv-test/lttng_b_test/git_remote/https%3A%2F%2Fgithub.com%2Fefficios%2Fbabeltrace
+  project: babeltrace
+  sha1: 9d69da48590e1b1833c5a80eb6f7b6928550569d
+  url: https://github.com/efficios/babeltrace
+lttng-modules-2.7:
+  path: /home/jonathan/lttng/lttngv-test/lttng_b_test/git_remote/https%3A%2F%2Fgithub.com%2Flttng%2Flttng-modules
+  project: lttng-modules
+  sha1: 1b027915cd28cf3e211e4116f928c75f196a1390
+  url: https://github.com/lttng/lttng-modules
+lttng-tools-2.7:
+  path: /home/jonathan/lttng/lttngv-test/lttng_b_test/git_remote/https%3A%2F%2Fgithub.com%2Flttng%2Flttng-tools
+  project: lttng-tools
+  sha1: e47357fe8006f4ff13bae0fa6cef31da2466e97e
+  url: https://github.com/lttng/lttng-tools
+lttng-tools-2.8:
+  path: /home/jonathan/lttng/lttngv-test/lttng_b_test/git_remote/https%3A%2F%2Fgithub.com%2Flttng%2Flttng-tools
+  project: lttng-tools
+  sha1: 73d0ff3ee853e4933641b7cc02c7c5a1bc3183cf
+  url: https://github.com/lttng/lttng-tools
+lttng-ust-2.10:
+  path: /home/jonathan/lttng/lttngv-test/lttng_b_test/git_remote/https%3A%2F%2Fgithub.com%2Flttng%2Flttng-ust
+  project: lttng-ust
+  sha1: 6b649e4894d06e63c9835728772198c7ffb206b3
+  url: https://github.com/lttng/lttng-ust
+lttng-ust-2.7:
+  path: /home/jonathan/lttng/lttngv-test/lttng_b_test/git_remote/https%3A%2F%2Fgithub.com%2Flttng%2Flttng-ust
+  project: lttng-ust
+  sha1: 6b649e4894d06e63c9835728772198c7ffb206b3
+  url: https://github.com/lttng/lttng-ust
