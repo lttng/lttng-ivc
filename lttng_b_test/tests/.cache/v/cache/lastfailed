@@ -1,5 +1,0 @@
-{
-  "test_base.py::test_timedistance_v0[a2-b2-expected2]": true,
-  "test_base.py::test_timedistance_v1[test3]": true,
-  "test_base.py::test_timedistance_v2[20011212-20011211-expected2]": true
-}
