@@ -1,3 +1,13 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+git_remote/
+
+# C extensions
+*.so
+
+# Environments
+.env
 .venv
-lttngv/__pycache__
-lttngv/bare_repo
+
