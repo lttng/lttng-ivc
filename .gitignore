@@ -7,7 +7,11 @@ git_remote/
 # C extensions
 *.so
 
+# Vim stuff
+*.swp
+
 # Environments
 .env
 .venv
+.cache
 
