@@ -2,7 +2,7 @@ import pytest
 import subprocess
 
 import lttng_ivc.utils.ProjectFactory as ProjectFactory
-import lttng_ivc.settings as project_settings
+import lttng_ivc.settings as Settings
 
 """
 TODO: Document how the tests is donne and what it tests
@@ -62,13 +62,13 @@ test_matrix_label = [
 ]
 
 runtime_matrix_label = []
-if not project_settings.test_only:
+if not Settings.test_only:
     runtime_matrix_label = test_matrix_label
 else:
     for tup in test_matrix_label:
         ust_label, tools_label = tup[0], tup[1]
-        if (ust_label in project_settings.test_only or tools_label in
-                project_settings.test_only):
+        if (ust_label in Settings.test_only or tools_label in
+                Settings.test_only):
             runtime_matrix_label.append(tup)
 
 
@@ -79,7 +79,7 @@ def test_soname_configure(tmpdir, ust_label, tools_label, base_tools_ust_dep, sh
 
     ust.autobuild()
 
-    tools.dependencies.append(ust)
+    tools.dependencies['custom-ust'] = ust
     # TODO: Propose fixes to upstream regarding the check
     if not should_pass:
         # Making sure we get a error here
@@ -97,15 +97,17 @@ def test_soname_configure(tmpdir, ust_label, tools_label, base_tools_ust_dep, sh
 
 @pytest.mark.parametrize("ust_label,tools_label,base_tools_ust_dep,should_pass", runtime_matrix_label)
 def test_soname_build(tmpdir, ust_label, tools_label, base_tools_ust_dep, should_pass):
-    ust = ProjectFactory.get(ust_label, str(tmpdir.mkdir("lttng-ust")))
-    tools = ProjectFactory.get(tools_label, str(tmpdir.mkdir("lttng-tools")))
-    ust_configure_mockup = ProjectFactory.get(ust_label, str(tmpdir.mkdir("lttng-ust-base")))
+    ust = ProjectFactory.get_fresh(ust_label, str(tmpdir.mkdir("lttng-ust")))
+    tools = ProjectFactory.get_fresh(tools_label,
+            str(tmpdir.mkdir("lttng-tools")))
+    ust_configure_mockup = ProjectFactory.get_fresh(ust_label,
+            str(tmpdir.mkdir("lttng-ust-base")))
 
     ust.autobuild()
     ust_configure_mockup.autobuild()
 
     # Fool configure
-    tools.dependencies.append(ust_configure_mockup)
+    tools.dependencies['custom-ust'] = ust_configure_mockup
     tools.configure()
 
     # Use ust under test

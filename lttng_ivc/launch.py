@@ -2,12 +2,11 @@ import pytest
 import os
 import yaml
 import logging
-import urllib.parse
+import hashlib
 
 from git import Repo
 
-default_git_remote_dir = "./git_remote"
-
+import settings as Settings
 
 def is_ref_branch(repo, ref):
     try:
@@ -63,8 +62,27 @@ logging_setup()
 logger_git = logging.getLogger('setup.git')
 
 # Fetch local base repository
-with open("config.yaml", 'r') as stream:
+with open(Settings.configuration_file, 'r') as stream:
     config = yaml.load(stream)
+
+# Validate that all default dependancy are present.
+# TODO: move to function
+projects_markers = set()
+for project, markers in config.items():
+    if markers is None:
+        continue
+    for marker in markers:
+        projects_markers.add(marker['marker'])
+
+for project, markers in config.items():
+    if markers is None:
+        continue
+    for marker in markers:
+        if 'precook_deps' in marker:
+            for dep in marker['precook_deps']:
+                if dep not in projects_markers:
+                    raise Exception("{} is not defined".format(dep))
+
 
 # Retrieve all possibles remotes and clean url for path
 remotes = {}
@@ -73,14 +91,14 @@ for project, markers in config.items():
         continue
     for marker in markers:
         url = marker['url']
-        url2path = urllib.parse.quote_plus(url)
-        path = os.path.abspath(default_git_remote_dir + '/' + url2path)
+        url2path = hashlib.sha1(url.encode('utf8')).hexdigest()
+        path = os.path.abspath(Settings.git_remote_folder + '/' + url2path)
         remotes[url] = path
 
 logger_git.info('Remotes to be fetched {}'.format(remotes))
 
-if not os.path.isdir(default_git_remote_dir):
-    os.mkdir(default_git_remote_dir)
+if not os.path.isdir(Settings.git_remote_folder):
+    os.makedirs(Settings.git_remote_folder)
 
 # Fetch the remote
 for url, path in remotes.items():
@@ -104,6 +122,11 @@ for project, markers in config.items():
         name = marker['marker']
         ref = marker['ref']
         url = marker['url']
+        if 'precook_deps' in marker:
+            deps = marker['precook_deps']
+        else:
+            deps = []
+
         path = remotes[url]
         repo = Repo(path)
 
@@ -129,8 +152,9 @@ for project, markers in config.items():
                 'project': project,
                 'sha1': git_object.hexsha,
                 'url': url,
-                'path': path
+                'path': path,
+                'deps': deps
         }
 
-with open('run_configuration.yaml', 'w') as run_configuration:
+with open(Settings.run_configuration_file, 'w') as run_configuration:
     yaml.dump(runnable_markers, run_configuration, default_flow_style=False)

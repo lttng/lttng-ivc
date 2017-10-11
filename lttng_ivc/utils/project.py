@@ -4,6 +4,7 @@ import git
 import subprocess
 import logging
 
+_logger = logging.getLogger('project')
 
 class Project(object):
 
@@ -20,20 +21,22 @@ class Project(object):
             self.custom_configure_flags.append("CXX={} g++".format(ccache))
 
         """ A collection of Project dependencies """
-        self.dependencies = []
+        self.dependencies = {}
+        self._immutable = False
 
         # State
-        self.isCheckedOut = False
-        self.isBootStrapped = False
         self.isBuilt = False
         self.isConfigured = False
         self.isInstalled = False
 
-        self.source_path = tmpdir + "/source"
-        self.installation_path = tmpdir + "/install"
+        self.basedir = tmpdir
+        self.log_path = os.path.join(tmpdir, "log")
+        self.source_path = os.path.join(tmpdir, "source")
+        self.installation_path = os.path.join(tmpdir, "install")
+
+        os.makedirs(self.log_path)
         os.makedirs(self.source_path)
         os.makedirs(self.installation_path)
-        self.logger = logging.getLogger('project.{}'.format(self.label))
 
         self.special_env_variables = {}
 
@@ -60,40 +63,42 @@ class Project(object):
 
         for var, value in self.special_env_variables.items():
             if var in env:
-                # TODO: WARNING log point
                 # Raise for now since no special cases is known
-                self.logger.warning("Special var % is already defined", var)
+                _logger.warning("% Special var % is already defined",
+                                self.label, var)
                 raise Exception("Multiple definition of a special environment variable")
             else:
                 env[var] = value
 
-        for dep in self.dependencies:
+        for key, dep in self.dependencies.items():
             # Extra space just in case
             cpp_flags += " {}".format(dep.get_cppflags())
             ld_flags += " {}".format(dep.get_ldflags())
             ld_library_path += "{}:".format(dep.get_ld_library_path())
             for var, value in dep.special_env_variables.items():
                 if var in env:
-                    # TODO: WARNING log point
                     # Raise for now since no special cases is known
-                    self.logger.warning("Special var % is already defined", var)
+                    _logger.warning("% Special var % is already defined",
+                                    self.label, var)
                     raise Exception("Multiple definition of a special environment variable")
                 else:
                     env[var] = value
 
-        # TODO: INFO log point for each variable with project information
         if cpp_flags:
             if 'CPPFLAGS' in env:
                 cpp_flags = env['CPPFLAGS'] + cpp_flags
             env['CPPFLAGS'] = cpp_flags
+            _logger.debug("% CPPFLAGS= %s", self.label, cpp_flags)
         if ld_flags:
             if 'LDFLAGS' in env:
                 ld_flags = env['LDFLAGS'] + ld_flags
             env['LDFLAGS'] = ld_flags
+            _logger.debug("% LDFLAGS= %s", self.label, ld_flags)
         if ld_library_path:
             if 'LD_LIBRARY_PATH' in env:
                 ld_library_path = env['LD_LIBRARY_PATH'] + ":" + ld_library_path
             env['LD_LIBRARY_PATH'] = ld_library_path
+            _logger.debug("% LD_LIBRARY_PATH= %s", self.label, ld_library_path)
         return env
 
     def autobuild(self):
@@ -101,17 +106,29 @@ class Project(object):
         Perform the bootstrap, configuration, build and install the
         project. Build dependencies if not already built
         """
-        for dep in self.dependencies:
+        if (self.isConfigured and self.isBuilt and self.isInstalled):
+            return
+
+        if self._immutable:
+            raise Exception("Object is immutable. Illegal autobuild")
+
+        for key, dep in self.dependencies.items():
             dep.autobuild()
 
-        if self.isCheckedOut ^ self.isBootStrapped ^ self.isBootStrapped ^ self.isBuilt ^ self.isConfigured ^ self.isInstalled:
+        if self.isConfigured ^ self.isBuilt ^ self.isInstalled:
             raise Exception("Project steps where manually triggered. Can't autobuild")
 
+        _logger.debug("% Autobuild configure", self.label)
         self.configure()
+        _logger.debug("% Autobuild build", self.label)
         self.build()
+        _logger.debug("% Autobuild install", self.label)
         self.install()
 
     def checkout(self):
+        if self._immutable:
+            raise Exception("Object is immutable. Illegal checkout")
+
         repo = git.Repo.clone_from(self.git_path, self.source_path)
         commit = repo.commit(self.sha1)
         repo.head.reference = commit
@@ -123,9 +140,15 @@ class Project(object):
         Bootstap the project. Raise subprocess.CalledProcessError on
         bootstrap error.
         """
+        if self._immutable:
+            raise Exception("Object is immutable. Illegal bootstrap")
+
+        out = os.path.join(self.log_path, "bootstrap.out")
+        err = os.path.join(self.log_path, "bootstrap.err")
+
         os.chdir(self.source_path)
-        p = subprocess.run(['./bootstrap'], stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE)
+        with open(out, 'w') as stdout, open(err, 'w') as stderr:
+            p = subprocess.run(['./bootstrap'], stdout=stdout, stderr=stderr)
         p.check_returncode()
         return p
 
@@ -134,11 +157,17 @@ class Project(object):
         Configure the project.
         Raises subprocess.CalledProcessError on configure error
         """
+        if self._immutable:
+            raise Exception("Object is immutable. Illegal configure")
+
         # Check that all our dependencies were actually installed
-        for dep in self.dependencies:
+        for key, dep in self.dependencies.items():
             if not dep.isInstalled:
                 # TODO: Custom exception here Dependency Error
                 raise Exception("Dependency project flagged as not installed")
+
+        out = os.path.join(self.log_path, "configure.out")
+        err = os.path.join(self.log_path, "configure.err")
 
         os.chdir(self.source_path)
         args = ['./configure']
@@ -147,8 +176,9 @@ class Project(object):
         args.extend(self.custom_configure_flags)
 
         # TODO: log output and add INFO log point
-        p = subprocess.run(args, env=self.get_env(), stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE)
+        with open(out, 'w') as stdout, open(err, 'w') as stderr:
+            p = subprocess.run(args, env=self.get_env(), stdout=stdout,
+                               stderr=stderr)
         p.check_returncode()
         self.isConfigured = True
         return p
@@ -158,6 +188,12 @@ class Project(object):
         Build the project. Raise subprocess.CalledProcessError on build
         error.
         """
+        if self._immutable:
+            raise Exception("Object is immutable. Illegal build")
+
+        out = os.path.join(self.log_path, "build.out")
+        err = os.path.join(self.log_path, "build.err")
+
         os.chdir(self.source_path)
         args = ['make']
         env = self.get_env()
@@ -170,8 +206,9 @@ class Project(object):
         args.append(num_cpu)
 
         # TODO: log output and add INFO log point with args
-        p = subprocess.run(args, env=env, stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE)
+        with open(out, 'w') as stdout, open(err, 'w') as stderr:
+            p = subprocess.run(args, env=env, stdout=stdout,
+                               stderr=stderr)
         p.check_returncode()
         self.isBuilt = True
         return p
@@ -181,12 +218,19 @@ class Project(object):
         Install the project. Raise subprocess.CalledProcessError on
         bootstrap error
         """
+        if self._immutable:
+            raise Exception("Object is immutable. Illegal install")
+
+        out = os.path.join(self.log_path, "build.out")
+        err = os.path.join(self.log_path, "build.err")
+
         os.chdir(self.source_path)
         args = ['make', 'install']
 
         # TODO: log output and add INFO log point
-        p = subprocess.run(args, env=self.get_env(), stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE)
+        with open(out, 'w') as stdout, open(err, 'w') as stderr:
+            p = subprocess.run(args, env=self.get_env(), stdout=stdout,
+                               stderr=stderr)
         p.check_returncode()
         self.isInstalled = True
         return p
@@ -206,6 +250,8 @@ class Lttng_modules(Project):
         pass
 
     def install(self):
+        if self._immutable:
+            raise Exception("Object is immutable. Illegal install")
         os.chdir(self.source_path)
         args = ['make', 'INSTALL_MOD_PATH={}'.format(self.installation_path),
                 'modules_install']
