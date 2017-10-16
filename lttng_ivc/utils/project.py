@@ -44,61 +44,73 @@ class Project(object):
         self.checkout()
         self.bootstrap()
 
+    def add_special_env_variable(self, key, value):
+        if key in self.special_env_variables:
+            _logger.warning("{} Special var {} is already defined".format(
+                                self.label, key))
+            raise Exception("Multiple definition of a special environment variable")
+        self.special_env_variables[key] = value
+
     def get_cppflags(self):
-        return " -I{}/include".format(self.installation_path)
+        cppflags = ["-I{}/include".format(self.installation_path)]
+        for key, dep in self.dependencies.items():
+            cppflags.append(dep.get_cppflags())
+
+        return " ".join(cppflags)
 
     def get_ldflags(self):
-        return " -L{}/lib".format(self.installation_path)
+        ldflags = ["-L{}/lib".format(self.installation_path)]
+        for key, dep in self.dependencies.items():
+            ldflags.append(dep.get_ldflags())
+        return " ".join(ldflags)
 
     def get_ld_library_path(self):
-        return "{}/lib".format(self.installation_path)
+        library_path = ["{}/lib".format(self.installation_path)]
+        for key, dep in self.dependencies.items():
+            library_path.append(dep.get_ld_library_path())
+        return ":".join(library_path)
+
+    def get_bin_path(self):
+        bin_path = ["{}/bin".format(self.installation_path)]
+        for key, dep in self.dependencies.items():
+            bin_path.append(dep.get_bin_path())
+        return ":".join(bin_path)
 
     def get_env(self):
         """Modify environment to reflect dependency"""
-        cpp_flags = ""
-        ld_flags = ""
-        ld_library_path = ""
+        env_var = {"CPPFLAGS": (self.get_cppflags(), " "),
+                   "LDFLAGS": (self.get_ldflags(), " "),
+                   "LD_LIBRARY_PATH": (self.get_ld_library_path(), ":"),
+                   }
 
         env = os.environ.copy()
 
         for var, value in self.special_env_variables.items():
             if var in env:
                 # Raise for now since no special cases is known
-                _logger.warning("% Special var % is already defined",
-                                self.label, var)
+                _logger.warning("{} Special var {} is already defined".format(
+                                self.label, var))
                 raise Exception("Multiple definition of a special environment variable")
             else:
                 env[var] = value
 
         for key, dep in self.dependencies.items():
             # Extra space just in case
-            cpp_flags += " {}".format(dep.get_cppflags())
-            ld_flags += " {}".format(dep.get_ldflags())
-            ld_library_path += "{}:".format(dep.get_ld_library_path())
             for var, value in dep.special_env_variables.items():
                 if var in env:
                     # Raise for now since no special cases is known
-                    _logger.warning("% Special var % is already defined",
-                                    self.label, var)
+                    _logger.warning("{} Special var {} is already defined".format(
+                                self.label, var))
                     raise Exception("Multiple definition of a special environment variable")
                 else:
                     env[var] = value
 
-        if cpp_flags:
-            if 'CPPFLAGS' in env:
-                cpp_flags = env['CPPFLAGS'] + cpp_flags
-            env['CPPFLAGS'] = cpp_flags
-            _logger.debug("% CPPFLAGS= %s", self.label, cpp_flags)
-        if ld_flags:
-            if 'LDFLAGS' in env:
-                ld_flags = env['LDFLAGS'] + ld_flags
-            env['LDFLAGS'] = ld_flags
-            _logger.debug("% LDFLAGS= %s", self.label, ld_flags)
-        if ld_library_path:
-            if 'LD_LIBRARY_PATH' in env:
-                ld_library_path = env['LD_LIBRARY_PATH'] + ":" + ld_library_path
-            env['LD_LIBRARY_PATH'] = ld_library_path
-            _logger.debug("% LD_LIBRARY_PATH= %s", self.label, ld_library_path)
+        for var, (value, delimiter) in env_var.items():
+            tmp = [value]
+            if var in env:
+                tmp.append(env[var])
+            env[var] = delimiter.join(tmp)
+
         return env
 
     def autobuild(self):
@@ -274,7 +286,11 @@ class Lttng_ust(Project):
 
 
 class Lttng_tools(Project):
-    pass
+    def __init__(self, label, git_path, sha1, tmpdir):
+        super(Lttng_tools, self).__init__(label=label, git_path=git_path,
+                                        sha1=sha1, tmpdir=tmpdir)
+        self.add_special_env_variable("LTTNG_SESSION_CONFIG_XSD_PATH",
+                os.path.join(self.installation_path, "share/xml/lttng/"))
 
 
 class Babeltrace(Project):
