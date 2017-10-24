@@ -149,5 +149,3 @@ def test_ust_app_tracing_available(tmpdir, ust_label, tools_label, should_trace)
             if should_trace:
                 # Something happened
                 raise e
-
-
