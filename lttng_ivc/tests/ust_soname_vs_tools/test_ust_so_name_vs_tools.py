@@ -74,8 +74,8 @@ else:
 
 @pytest.mark.parametrize("ust_label,tools_label,base_tools_ust_dep,should_pass", runtime_matrix_label)
 def test_soname_configure(tmpdir, ust_label, tools_label, base_tools_ust_dep, should_pass):
-    ust = ProjectFactory.get(ust_label, str(tmpdir.mkdir("lttng-ust")))
-    tools = ProjectFactory.get(tools_label, str(tmpdir.mkdir("lttng-tools")))
+    ust = ProjectFactory.get_fresh(ust_label, str(tmpdir.mkdir("lttng-ust")))
+    tools = ProjectFactory.get_fresh(tools_label, str(tmpdir.mkdir("lttng-tools")))
 
     ust.autobuild()
 

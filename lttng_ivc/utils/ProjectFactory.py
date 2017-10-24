@@ -37,7 +37,7 @@ def get_fresh(label, tmpdir):
 
 
 def _validate_pickle(pickle, label):
-    _logger.warn("Checking validate for {} {}".format(pickle,
+    _logger.debug("Checking validate for {} {}".format(pickle,
         label))
     if pickle.label != label:
         _logger.warn("Label  {} and {} are not the same".format(pickle.label,

@@ -19,6 +19,7 @@ class Project(object):
         if ccache is not None:
             self.custom_configure_flags.append("CC={} gcc".format(ccache))
             self.custom_configure_flags.append("CXX={} g++".format(ccache))
+        self.custom_configure_flags.append("CFLAGS=-g -O0".format(ccache))
 
         """ A collection of Project dependencies """
         self.dependencies = {}
@@ -33,6 +34,10 @@ class Project(object):
         self.log_path = os.path.join(tmpdir, "log")
         self.source_path = os.path.join(tmpdir, "source")
         self.installation_path = os.path.join(tmpdir, "install")
+
+        if os.path.isdir(self.basedir):
+            # Perform cleanup since it should not happen
+            shutil.rmtree(self.basedir)
 
         os.makedirs(self.log_path)
         os.makedirs(self.source_path)
@@ -130,12 +135,26 @@ class Project(object):
         if self.isConfigured ^ self.isBuilt ^ self.isInstalled:
             raise Exception("Project steps where manually triggered. Can't autobuild")
 
-        _logger.debug("% Autobuild configure", self.label)
-        self.configure()
-        _logger.debug("% Autobuild build", self.label)
-        self.build()
-        _logger.debug("% Autobuild install", self.label)
-        self.install()
+        _logger.debug("{} Autobuild configure".format(self.label))
+        try:
+            self.configure()
+        except subprocess.CalledProcessError as e:
+            _logger.error("{} Configure failed. See {} for more details.".format(self.label, self.log_path))
+            raise e
+
+        _logger.debug("{} Autobuild build".format(self.label))
+        try:
+            self.build()
+        except subprocess.CalledProcessError as e:
+            _logger.error("{} Build failed. See {} for more details.".format(self.label, self.log_path))
+            raise e
+
+        _logger.debug("{} Autobuild install".format(self.label))
+        try:
+            self.install()
+        except subprocess.CalledProcessError as e:
+            _logger.error("{} Install failed. See {} for more details.".format(self.label, self.log_path))
+            raise e
 
     def checkout(self):
         if self._immutable:
@@ -209,13 +228,13 @@ class Project(object):
         os.chdir(self.source_path)
         args = ['make']
         env = self.get_env()
-        env['CFLAGS'] = '-g -O0'
 
         # Number of usable cpu
         # https://docs.python.org/3/library/os.html#os.cpu_count
         num_cpu = str(len(os.sched_getaffinity(0)))
         args.append('-j')
         args.append(num_cpu)
+        args.append('V=1')
 
         # TODO: log output and add INFO log point with args
         with open(out, 'w') as stdout, open(err, 'w') as stderr:
@@ -233,8 +252,8 @@ class Project(object):
         if self._immutable:
             raise Exception("Object is immutable. Illegal install")
 
-        out = os.path.join(self.log_path, "build.out")
-        err = os.path.join(self.log_path, "build.err")
+        out = os.path.join(self.log_path, "install.out")
+        err = os.path.join(self.log_path, "install.err")
 
         os.chdir(self.source_path)
         args = ['make', 'install']
@@ -255,6 +274,11 @@ class Project(object):
 
 
 class Lttng_modules(Project):
+    def __init__(self, label, git_path, sha1, tmpdir):
+        super(Lttng_modules, self).__init__(label=label, git_path=git_path,
+                                            sha1=sha1, tmpdir=tmpdir)
+        self.add_special_env_variable("MODPROBE_OPTIONS","-b {}".format(self.installation_path))
+
     def bootstrap(self):
         pass
 
