@@ -118,11 +118,7 @@ def test_ust_app_tracing_available(tmpdir, ust_label, tools_label, should_trace)
         runtime_app.run("make V=1", cwd=app_path)
 
         # Start lttng-sessiond
-        # TODO: extract to utils function with a runtime as parameter
-        previous_handler = signal.signal(signal.SIGUSR1, lttng_sessiond_ready)
-        runtime_tools.spawn_subprocess("lttng-sessiond -vvv -S")
-        signal.sigtimedwait({signal.SIGUSR1}, 60)
-        previous_handler = signal.signal(signal.SIGUSR1, previous_handler)
+        utils.sessiond_spawn(runtime_tools)
 
         # Create session using mi to get path and session name
         runtime_tools.run('lttng create trace --output={}'.format(trace_path))
