@@ -120,7 +120,7 @@ class Runtime(object):
         _logger.debug("Spawned sub pid: {} args: {} stdout: {} stderr{}".format(p.pid, p.args, out_path, err_path))
         return tmp_id
 
-    def run(self, command_line, cwd=None, check_return=True):
+    def run(self, command_line, cwd=None, check_return=True, ld_preload=""):
         """
         Run the command and return a tuple of a (CompletedProcess, stdout_path,
         stderr_path). The subprocess is already executed and returned. The
@@ -128,6 +128,10 @@ class Runtime(object):
         """
         args = shlex.split(command_line)
         env = self.get_env()
+
+        if ld_preload:
+            env['LD_PRELOAD'] = ld_preload
+
 
         tmp_id = self._run_command_count
         self._run_command_count += 1
