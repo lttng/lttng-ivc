@@ -147,7 +147,8 @@ class Runtime(object):
 
         env_path = os.path.join(self.__runtime_log, str(tmp_id) + ".env")
         with open(env_path, 'w') as env_out:
-            pprint.pprint(env, stream=env_out)
+            for key, value in env.items():
+                env_out.write('{}={}\n'.format(key, value))
 
         cp = subprocess.run(args, stdout=stdout, stderr=stderr, env=env, cwd=cwd)
         _logger.debug("Command #{} args: {} stdout: {} stderr{}".format(tmp_id, cp.args, out_path, err_path))
