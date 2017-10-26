@@ -57,7 +57,7 @@ test_matrix_tracing_available = [
 ]
 
 # Only consider test case for which tracing is valid
-test_matrix_other = [
+test_matrix_app_context = [
     ("lttng-ust-2.7", "lttng-tools-2.7",  ""),
     ("lttng-ust-2.7", "lttng-tools-2.8",  ""),
     ("lttng-ust-2.7", "lttng-tools-2.9",  ""),
@@ -118,7 +118,7 @@ def test_ust_app_tracing_available(tmpdir, ust_label, tools_label, should_trace)
         runtime_app.run("make V=1", cwd=app_path)
 
         # Start lttng-sessiond
-        utils.sessiond_spawn(runtime_tools)
+        sessiond = utils.sessiond_spawn(runtime_tools)
 
         # Create session using mi to get path and session name
         runtime_tools.run('lttng create trace --output={}'.format(trace_path))
@@ -134,6 +134,7 @@ def test_ust_app_tracing_available(tmpdir, ust_label, tools_label, should_trace)
 
         # Stop tracing
         runtime_tools.run('lttng destroy -a')
+        runtime_tools.subprocess_terminate(sessiond)
 
         try:
             # Read trace with babeltrace and check for event count via number of line
