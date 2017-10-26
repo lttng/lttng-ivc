@@ -183,7 +183,7 @@ class Runtime(object):
         library_path = []
         for project in self.__projects:
             library_path.append(project.get_ld_library_path())
-        return " ".join(library_path)
+        return ":".join(library_path)
 
     def get_bin_path(self):
         path = []
