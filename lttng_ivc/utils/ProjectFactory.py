@@ -6,6 +6,7 @@ import pickle
 import lttng_ivc.utils.project as Project
 import lttng_ivc.settings as Settings
 
+from lttng_ivc.utils.utils import sha256_checksum
 
 _logger = logging.getLogger('project.factory')
 _project_constructor = {
@@ -16,6 +17,8 @@ _project_constructor = {
 }
 
 __projects_cache = {}
+
+_project_py_checksum = sha256_checksum(Settings.project_py_file_location)
 
 _markers = None
 with open(Settings.run_configuration_file, 'r') as stream:
@@ -38,10 +41,15 @@ def get_fresh(label, tmpdir):
 
 def _validate_pickle(pickle, label):
     _logger.debug("Checking validate for {} {}".format(pickle,
-        label))
+                                                       label))
+    if pickle._py_file_checksum != _project_py_checksum:
+        _logger.warn("Project py file changed".format(pickle.label,
+                                                      label))
+        return False
+
     if pickle.label != label:
         _logger.warn("Label  {} and {} are not the same".format(pickle.label,
-            label))
+                                                                label))
         return False
     if pickle.sha1 != _markers[label]['sha1']:
         _logger.warn("Sha1  {} and {} are not the same".format(pickle.sha1,

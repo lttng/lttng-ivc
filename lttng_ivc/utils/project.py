@@ -3,6 +3,9 @@ import shutil
 import git
 import subprocess
 import logging
+import lttng_ivc.settings as Settings
+
+from lttng_ivc.utils.utils import sha256_checksum
 
 _logger = logging.getLogger('project')
 
@@ -23,7 +26,9 @@ class Project(object):
 
         """ A collection of Project dependencies """
         self.dependencies = {}
+        # used for project cache and pickle validation
         self._immutable = False
+        self._py_file_checksum = sha256_checksum(Settings.project_py_file_location)
 
         # State
         self.isBuilt = False

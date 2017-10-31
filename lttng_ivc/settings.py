@@ -15,6 +15,9 @@ apps_folder = os.path.join(base_dir, "apps")
 apps_gen_events_folder = os.path.join(apps_folder, "gen_ust_events")
 apps_preload_provider_folder = os.path.join(apps_folder, "preload_provider")
 
+# Used for checksum validation
+project_py_file_location = os.path.join(base_dir, "utils/project.py")
+
 tmp_object_prefix = "lttng-ivc-"
 
 default_babeltrace = "babeltrace-1.5"
