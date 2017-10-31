@@ -232,6 +232,14 @@ class Runtime(object):
                     env[var] = value
         return env
 
+    def load_test_module(self):
+        # Base directory is provided by env
+        self.run("modprobe lttng-test")
+
+    def unload_test_module(self, check_return=True):
+        # Base directory is provided by env
+        self.run("modprobe -r lttng-test", check_return=check_return)
+
     def close(self):
         for key, subp in self.__subprocess.items():
             subp.terminate()
@@ -241,6 +249,10 @@ class Runtime(object):
         for key, (stdout, stderr) in self.__stdout_stderr.items():
             stdout.close()
             stderr.close()
+
+        # Always try to remove test module but do not perform check on return
+        # value.
+        self.unload_test_module(False)
 
         # Copy the lttng_home used at runtime using hardlink to prevent useless
         # data duplication

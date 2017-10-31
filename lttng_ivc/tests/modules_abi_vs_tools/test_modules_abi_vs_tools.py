@@ -1,13 +1,24 @@
 import pytest
+import os
+import glob
+import subprocess
 
 import lttng_ivc.utils.ProjectFactory as ProjectFactory
 import lttng_ivc.utils.runtime as Run
 import lttng_ivc.settings as Settings
+from lttng_ivc.utils.skip import must_be_root
+from lttng_ivc.utils.utils import sessiond_spawn
+from lttng_ivc.utils.utils import line_count
 
 """
 
-TODO: provide kernel version check for matrix since there is upper and lower
-bound to lttng-modules.
+NOTE: Kernel version is left to the Lttng-modules object on building. We assume
+that a failing lttng-modules build is caused only by version validation. This
+project is not dedicated to finding build problem but inter version problem.
+
+NOTE: The command for regenerate metadata changed between 2.8 and 2.9 from
+"metadata regenerate" to "regenerate metadata" breaking the cli ....bad
+jdesfossez :P
 
 TODO:Packet sequence number. 5b3cf4f924befda843a7736daf84f8ecae5e86a4
      LTTNG_RING_BUFFER_GET_SEQ_NUM
@@ -36,24 +47,42 @@ First tuple member: lttng-ust label
 Second tuple member: lttng-tool label
 Third tuple member: expected scenario
 """
+test_matrix_base_tracing = [
+    ("lttng-modules-2.7", "lttng-tools-2.7"),
+    ("lttng-modules-2.7", "lttng-tools-2.8"),
+    ("lttng-modules-2.7", "lttng-tools-2.9"),
+    ("lttng-modules-2.7", "lttng-tools-2.10"),
+    ("lttng-modules-2.8", "lttng-tools-2.7"),
+    ("lttng-modules-2.8", "lttng-tools-2.8"),
+    ("lttng-modules-2.8", "lttng-tools-2.9"),
+    ("lttng-modules-2.8", "lttng-tools-2.10"),
+    ("lttng-modules-2.9", "lttng-tools-2.7"),
+    ("lttng-modules-2.9", "lttng-tools-2.8"),
+    ("lttng-modules-2.9", "lttng-tools-2.9"),
+    ("lttng-modules-2.9", "lttng-tools-2.10"),
+    ("lttng-modules-2.10", "lttng-tools-2.7"),
+    ("lttng-modules-2.10", "lttng-tools-2.8"),
+    ("lttng-modules-2.10", "lttng-tools-2.9"),
+    ("lttng-modules-2.10", "lttng-tools-2.10"),
+]
 
 test_matrix_regen_metadata = [
-    ("lttng-modules-2.7", "lttng-tools-2.7",  "Unsupported by tools"),
-    ("lttng-modules-2.7", "lttng-tools-2.8",  "Unsupported by module"),
-    ("lttng-modules-2.7", "lttng-tools-2.9",  "Unsupported by module"),
-    ("lttng-modules-2.7", "lttng-tools-2.10", "Unsupported by module"),
-    ("lttng-modules-2.8", "lttng-tools-2.7",  "Unsupported by tools"),
-    ("lttng-modules-2.8", "lttng-tools-2.8",  "Supported"),
-    ("lttng-modules-2.8", "lttng-tools-2.9",  "Supported"),
-    ("lttng-modules-2.8", "lttng-tools-2.10", "Supported"),
-    ("lttng-modules-2.9", "lttng-tools-2.7",  "Unsupported by tools"),
-    ("lttng-modules-2.9", "lttng-tools-2.8",  "Supported"),
-    ("lttng-modules-2.9", "lttng-tools-2.9",  "Supported"),
-    ("lttng-modules-2.9", "lttng-tools-2.10", "Supported"),
-    ("lttng-modules-2.10", "lttng-tools-2.7", "Unsupported by tools"),
-    ("lttng-modules-2.10", "lttng-tools-2.8", "Supported"),
-    ("lttng-modules-2.10", "lttng-tools-2.9", "Supported"),
-    ("lttng-modules-2.10", "lttng-tools-2.10", "Supported"),
+    ("lttng-modules-2.7", "lttng-tools-2.7",  "metadata regenerate", "Unsupported by tools"),
+    ("lttng-modules-2.7", "lttng-tools-2.8",  "metadata regenerate", "Unsupported by module"),
+    ("lttng-modules-2.7", "lttng-tools-2.9",  "regenerate metadata", "Unsupported by module"),
+    ("lttng-modules-2.7", "lttng-tools-2.10", "regenerate metadata", "Unsupported by module"),
+    ("lttng-modules-2.8", "lttng-tools-2.7",  "metadata regenerate", "Unsupported by tools"),
+    ("lttng-modules-2.8", "lttng-tools-2.8",  "metadata regenerate", "Supported"),
+    ("lttng-modules-2.8", "lttng-tools-2.9",  "regenerate metadata", "Supported"),
+    ("lttng-modules-2.8", "lttng-tools-2.10", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.9", "lttng-tools-2.7",  "metadata regenerate", "Unsupported by tools"),
+    ("lttng-modules-2.9", "lttng-tools-2.8",  "metadata regenerate", "Supported"),
+    ("lttng-modules-2.9", "lttng-tools-2.9",  "regenerate metadata", "Supported"),
+    ("lttng-modules-2.9", "lttng-tools-2.10", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.10", "lttng-tools-2.7", "metadata regenerate", "Unsupported by tools"),
+    ("lttng-modules-2.10", "lttng-tools-2.8", "metadata regenerate", "Supported"),
+    ("lttng-modules-2.10", "lttng-tools-2.9", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.10", "lttng-tools-2.10","regenerate metadata", "Supported"),
 ]
 
 test_matrix_statedump = [
@@ -75,35 +104,46 @@ test_matrix_statedump = [
     ("lttng-modules-2.10", "lttng-tools-2.10", "Supported"),
 ]
 
-test_matrix_starglobing = [
-    ("lttng-modules-2.7", "lttng-tools-2.7",  "Unsupported by tools"),
-    ("lttng-modules-2.7", "lttng-tools-2.8",  "Unsupported by tools"),
-    ("lttng-modules-2.7", "lttng-tools-2.9",  "Unsupported by tools"),
-    ("lttng-modules-2.7", "lttng-tools-2.10", "Unsupported by module"),
-    ("lttng-modules-2.8", "lttng-tools-2.7",  "Unsupported by tools"),
-    ("lttng-modules-2.8", "lttng-tools-2.8",  "Unsupported by tools"),
-    ("lttng-modules-2.8", "lttng-tools-2.9",  "Unsupported by tools"),
-    ("lttng-modules-2.8", "lttng-tools-2.10", "Unsupported by modules"),
-    ("lttng-modules-2.9", "lttng-tools-2.7",  "Unsupported by tools"),
-    ("lttng-modules-2.9", "lttng-tools-2.8",  "Unsupported by tools"),
-    ("lttng-modules-2.9", "lttng-tools-2.9",  "Unsupported by tools"),
-    ("lttng-modules-2.9", "lttng-tools-2.10", "Unsupported by modules"),
-    ("lttng-modules-2.10", "lttng-tools-2.7", "Unsupported by tools"),
-    ("lttng-modules-2.10", "lttng-tools-2.8", "Unsupported by tools"),
-    ("lttng-modules-2.10", "lttng-tools-2.9", "Unsupported by tools"),
+test_matrix_starglobing_enabler = [
+    ("lttng-modules-2.7", "lttng-tools-2.7",   "Unsupported by tools"),
+    ("lttng-modules-2.7", "lttng-tools-2.8",   "Unsupported by tools"),
+    ("lttng-modules-2.7", "lttng-tools-2.9",   "Unsupported by tools"),
+    ("lttng-modules-2.7", "lttng-tools-2.10",  "Unsupported by modules"),
+    ("lttng-modules-2.8", "lttng-tools-2.7",   "Unsupported by tools"),
+    ("lttng-modules-2.8", "lttng-tools-2.8",   "Unsupported by tools"),
+    ("lttng-modules-2.8", "lttng-tools-2.9",   "Unsupported by tools"),
+    ("lttng-modules-2.8", "lttng-tools-2.10",  "Unsupported by modules"),
+    ("lttng-modules-2.9", "lttng-tools-2.7",   "Unsupported by tools"),
+    ("lttng-modules-2.9", "lttng-tools-2.8",   "Unsupported by tools"),
+    ("lttng-modules-2.9", "lttng-tools-2.9",   "Unsupported by tools"),
+    ("lttng-modules-2.9", "lttng-tools-2.10",  "Unsupported by modules"),
+    ("lttng-modules-2.10", "lttng-tools-2.7",  "Unsupported by tools"),
+    ("lttng-modules-2.10", "lttng-tools-2.8",  "Unsupported by tools"),
+    ("lttng-modules-2.10", "lttng-tools-2.9",  "Unsupported by tools"),
     ("lttng-modules-2.10", "lttng-tools-2.10", "Supported"),
 ]
 
 
+def get_metadata_file_path(base_trace_path):
+    metadata = os.path.join(base_trace_path, 'kernel', 'metadata')
+    return metadata
+
+
+runtime_matrix_base_tracing = []
 runtime_matrix_regen_metadata = []
 runtime_matrix_statedump = []
-runtime_matrix_starglobing = []
+runtime_matrix_starglobing_enabler = []
 
 if not Settings.test_only:
+    runtime_matrix_base_tracing = test_matrix_base_tracing
     runtime_matrix_regen_metadata = test_matrix_regen_metadata
     runtime_matrix_statedump = test_matrix_statedump
-    runtime_matrix_starglobing = test_matrix_starglobing
+    runtime_matrix_starglobing_enabler = test_matrix_starglobing_enabler
 else:
+    for tup in test_matrix_base_tracing:
+        if (tup[0] in Settings.test_only or tup[1] in
+                Settings.test_only):
+            runtime_matrix_base_tracing.append(tup)
     for tup in test_matrix_regen_metadata:
         if (tup[0] in Settings.test_only or tup[1] in
                 Settings.test_only):
@@ -112,37 +152,220 @@ else:
         if (tup[0] in Settings.test_only or tup[1] in
                 Settings.test_only):
             runtime_matrix_statedump.append(tup)
-    for tup in test_matrix_starglobing:
+    for tup in test_matrix_starglobing_enabler:
         if (tup[0] in Settings.test_only or tup[1] in
                 Settings.test_only):
-            runtime_matrix_starglobing.append(tup)
+            runtime_matrix_starglobing_enabler.append(tup)
 
 
-@pytest.mark.parametrize("modules_label,tools_label,outcome", runtime_matrix_regen_metadata)
-def test_modules_regen_metadata(tmpdir, modules_label, tools_label, outcome):
-    pytest.xfail("Not implemented yet. Need to perform version checking for lttng-modules validity")
+@must_be_root
+@pytest.mark.parametrize("modules_label,tools_label", runtime_matrix_base_tracing)
+def test_modules_base_tracing(tmpdir, modules_label, tools_label):
     modules = ProjectFactory.get_precook(modules_label)
+    if modules.skip:
+        pytest.skip("{} cannot be built on this kernel".format(modules.label))
     tools = ProjectFactory.get_precook(tools_label)
-    runtime = Run.Runtime(str(tmpdir))
-    runtime.add_project(modules)
-    runtime.add_project(tools)
+    babeltrace = ProjectFactory.get_precook(Settings.default_babeltrace)
+
+    nb_events = 100
+
+    with Run.get_runtime(str(tmpdir)) as runtime:
+        runtime.add_project(modules)
+        runtime.add_project(tools)
+        runtime.add_project(babeltrace)
+
+        trace_path = os.path.join(runtime.lttng_home, 'trace')
+        babeltrace_cmd = 'babeltrace {}'.format(trace_path)
+
+        sessiond = sessiond_spawn(runtime)
+        runtime.load_test_module()
+
+        runtime.run("lttng create trace -o {}".format(trace_path))
+        runtime.run("lttng enable-event -k lttng_test_filter_event")
+        runtime.run("lttng start")
+        with open(Settings.lttng_test_procfile, 'w') as procfile:
+            procfile.write("{}".format(nb_events))
+
+        runtime.run("lttng stop")
+        runtime.run("lttng destroy -a")
+
+        sessiond = runtime.subprocess_terminate(sessiond)
+        if sessiond.returncode != 0:
+            pytest.fails("Return value of sessiond is not zero")
+            return
+
+        cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
+        assert(line_count(cp_out) == nb_events)
 
 
-@pytest.mark.parametrize("modules_label,tools_label,outcome", runtime_matrix_statedump)
-def test_modules_statedump(tmpdir, modules_label, tools_label, outcome):
-    pytest.xfail("Not implemented yet. Need to perform version checking for lttng-modules validity")
+@must_be_root
+@pytest.mark.parametrize("modules_label,tools_label,command,scenario", runtime_matrix_regen_metadata)
+def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, scenario):
     modules = ProjectFactory.get_precook(modules_label)
+    if modules.skip:
+        pytest.skip("{} cannot be built on this kernel".format(modules.label))
     tools = ProjectFactory.get_precook(tools_label)
-    runtime = Run.Runtime(str(tmpdir))
-    runtime.add_project(modules)
-    runtime.add_project(tools)
+    babeltrace = ProjectFactory.get_precook(Settings.default_babeltrace)
+
+    nb_events = 10
+
+    with Run.get_runtime(str(tmpdir)) as runtime:
+        runtime.add_project(modules)
+        runtime.add_project(tools)
+        runtime.add_project(babeltrace)
+
+        trace_path = os.path.join(runtime.lttng_home, 'trace')
+        babeltrace_cmd = 'babeltrace {}'.format(trace_path)
+
+        sessiond = sessiond_spawn(runtime)
+        runtime.load_test_module()
+
+        runtime.run("lttng create trace -o {}".format(trace_path))
+        runtime.run("lttng enable-event -k lttng_test_filter_event")
+        runtime.run("lttng start")
+        with open(Settings.lttng_test_procfile, 'w') as procfile:
+            procfile.write("{}".format(nb_events))
+
+        runtime.run("lttng stop")
+
+        # Validate that we have all event base on the current metadata
+        cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
+        assert(line_count(cp_out) == nb_events)
+
+        # Empty the metadata file
+        open(get_metadata_file_path(trace_path), 'w').close()
+
+        # Babeltrace should never be able to parse the trace
+        with pytest.raises(subprocess.CalledProcessError):
+            runtime.run(babeltrace_cmd)
+
+        runtime.run("lttng start")
+
+        # TODO: rework this a bit to differentiate each errors and rework how
+        # the condition are meet
+        if scenario == "Unsupported by tools" or scenario == "Unsupported by modules":
+            with pytest.raises(subprocess.CalledProcessError):
+                runtime.run("lttng {}".format(command))
+
+            # Make sure everything looks good on this side
+            sessiond = runtime.subprocess_terminate(sessiond)
+            if sessiond.returncode != 0:
+                pytest.fails("Return value of sessiond is not zero")
+            return
+
+        runtime.run("lttng {}".format(command))
+        runtime.run("lttng stop")
+        runtime.run("lttng destroy -a")
+
+        sessiond = runtime.subprocess_terminate(sessiond)
+        if sessiond.returncode != 0:
+            pytest.fails("Return value of sessiond is not zero")
+
+        cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
+        assert(line_count(cp_out) == nb_events)
 
 
-@pytest.mark.parametrize("modules_label,tools_label,outcome", runtime_matrix_starglobing)
-def test_modules_starglobing(tmpdir, modules_label, tools_label, outcome):
-    pytest.xfail("Not implemented yet. Need to perform version checking for lttng-modules validity")
+@must_be_root
+@pytest.mark.parametrize("modules_label,tools_label,scenario", runtime_matrix_statedump)
+def test_modules_statedump(tmpdir, modules_label, tools_label, scenario):
     modules = ProjectFactory.get_precook(modules_label)
+    if modules.skip:
+        pytest.skip("{} cannot be built on this kernel".format(modules.label))
     tools = ProjectFactory.get_precook(tools_label)
-    runtime = Run.Runtime(str(tmpdir))
-    runtime.add_project(modules)
-    runtime.add_project(tools)
+    babeltrace = ProjectFactory.get_precook(Settings.default_babeltrace)
+
+    nb_events = 100
+    if scenario == "Unsupported by tools" or scenario == "Unsupported by modules":
+        expected_event = 2
+    else:
+        expected_event = 4
+
+    with Run.get_runtime(str(tmpdir)) as runtime:
+        runtime.add_project(modules)
+        runtime.add_project(tools)
+        runtime.add_project(babeltrace)
+
+        trace_path = os.path.join(runtime.lttng_home, 'trace')
+        babeltrace_cmd = 'babeltrace {}'.format(trace_path)
+
+        sessiond = sessiond_spawn(runtime)
+        runtime.load_test_module()
+
+        runtime.run("lttng create trace -o {}".format(trace_path))
+        runtime.run("lttng enable-event -k lttng_statedump_start,lttng_statedump_end")
+        runtime.run("lttng start")
+
+        # Generate some event
+        with open(Settings.lttng_test_procfile, 'w') as procfile:
+            procfile.write("{}".format(nb_events))
+
+        if scenario == "Unsupported by tools" or scenario == "Unsupported by modules":
+            with pytest.raises(subprocess.CalledProcessError):
+                runtime.run("lttng regenerate statedump")
+        else:
+            runtime.run("lttng regenerate statedump")
+
+        runtime.run("lttng stop")
+        runtime.run("lttng destroy -a")
+
+        sessiond = runtime.subprocess_terminate(sessiond)
+        if sessiond.returncode != 0:
+            pytest.fails("Return value of sessiond is not zero")
+
+        cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
+        assert(line_count(cp_out) == expected_event)
+
+
+@must_be_root
+@pytest.mark.parametrize("modules_label,tools_label, scenario", runtime_matrix_starglobing_enabler)
+def test_modules_starglobing_enabler(tmpdir, modules_label, tools_label, scenario):
+    modules = ProjectFactory.get_precook(modules_label)
+    if modules.skip:
+        pytest.skip("{} cannot be built on this kernel".format(modules.label))
+    tools = ProjectFactory.get_precook(tools_label)
+    babeltrace = ProjectFactory.get_precook(Settings.default_babeltrace)
+
+    nb_events = 100
+
+    if scenario == "Unsupported by modules":
+        expected_events = 0
+    else:
+        expected_events = nb_events
+
+    with Run.get_runtime(str(tmpdir)) as runtime:
+        runtime.add_project(modules)
+        runtime.add_project(tools)
+        runtime.add_project(babeltrace)
+
+        trace_path = os.path.join(runtime.lttng_home, 'trace')
+        babeltrace_cmd = 'babeltrace {}'.format(trace_path)
+
+        sessiond = sessiond_spawn(runtime)
+        runtime.load_test_module()
+
+        runtime.run("lttng create trace -o {}".format(trace_path))
+
+        if scenario == "Unsupported by tools":
+            with pytest.raises(subprocess.CalledProcessError):
+                runtime.run("lttng enable-event -k 'lttng_test_*_even*'")
+            sessiond = runtime.subprocess_terminate(sessiond)
+            if sessiond.returncode != 0:
+                pytest.fails("Return value of sessiond is not zero")
+            return
+
+        runtime.run("lttng enable-event -k 'lttng_test_*_even*'")
+        runtime.run("lttng start")
+
+        # Generate some event
+        with open(Settings.lttng_test_procfile, 'w') as procfile:
+            procfile.write("{}".format(nb_events))
+
+        runtime.run("lttng stop")
+        runtime.run("lttng destroy -a")
+
+        sessiond = runtime.subprocess_terminate(sessiond)
+        if sessiond.returncode != 0:
+            pytest.fails("Return value of sessiond is not zero")
+
+        cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
+        assert(line_count(cp_out) == expected_events)

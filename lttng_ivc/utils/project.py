@@ -34,6 +34,7 @@ class Project(object):
         self.isBuilt = False
         self.isConfigured = False
         self.isInstalled = False
+        self.skip = False
 
         self.basedir = tmpdir
         self.log_path = os.path.join(tmpdir, "log")
