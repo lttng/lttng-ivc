@@ -87,9 +87,6 @@ else:
             runtime_matrix_tracing_available.append(tup)
 
 
-def lttng_sessiond_ready():
-    print("lttng sessiond is ready ! FFS")
-
 @pytest.mark.parametrize("ust_label,tools_label, should_trace", runtime_matrix_tracing_available)
 def test_ust_app_tracing_available(tmpdir, ust_label, tools_label, should_trace):
 
