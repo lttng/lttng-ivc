@@ -191,7 +191,7 @@ def test_modules_base_tracing(tmpdir, modules_label, tools_label):
 
         sessiond = runtime.subprocess_terminate(sessiond)
         if sessiond.returncode != 0:
-            pytest.fails("Return value of sessiond is not zero")
+            pytest.fail("Return value of sessiond is not zero")
             return
 
         cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
@@ -250,7 +250,7 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
             # Make sure everything looks good on this side
             sessiond = runtime.subprocess_terminate(sessiond)
             if sessiond.returncode != 0:
-                pytest.fails("Return value of sessiond is not zero")
+                pytest.fail("Return value of sessiond is not zero")
             return
 
         runtime.run("lttng {}".format(command))
@@ -259,7 +259,7 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
 
         sessiond = runtime.subprocess_terminate(sessiond)
         if sessiond.returncode != 0:
-            pytest.fails("Return value of sessiond is not zero")
+            pytest.fail("Return value of sessiond is not zero")
 
         cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
         assert(line_count(cp_out) == nb_events)
@@ -310,7 +310,7 @@ def test_modules_statedump(tmpdir, modules_label, tools_label, scenario):
 
         sessiond = runtime.subprocess_terminate(sessiond)
         if sessiond.returncode != 0:
-            pytest.fails("Return value of sessiond is not zero")
+            pytest.fail("Return value of sessiond is not zero")
 
         cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
         assert(line_count(cp_out) == expected_event)
@@ -350,7 +350,7 @@ def test_modules_starglobing_enabler(tmpdir, modules_label, tools_label, scenari
                 runtime.run("lttng enable-event -k 'lttng_test_*_even*'")
             sessiond = runtime.subprocess_terminate(sessiond)
             if sessiond.returncode != 0:
-                pytest.fails("Return value of sessiond is not zero")
+                pytest.fail("Return value of sessiond is not zero")
             return
 
         runtime.run("lttng enable-event -k 'lttng_test_*_even*'")
@@ -365,7 +365,7 @@ def test_modules_starglobing_enabler(tmpdir, modules_label, tools_label, scenari
 
         sessiond = runtime.subprocess_terminate(sessiond)
         if sessiond.returncode != 0:
-            pytest.fails("Return value of sessiond is not zero")
+            pytest.fail("Return value of sessiond is not zero")
 
         cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
         assert(line_count(cp_out) == expected_events)
