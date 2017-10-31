@@ -282,7 +282,7 @@ class Lttng_modules(Project):
     def __init__(self, label, git_path, sha1, tmpdir):
         super(Lttng_modules, self).__init__(label=label, git_path=git_path,
                                             sha1=sha1, tmpdir=tmpdir)
-        self.add_special_env_variable("MODPROBE_OPTIONS","-b {}".format(self.installation_path))
+        self.add_special_env_variable("MODPROBE_OPTIONS","-d {}".format(self.installation_path))
 
     def bootstrap(self):
         pass
