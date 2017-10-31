@@ -22,8 +22,11 @@ def __dummy_sigusr1_handler():
 
 
 def sessiond_spawn(runtime):
-        previous_handler = signal.signal(signal.SIGUSR1, __dummy_sigusr1_handler)
-        sessiond = runtime.spawn_subprocess("lttng-sessiond -vvv -S")
-        signal.sigtimedwait({signal.SIGUSR1}, 60)
-        previous_handler = signal.signal(signal.SIGUSR1, previous_handler)
-        return sessiond
+    previous_handler = signal.signal(signal.SIGUSR1, __dummy_sigusr1_handler)
+    sessiond = runtime.spawn_subprocess("lttng-sessiond -vvv -S")
+    signal.sigtimedwait({signal.SIGUSR1}, 60)
+    previous_handler = signal.signal(signal.SIGUSR1, previous_handler)
+    return sessiond
+
+
+
