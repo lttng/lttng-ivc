@@ -114,7 +114,7 @@ class Runtime(object):
         with open(env_path, 'w') as env_out:
             pprint.pprint(env, stream=env_out)
 
-        p = subprocess.Popen(args, stdout=stdout, stderr=stderr, env=env)
+        p = subprocess.Popen(args, stdout=stdout, stderr=stderr, env=env, cwd=cwd)
         self.__subprocess[tmp_id] = p
         self.__stdout_stderr[tmp_id] = (stdout, stderr)
         _logger.debug("Spawned sub pid: {} args: {} stdout: {} stderr{}".format(p.pid, p.args, out_path, err_path))

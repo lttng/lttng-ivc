@@ -1,5 +1,7 @@
 import signal
 import hashlib
+import os
+import time
 
 def line_count(file_path):
     line_count = 0
@@ -15,6 +17,25 @@ def sha256_checksum(filename, block_size=65536):
         for block in iter(lambda: f.read(block_size), b''):
             sha256.update(block)
     return sha256.hexdigest()
+
+
+# TODO: timeout as a parameter or Settings
+# TODO: Custom exception
+def wait_for_file(path):
+    i = 0
+    timeout = 60
+    while not os.path.exists(path):
+        time.sleep(1)
+        i = i + 1
+        if i > timeout:
+            raise Exception("File still does not exists. Timeout expired")
+
+
+# TODO: find better exception
+def create_empty_file(path):
+    if os.path.exists(path):
+        raise Exception("Path already exist")
+    open(path, 'w').close()
 
 
 def __dummy_sigusr1_handler():
