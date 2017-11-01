@@ -313,6 +313,11 @@ class Lttng_ust(Project):
         super(Lttng_ust, self).__init__(label=label, git_path=git_path,
                                         sha1=sha1, tmpdir=tmpdir)
         self.custom_configure_flags.extend(['--disable-man-pages'])
+        self.custom_configure_flags.extend(['--enable-python-agent'])
+        self.custom_configure_flags.extend(['--enable-java-agent-jul'])
+
+        jul_path = os.path.join(self.installation_path, "share/java")
+        self.add_special_env_variable("CLASSPATH", "{}".format(jul_path))
 
 
 class Lttng_tools(Project):
