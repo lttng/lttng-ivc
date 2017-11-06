@@ -51,3 +51,10 @@ def sessiond_spawn(runtime):
 
 
 
+
+def file_contains(stderr_file, list_of_string):
+    with open(stderr_file, 'r') as stderr:
+        for line in stderr:
+            for s in list_of_string:
+                if s in line:
+                    return True

@@ -15,6 +15,10 @@ FC: Fully Compatible
 BC: Feature of the smallest version number will works.
 TU: Tracing unavailable
 
+NOTE: tracing between 2.7 and 2.8 should work but a problem with
+_ustctl_basic_type prevent event registration. Hence consider in further test
+that the event registration is expected to fail.
+
 +------------------------------------------------------------------------------+
 |              LTTng UST control protocol compatibility matrix                 |
 |   (between applications and tools linked on LTTng UST and liblttng-ust-ctl)  |
@@ -37,23 +41,25 @@ Second tuple member: lttng-tool label
 Third tuple member: expected scenario
 """
 
+event_registration_error = "Error: UST app recv reg unsupported version"
+
 test_matrix_tracing_available = [
-    ("lttng-ust-2.7", "lttng-tools-2.7",   True),
-    ("lttng-ust-2.7", "lttng-tools-2.8",   True),
-    ("lttng-ust-2.7", "lttng-tools-2.9",   False),
-    ("lttng-ust-2.7", "lttng-tools-2.10",  False),
-    ("lttng-ust-2.8", "lttng-tools-2.7",   True),
-    ("lttng-ust-2.8", "lttng-tools-2.8",   True),
-    ("lttng-ust-2.8", "lttng-tools-2.9",   False),
-    ("lttng-ust-2.8", "lttng-tools-2.10",  False),
-    ("lttng-ust-2.9", "lttng-tools-2.7",   False),
-    ("lttng-ust-2.9", "lttng-tools-2.8",   False),
-    ("lttng-ust-2.9", "lttng-tools-2.9",   True),
-    ("lttng-ust-2.9", "lttng-tools-2.10",  True),
-    ("lttng-ust-2.10", "lttng-tools-2.7",  False),
-    ("lttng-ust-2.10", "lttng-tools-2.8",  False),
-    ("lttng-ust-2.10", "lttng-tools-2.9",  True),
-    ("lttng-ust-2.10", "lttng-tools-2.10", True),
+    ("lttng-ust-2.7", "lttng-tools-2.7",   "Success"),
+    ("lttng-ust-2.7", "lttng-tools-2.8",   "Unsupported version"),
+    ("lttng-ust-2.7", "lttng-tools-2.9",   "Unsupported"),
+    ("lttng-ust-2.7", "lttng-tools-2.10",  "Unsupported"),
+    ("lttng-ust-2.8", "lttng-tools-2.7",   "Unsupported version"),
+    ("lttng-ust-2.8", "lttng-tools-2.8",   "Success"),
+    ("lttng-ust-2.8", "lttng-tools-2.9",   "Unsupported"),
+    ("lttng-ust-2.8", "lttng-tools-2.10",  "Unsupported"),
+    ("lttng-ust-2.9", "lttng-tools-2.7",   "Unsupported"),
+    ("lttng-ust-2.9", "lttng-tools-2.8",   "Unsupported"),
+    ("lttng-ust-2.9", "lttng-tools-2.9",   "Success"),
+    ("lttng-ust-2.9", "lttng-tools-2.10",  "Success"),
+    ("lttng-ust-2.10", "lttng-tools-2.7",  "Unsupported"),
+    ("lttng-ust-2.10", "lttng-tools-2.8",  "Unsupported"),
+    ("lttng-ust-2.10", "lttng-tools-2.9",  "Success"),
+    ("lttng-ust-2.10", "lttng-tools-2.10", "Success"),
 ]
 
 # Only consider test case for which tracing is valid
@@ -118,12 +124,8 @@ else:
             runtime_matrix_starglobing_enabler.append(tup)
 
 
-@pytest.mark.parametrize("ust_label,tools_label, should_trace", runtime_matrix_tracing_available)
-def test_ust_app_tracing_available(tmpdir, ust_label, tools_label, should_trace):
-
-    if ((ust_label == "lttng-ust-2.7" and tools_label == "lttng-tools-2.8") or
-            (ust_label == "lttng-ust-2.8" and tools_label == "lttng-tools-2.7")):
-        pytest.xfail("Failing but should work, problem regarding the size of fields structure")
+@pytest.mark.parametrize("ust_label,tools_label,outcome", runtime_matrix_tracing_available)
+def test_ust_app_tracing_available(tmpdir, ust_label, tools_label, outcome):
 
     nb_events = 100
 
@@ -168,17 +170,17 @@ def test_ust_app_tracing_available(tmpdir, ust_label, tools_label, should_trace)
         if cp.returncode != 0:
             pytest.fail("Sessiond return code")
 
-        try:
-            # Read trace with babeltrace and check for event count via number of line
-            cmd = 'babeltrace {}'.format(trace_path)
+
+        cmd = 'babeltrace {}'.format(trace_path)
+        if outcome == "Success":
             cp_process, cp_out, cp_err = runtime_tools.run(cmd)
             assert(utils.line_count(cp_out) == nb_events)
-        except subprocess.CalledProcessError as e:
-            # Check if we expected a problem here
-            if should_trace:
-                # Something happened
-                raise e
-
+        else:
+            with pytest.raises(subprocess.CalledProcessError):
+                cp_process, cp_out, cp_err = runtime_tools.run(cmd)
+            if outcome == "Unsupported version":
+                assert(utils.file_contains(runtime_tools.get_subprocess_stderr_path(sessiond),
+                                           [event_registration_error]))
 
 @pytest.mark.parametrize("ust_label,tools_label, success", runtime_matrix_regen_statedump)
 def test_ust_app_regen_statedump(tmpdir, ust_label, tools_label, success):
