@@ -49,7 +49,7 @@ class Runtime(object):
         self._run_command_count = 0
 
         self.special_env_variables = {"LTTNG_UST_DEBUG": "1",
-                                      #"LTTNG_APP_SOCKET_TIMEOUT": "-1",
+                                      "LTTNG_APP_SOCKET_TIMEOUT": "-1",
                                       #"LTTNG_UST_REGISTER_TIMEOUT": "-1",
                                       "LTTNG_NETWORK_SOCKET_TIMEOUT": "-1"}
 
