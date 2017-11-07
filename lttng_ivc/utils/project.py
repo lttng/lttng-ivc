@@ -316,8 +316,10 @@ class Lttng_ust(Project):
         self.custom_configure_flags.extend(['--enable-python-agent'])
         self.custom_configure_flags.extend(['--enable-java-agent-jul'])
 
-        jul_path = os.path.join(self.installation_path, "share/java")
-        self.add_special_env_variable("CLASSPATH", "{}".format(jul_path))
+        jul_path = os.path.join(self.installation_path,
+                "share/java/liblttng-ust-agent.jar")
+        classpath = ":".join([jul_path, Settings.log4j_class_path, '.'])
+        self.add_special_env_variable("CLASSPATH", classpath)
 
 
 class Lttng_tools(Project):

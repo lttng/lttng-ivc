@@ -120,7 +120,7 @@ class Runtime(object):
         _logger.debug("Spawned sub pid: {} args: {} stdout: {} stderr{}".format(p.pid, p.args, out_path, err_path))
         return tmp_id
 
-    def run(self, command_line, cwd=None, check_return=True, ld_preload=""):
+    def run(self, command_line, cwd=None, check_return=True, ld_preload="", classpath=""):
         """
         Run the command and return a tuple of a (CompletedProcess, stdout_path,
         stderr_path). The subprocess is already executed and returned. The
@@ -131,6 +131,8 @@ class Runtime(object):
 
         if ld_preload:
             env['LD_PRELOAD'] = ld_preload
+        if classpath:
+            env['CLASSPATH'] = classpath
 
 
         tmp_id = self._run_command_count

@@ -2,6 +2,9 @@ import signal
 import hashlib
 import os
 import time
+import socket
+
+from contextlib import closing
 
 def line_count(file_path):
     line_count = 0
@@ -43,13 +46,20 @@ def __dummy_sigusr1_handler():
 
 
 def sessiond_spawn(runtime):
+    agent_port = find_free_port()
     previous_handler = signal.signal(signal.SIGUSR1, __dummy_sigusr1_handler)
-    sessiond = runtime.spawn_subprocess("lttng-sessiond -vvv -S")
+    sessiond = runtime.spawn_subprocess("lttng-sessiond -vvv -S --agent-tcp-port {}".format(agent_port))
     signal.sigtimedwait({signal.SIGUSR1}, 60)
     previous_handler = signal.signal(signal.SIGUSR1, previous_handler)
     return sessiond
 
 
+def find_free_port():
+    # There is no guarantee that the port will be free at runtime but should be
+    # good enough
+    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
+        s.bind(('', 0))
+        return s.getsockname()[1]
 
 
 def file_contains(stderr_file, list_of_string):

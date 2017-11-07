@@ -14,6 +14,8 @@ git_remote_folder = os.path.join(base_dir, "runtime/git_remote")
 apps_folder = os.path.join(base_dir, "apps")
 apps_gen_events_folder = os.path.join(apps_folder, "gen_ust_events")
 apps_preload_provider_folder = os.path.join(apps_folder, "preload_provider")
+apps_jul_1 = os.path.join(apps_folder, "jul-1.0")
+apps_jul_2 = os.path.join(apps_folder, "jul-2.0")
 
 # Used for checksum validation
 project_py_file_location = os.path.join(base_dir, "utils/project.py")
