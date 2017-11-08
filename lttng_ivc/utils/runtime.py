@@ -259,4 +259,3 @@ class Runtime(object):
         # Copy the lttng_home used at runtime using hardlink to prevent useless
         # data duplication
         shutil.copytree(self.lttng_home, self.__post_runtime_lttng_home_path, copy_function=os.link)
-

@@ -6,6 +6,7 @@ import logging
 import lttng_ivc.settings as Settings
 
 from lttng_ivc.utils.utils import sha256_checksum
+from lttng_ivc.utils.utils import find_dir
 
 _logger = logging.getLogger('project')
 
@@ -320,6 +321,15 @@ class Lttng_ust(Project):
                 "share/java/liblttng-ust-agent.jar")
         classpath = ":".join([jul_path, Settings.log4j_class_path, '.'])
         self.add_special_env_variable("CLASSPATH", classpath)
+
+    def install(self):
+        super(Lttng_ust, self).install()
+        python_path = find_dir(self.installation_path, "lttngust")
+        if python_path:
+            # Fetch the parent of lttngust folder
+            python_path = os.path.dirname(python_path)
+            self.add_special_env_variable("PYTHONPATH", python_path)
+
 
 
 class Lttng_tools(Project):

@@ -68,3 +68,16 @@ def file_contains(stderr_file, list_of_string):
             for s in list_of_string:
                 if s in line:
                     return True
+
+
+def find_dir(root, name):
+    """
+    Returns the absolute path or None.
+    """
+    abs_path = None
+    for base, dirs, files in os.walk(root):
+        for tmp in dirs:
+            print(tmp)
+            if tmp.endswith(name):
+                abs_path = os.path.abspath(os.path.join(base, tmp))
+    return abs_path
