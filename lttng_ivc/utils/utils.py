@@ -84,6 +84,31 @@ def find_dir(root, name):
     return abs_path
 
 
+def find_file(root, name):
+    """
+    Returns the absolute path or None.
+    """
+    print(root)
+    print(name)
+    abs_path = None
+    for base, dirs, files in os.walk(root):
+        for tmp in files:
+            if tmp.endswith(name):
+                abs_path = os.path.abspath(os.path.join(base, tmp))
+    print(abs_path)
+    return abs_path
+
+
+def validate(xml_path, xsd_path):
+
+    xmlschema_doc = etree.parse(xsd_path)
+    xmlschema = etree.XMLSchema(xmlschema_doc)
+
+    xml_doc = etree.parse(xml_path)
+    result = xmlschema.validate(xml_doc)
+
+    return result
+
 def xpath_query(xml_file, xpath):
     """
     Return a list of xml node corresponding to the xpath. The list can be of lenght

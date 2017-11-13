@@ -30,3 +30,4 @@ lttng_test_procfile = "/proc/lttng-test-filter-event"
 
 save_ext = ".lttng"
 
+mi_xsd_file_name = ['mi_lttng.xsd', 'mi-lttng-3.0.xsd']

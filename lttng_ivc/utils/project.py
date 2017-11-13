@@ -6,7 +6,7 @@ import logging
 import lttng_ivc.settings as Settings
 
 from lttng_ivc.utils.utils import sha256_checksum
-from lttng_ivc.utils.utils import find_dir
+from lttng_ivc.utils.utils import find_dir, find_file
 
 _logger = logging.getLogger('project')
 
@@ -338,6 +338,15 @@ class Lttng_tools(Project):
                                         sha1=sha1, tmpdir=tmpdir)
         self.add_special_env_variable("LTTNG_SESSION_CONFIG_XSD_PATH",
                 os.path.join(self.installation_path, "share/xml/lttng/"))
+
+        # Find the mi xsd
+        for xsd in Settings.mi_xsd_file_name:
+            mi = find_file(self.source_path, xsd)
+            if mi:
+                break
+        if not mi:
+            raise Exception("MI xsd not found")
+        self.mi_xsd = mi
 
 
 class Babeltrace(Project):
