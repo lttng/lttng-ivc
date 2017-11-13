@@ -25,4 +25,8 @@ tmp_object_prefix = "lttng-ivc-"
 
 default_babeltrace = "babeltrace-1.5"
 
+
 lttng_test_procfile = "/proc/lttng-test-filter-event"
+
+save_ext = ".lttng"
+

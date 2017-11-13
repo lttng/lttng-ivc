@@ -4,7 +4,9 @@ import os
 import time
 import socket
 
+from lxml import etree
 from contextlib import closing
+
 
 def line_count(file_path):
     line_count = 0
@@ -62,9 +64,9 @@ def find_free_port():
         return s.getsockname()[1]
 
 
-def file_contains(stderr_file, list_of_string):
-    with open(stderr_file, 'r') as stderr:
-        for line in stderr:
+def file_contains(file_path, list_of_string):
+    with open(file_path, 'r') as f:
+        for line in f:
             for s in list_of_string:
                 if s in line:
                     return True
@@ -77,7 +79,26 @@ def find_dir(root, name):
     abs_path = None
     for base, dirs, files in os.walk(root):
         for tmp in dirs:
-            print(tmp)
             if tmp.endswith(name):
                 abs_path = os.path.abspath(os.path.join(base, tmp))
     return abs_path
+
+
+def xpath_query(xml_file, xpath):
+    """
+    Return a list of xml node corresponding to the xpath. The list can be of lenght
+    zero.
+    """
+    with open(xml_file, 'r') as f:
+        tree = etree.parse(f)
+        root = tree.getroot()
+        # Remove all namespace
+        # https://stackoverflow.com/questions/18159221/remove-namespace-and-prefix-from-xml-in-python-using-lxml
+        for elem in root.getiterator():
+            if not hasattr(elem.tag, 'find'):
+                continue
+            i = elem.tag.find('}')
+            if i >= 0:
+                elem.tag = elem.tag[i+1:]
+
+        return root.xpath(xpath)
