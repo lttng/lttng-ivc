@@ -18,6 +18,9 @@ apps_jul_1 = os.path.join(apps_folder, "jul-1.0")
 apps_jul_2 = os.path.join(apps_folder, "jul-2.0")
 apps_python = os.path.join(apps_folder, "python")
 
+traces_folder = os.path.join(base_dir, "traces")
+trace_lost_packet = os.path.join(traces_folder, "packet_lost_2_stream")
+
 # Used for checksum validation
 project_py_file_location = os.path.join(base_dir, "utils/project.py")
 

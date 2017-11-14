@@ -67,6 +67,9 @@ class Runtime(object):
     def add_project(self, project):
         self.__projects.append(project)
 
+    def remove_project(self, project):
+        self.__projects.remove(project)
+
     def subprocess_signal(self, subprocess_uuid, signal):
         self.__subproces[subprocess_uuid].send_signal(signal)
 
