@@ -88,14 +88,11 @@ def find_file(root, name):
     """
     Returns the absolute path or None.
     """
-    print(root)
-    print(name)
     abs_path = None
     for base, dirs, files in os.walk(root):
         for tmp in files:
             if tmp.endswith(name):
                 abs_path = os.path.abspath(os.path.join(base, tmp))
-    print(abs_path)
     return abs_path
 
 
