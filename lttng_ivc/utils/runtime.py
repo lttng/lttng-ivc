@@ -46,6 +46,7 @@ class Runtime(object):
         self._runtime_log_aggregation = os.path.join(self.__runtime_log, "runtime.log")
 
         self._run_command_count = 0
+        self._is_test_modules_loaded = False
 
         self.special_env_variables = {"LTTNG_UST_DEBUG": "1",
                                       "LTTNG_APP_SOCKET_TIMEOUT": "-1",
@@ -239,10 +240,12 @@ class Runtime(object):
     def load_test_module(self):
         # Base directory is provided by env
         self.run("modprobe lttng-test")
+        self._is_test_modules_loaded = True
 
     def unload_test_module(self, check_return=True):
         # Base directory is provided by env
-        self.run("modprobe -r lttng-test", check_return=check_return)
+        if self._is_test_modules_loaded:
+            self.run("modprobe -r lttng-test", check_return=check_return)
 
     def close(self):
         for key, subp in self.__subprocess.items():
