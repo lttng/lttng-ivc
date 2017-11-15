@@ -56,12 +56,65 @@ def sessiond_spawn(runtime):
     return sessiond
 
 
+def relayd_spawn(runtime, url="localhost"):
+    """
+    Return a tuple (relayd_uuid, ctrl_port, data_port, live_port)
+    """
+    ports = find_multiple_free_port(3)
+    data_port = ports.pop()
+    ctrl_port = ports.pop()
+    live_port = ports.pop()
+
+    base_cmd = "lttng-relayd -vvv"
+    data_string = "-D tcp://{}:{}".format(url, data_port)
+    ctrl_string = "-C tcp://{}:{}".format(url, ctrl_port)
+    live_string = "-L tcp://{}:{}".format(url, live_port)
+
+    cmd = " ".join([base_cmd, data_string, ctrl_string, live_string])
+    relayd = runtime.spawn_subprocess(cmd)
+
+    # Synchronization based on verbosity since no -S is available for
+    # lttng-relayd yet.
+    log_path = runtime.get_subprocess_stderr_path(relayd)
+
+    # TODO: Move to settings.
+    ready_cue = "Listener accepting live viewers connections"
+    # TODO: Move to settings.
+    timeout = 60
+    ready = False
+    for i in range(timeout):
+        if file_contains(log_path, ready_cue):
+            ready = True
+            break
+        time.sleep(1)
+
+    if not ready:
+        # Cleanup is performed by runtime
+        raise Exception("Relayd readyness timeout expired")
+
+    return (relayd, ctrl_port, data_port, live_port)
+
+
 def find_free_port():
     # There is no guarantee that the port will be free at runtime but should be
     # good enough
     with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
         s.bind(('', 0))
         return s.getsockname()[1]
+
+
+def find_multiple_free_port(number):
+    """
+    Return a list of supposedly free port
+    """
+    assert(number >= 0)
+    ports = []
+    while(len(ports) != number):
+        port = find_free_port()
+        if port in ports:
+            continue
+        ports.append(port)
+    return ports
 
 
 def file_contains(file_path, list_of_string):
