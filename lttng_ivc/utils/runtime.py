@@ -73,13 +73,20 @@ class Runtime(object):
     def subprocess_signal(self, subprocess_uuid, signal):
         self.__subproces[subprocess_uuid].send_signal(signal)
 
-    def subprocess_terminate(self, subprocess_uuid, timeout=60):
+    def subprocess_terminate(self, subprocess_uuid, timeout=60, check_return=True):
         process = self.__subprocess[subprocess_uuid]
         process.terminate()
-        process.wait(timeout)
+        try:
+            process.wait(timeout)
+        except subprocess.TimeoutExpired:
+            # Force kill
+            return self.subprocess_kill(process)
         stdout, stderr = self.__stdout_stderr[subprocess_uuid]
         stdout.close()
         stderr.close()
+        if check_return:
+            if process.returncode != 0:
+                raise subprocess.CalledProcessError(process.returncode, process.args)
         return process
 
     def subprocess_kill(self, subprocess_uuid):
@@ -89,6 +96,17 @@ class Runtime(object):
         stdout, stderr = self.__stdout_stderr[subprocess_uuid]
         stdout.close()
         stderr.close()
+        return process
+
+    def subprocess_wait(self, subprocess_uuid, check_return=True):
+        process = self.__subprocess[subprocess_uuid]
+        process.wait()
+        stdout, stderr = self.__stdout_stderr[subprocess_uuid]
+        stdout.close()
+        stderr.close()
+        if check_return:
+            if process.returncode != 0:
+                raise subprocess.CalledProcessError(process.returncode, process.args)
         return process
 
     def get_subprocess_stdout_path(self, subprocess_uuid):
