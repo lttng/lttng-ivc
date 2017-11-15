@@ -7,7 +7,6 @@ import logging
 import shutil
 import contextlib
 import pprint
-import traceback
 
 from tempfile import TemporaryDirectory
 
