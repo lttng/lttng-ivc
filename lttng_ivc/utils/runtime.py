@@ -267,13 +267,7 @@ class Runtime(object):
 
     def close(self):
         for key, subp in self.__subprocess.items():
-            subp.terminate()
-        for key, subp in self.__subprocess.items():
-            # TODO move timeout to settings
-            subp.wait(timeout=60)
-        for key, (stdout, stderr) in self.__stdout_stderr.items():
-            stdout.close()
-            stderr.close()
+            self.subprocess_terminate(key, check_return=False)
 
         # Always try to remove test module but do not perform check on return
         # value.
