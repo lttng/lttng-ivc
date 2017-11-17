@@ -47,10 +47,12 @@ def __dummy_sigusr1_handler():
     pass
 
 
-def sessiond_spawn(runtime):
+def sessiond_spawn(runtime, opt_args=""):
     agent_port = find_free_port()
     previous_handler = signal.signal(signal.SIGUSR1, __dummy_sigusr1_handler)
-    sessiond = runtime.spawn_subprocess("lttng-sessiond -vvv -S --agent-tcp-port {}".format(agent_port))
+    cmd = "lttng-sessiond -vvv --verbose-consumer -S --agent-tcp-port {}".format(agent_port)
+    cmd = " ".join([cmd, opt_args])
+    sessiond = runtime.spawn_subprocess(cmd)
     signal.sigtimedwait({signal.SIGUSR1}, 60)
     previous_handler = signal.signal(signal.SIGUSR1, previous_handler)
     return sessiond
