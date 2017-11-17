@@ -141,7 +141,7 @@ class Runtime(object):
         _logger.debug("Spawned sub pid: {} args: {} stdout: {} stderr{}".format(p.pid, p.args, out_path, err_path))
         return tmp_id
 
-    def run(self, command_line, cwd=None, check_return=True, ld_preload="", classpath=""):
+    def run(self, command_line, cwd=None, check_return=True, ld_preload="", classpath="", timeout=None):
         """
         Run the command and return a tuple of a (CompletedProcess, stdout_path,
         stderr_path). The subprocess is already executed and returned. The
@@ -173,7 +173,8 @@ class Runtime(object):
             for key, value in env.items():
                 env_out.write('{}={}\n'.format(key, value))
 
-        cp = subprocess.run(args, stdout=stdout, stderr=stderr, env=env, cwd=cwd)
+        cp = subprocess.run(args, stdout=stdout, stderr=stderr, env=env,
+                            cwd=cwd, timeout=timeout)
         _logger.debug("Command #{} args: {} stdout: {} stderr{}".format(tmp_id, cp.args, out_path, err_path))
 
         # Add to the global log file. This can help a little. Leave the other
