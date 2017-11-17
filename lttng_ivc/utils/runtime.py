@@ -80,7 +80,7 @@ class Runtime(object):
             process.wait(timeout)
         except subprocess.TimeoutExpired:
             # Force kill
-            return self.subprocess_kill(process)
+            return self.subprocess_kill(subprocess_uuid)
         stdout, stderr = self.__stdout_stderr[subprocess_uuid]
         stdout.close()
         stderr.close()
