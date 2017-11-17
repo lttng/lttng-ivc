@@ -268,7 +268,7 @@ class Runtime(object):
 
     def close(self):
         for key, subp in self.__subprocess.items():
-            self.subprocess_terminate(key, check_return=False)
+            self.subprocess_kill(key)
 
         # Always try to remove test module but do not perform check on return
         # value.
