@@ -1,8 +1,6 @@
 import pytest
 import os
 import shutil
-import signal
-import subprocess
 import time
 import socket
 
@@ -43,7 +41,6 @@ else:
         if (tup[0] in Settings.test_only or tup[1] in
                 Settings.test_only):
             runtime_matrix_live.append(tup)
-
 
 
 @pytest.mark.parametrize("babeltrace_l,tools_l", runtime_matrix_live)
