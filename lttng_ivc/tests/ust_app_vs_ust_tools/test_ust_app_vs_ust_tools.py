@@ -62,25 +62,6 @@ test_matrix_tracing_available = [
     ("lttng-ust-2.10", "lttng-tools-2.10", "Success"),
 ]
 
-# Only consider test case for which tracing is valid
-test_matrix_app_context = [
-    ("lttng-ust-2.7", "lttng-tools-2.7",  ""),
-    ("lttng-ust-2.7", "lttng-tools-2.8",  ""),
-    ("lttng-ust-2.7", "lttng-tools-2.9",  ""),
-    ("lttng-ust-2.7", "lttng-tools-2.10", ""),
-    ("lttng-ust-2.8", "lttng-tools-2.7",  ""),
-    ("lttng-ust-2.8", "lttng-tools-2.8",  ""),
-    ("lttng-ust-2.8", "lttng-tools-2.9",  ""),
-    ("lttng-ust-2.8", "lttng-tools-2.10", ""),
-    ("lttng-ust-2.9", "lttng-tools-2.7",  ""),
-    ("lttng-ust-2.9", "lttng-tools-2.8",  ""),
-    ("lttng-ust-2.9", "lttng-tools-2.9",  ""),
-    ("lttng-ust-2.9", "lttng-tools-2.10", ""),
-    ("lttng-ust-2.10", "lttng-tools-2.7", ""),
-    ("lttng-ust-2.10", "lttng-tools-2.8", ""),
-    ("lttng-ust-2.10", "lttng-tools-2.9", ""),
-    ("lttng-ust-2.10", "lttng-tools-2.10", ""),
-]
 
 """
 Statedump are supported starting at lttng-ust >= 2.9.
