@@ -1,4 +1,21 @@
-Requirement:
+LTTng inter-version compatibility test suite.
+============================================
 
-Ubuntu:
-	libgit2-dev
+This project aim to provide an inter-version compatibility test suite to
+document, automate, validate behaviours of the LTTng projects between version
+and prevent unexpected regression. 
+
+This project is intended to run inside a Continuous Integration environment.
+A running version will be made available on ci.lttng.org.
+
+A python3 virtual env is recommenced to run this test suite.
+
+The suite is currently run under a python 3.5.3 virtual environment situated at
+the root of the current directly under .venv.
+
+The virtualenv can be configured with the provided requirement.txt
+
+The running environment should provide all dependencies required by
+lttng-ust/lttng-tools/lttng-modules 2.7/2.8/2.9/2.10, babeltrace 1.3/1.4/1.5.
+
+Latest liburcu stable is also recommended.
