@@ -7,6 +7,7 @@ import logging
 import shutil
 import contextlib
 import pprint
+import signal
 
 from tempfile import TemporaryDirectory
 
