@@ -162,6 +162,7 @@ def test_ust_tracepoint_abi_api_vs_ust_enum(tmpdir, ust_label, tools_label, scen
         runtime_tools.run(cmd, cwd=app_path, ld_preload="./libtp-enum.so")
 
         # Stop tracing
+        runtime_tools.run('lttng stop')
         runtime_tools.run('lttng destroy -a')
         runtime_tools.subprocess_terminate(sessiond)
 
@@ -218,6 +219,7 @@ def test_ust_tracepoint_abi_api_vs_ust_base(tmpdir, ust_label, tools_label, scen
         runtime_tools.run(cmd, cwd=app_path, ld_preload="./libtp.so")
 
         # Stop tracing
+        runtime_tools.run('lttng stop')
         runtime_tools.run('lttng destroy -a')
         runtime_tools.subprocess_terminate(sessiond)
 

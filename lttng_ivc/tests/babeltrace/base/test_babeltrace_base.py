@@ -147,6 +147,7 @@ def test_babeltrace_base_ust(tmpdir, babeltrace_l, tools_l):
         runtime.run(cmd, cwd=app_path)
 
         # Stop tracing
+        runtime.run('lttng stop')
         runtime.run('lttng destroy -a')
         cp = runtime.subprocess_terminate(sessiond)
         if cp.returncode != 0:
@@ -274,6 +275,7 @@ def test_babeltrace_same_trace_ust(tmpdir, babeltrace_list, tools_l):
         runtime.run(cmd, cwd=app_path)
 
         # Stop tracing
+        runtime.run('lttng stop')
         runtime.run('lttng destroy -a')
         cp = runtime.subprocess_terminate(sessiond)
         if cp.returncode != 0:

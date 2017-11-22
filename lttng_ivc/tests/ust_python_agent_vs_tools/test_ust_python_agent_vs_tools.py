@@ -132,6 +132,7 @@ def test_ust_python_agent_tracing_available(tmpdir, ust_label, tools_label, shou
         runtime_app.run(cmd, cwd=app_path)
 
         # Stop tracing
+        runtime_tools.run('lttng stop')
         runtime_tools.run('lttng destroy -a')
         cp = runtime_tools.subprocess_terminate(sessiond)
         if cp.returncode != 0:
@@ -195,6 +196,7 @@ def test_ust_python_agent_interface(tmpdir, ust_label, tools_label, outcome):
         runtime_tools.run(cmd, cwd=app_path)
 
         # Stop tracing
+        runtime_tools.run('lttng stop')
         runtime_tools.run('lttng destroy -a')
         cp = runtime_tools.subprocess_terminate(sessiond)
         if cp.returncode != 0:
