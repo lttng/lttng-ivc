@@ -5,7 +5,7 @@ import lttng_ivc.utils.ProjectFactory as ProjectFactory
 import lttng_ivc.settings as Settings
 
 """
-TODO: Document how the tests is donne and what it tests
+TODO: Document how the tests is done and what it tests
 
 At configure time
 At build time
