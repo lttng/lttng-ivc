@@ -308,6 +308,12 @@ class Lttng_modules(Project):
         p.check_returncode()
         self.isInstalled = True
 
+    def autobuild(self):
+        try:
+            super(Lttng_modules, self).autobuild()
+        except subprocess.CalledProcessError as e:
+            self.skip = True
+
 
 class Lttng_ust(Project):
     def __init__(self, label, git_path, sha1, tmpdir):
