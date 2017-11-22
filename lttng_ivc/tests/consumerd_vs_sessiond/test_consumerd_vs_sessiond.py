@@ -58,23 +58,33 @@ else:
 
 @pytest.mark.parametrize("consumerd_l,tools_l,should_work", runtime_matrix_consumerd)
 def test_consumerd_vs_sessiond(tmpdir, consumerd_l, tools_l, should_work):
+    """
+    Scenario:
+        Point a lttng-tools to a consumerd of another version and see what
+        happen. We do not expect anything good to come out of this since for
+        now lttng-tools(2.10) no versioning exist between sessiond and
+        consumerd.
+    """
 
-    # Prepare environment
+    nb_event = 100;
+
     consumerd = ProjectFactory.get_precook(consumerd_l)
     tools = ProjectFactory.get_precook(tools_l)
+    babeltrace = ProjectFactory.get_precook(Settings.default_babeltrace)
 
     app_path = os.path.join(str(tmpdir), "app")
 
     replacement_consumerd = utils.find_file(consumerd.installation_path, "lttng-consumerd")
     assert(replacement_consumerd)
 
-    c_dict = {"32bit": "-consumerd32-path", "64bit": "--consumerd64-path"}
+    c_dict = {"32bit": "--consumerd32-path", "64bit": "--consumerd64-path"}
     platform_type = platform.architecture()[0]
 
     sessiond_opt_args = "{}={}".format(c_dict[platform_type], replacement_consumerd)
 
     with Run.get_runtime(str(tmpdir)) as runtime:
         runtime.add_project(tools)
+        runtime.add_project(babeltrace)
 
         shutil.copytree(Settings.apps_gen_events_folder, app_path)
         runtime.run("make V=1", cwd=app_path)
@@ -84,17 +94,22 @@ def test_consumerd_vs_sessiond(tmpdir, consumerd_l, tools_l, should_work):
         # Consumer is only called on channel creation
         runtime.run("lttng create")
         try:
-            runtime.run("lttng enable-event -u tp:test", timeout=5)
+            runtime.run("lttng enable-event -u tp:tptest", timeout=5)
             runtime.run("lttng start", timeout=5)
 
             # Run application
             cmd = './app {}'.format(100)
             runtime.run(cmd, cwd=app_path)
 
+            runtime.run("lttng stop", timeout=5)
             runtime.run("lttng destroy -a", timeout=5)
+            cp, cp_out, cp_err = runtime.run("babeltrace {}".format(runtime.lttng_home))
+            assert(utils.line_count(cp_out) == nb_event)
         except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
             if should_work:
                 raise e
+            else:
+                # Expecting some error
+                return
         if not should_work:
             raise Exception("Supposed to fail")
-
