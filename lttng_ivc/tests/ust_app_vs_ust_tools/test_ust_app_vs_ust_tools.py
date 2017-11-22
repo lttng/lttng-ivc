@@ -84,7 +84,7 @@ test_matrix_starglobing_enabler = [
 
 runtime_matrix_tracing_available = []
 runtime_matrix_regen_statedump = []
-runtime_rix_starglobing_enabler = []
+runtime_matrix_starglobing_enabler = []
 
 if not Settings.test_only:
     runtime_matrix_tracing_available = test_matrix_tracing_available
