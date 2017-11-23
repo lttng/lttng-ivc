@@ -1,4 +1,4 @@
-import pytest
+import sys
 import os
 import yaml
 import logging
@@ -6,7 +6,11 @@ import hashlib
 
 from git import Repo
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+sys.path.insert(0, os.path.join(dir_path, ".."))
+
 import settings as Settings
+import utils.ProjectFactory as ProjectFactory
 
 def is_ref_branch(repo, ref):
     try:
@@ -158,3 +162,8 @@ for project, markers in config.items():
 
 with open(Settings.run_configuration_file, 'w') as run_configuration:
     yaml.dump(runnable_markers, run_configuration, default_flow_style=False)
+
+# Prebuild all projects
+for key in runnable_markers:
+    logger_git.info('Preparing and building {}'.format(key))
+    ProjectFactory.get_precook(key)
