@@ -345,7 +345,7 @@ class Lttng_ust(Project):
 
         jul_path = os.path.join(self.installation_path,
                 "share/java/liblttng-ust-agent.jar")
-        classpath = ":".join([jul_path, Settings.log4j_class_path, '.'])
+        classpath = ":".join([jul_path, '.'])
         self.add_special_env_variable("CLASSPATH", classpath)
 
     def install(self):
