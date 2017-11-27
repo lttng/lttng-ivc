@@ -29,6 +29,7 @@ sys.path.insert(0, os.path.join(dir_path, ".."))
 import utils.ProjectFactory as ProjectFactory
 import settings as Settings
 
+logging.basicConfig(level=logging.INFO)
 _logger = logging.getLogger('project.cache_builder')
 
 with open(Settings.run_configuration_file, 'r') as stream:
@@ -38,3 +39,4 @@ with open(Settings.run_configuration_file, 'r') as stream:
 for key in markers:
         _logger.info('Preparing and building {}'.format(key))
         ProjectFactory.get_precook(key)
+        _logger.info('Done: {}'.format(key))
