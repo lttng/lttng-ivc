@@ -24,4 +24,5 @@ How to run:
 ==========
 
 1: python lttng_ivc/bootstrap.py
-2: pytest -sv lttng_ivc/tests/
+2: python lttng_ivc/build_projects.py
+3: pytest -sv lttng_ivc/tests/
