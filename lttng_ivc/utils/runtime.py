@@ -295,6 +295,7 @@ class Runtime(object):
         # value.
         self.unload_test_module(False)
 
-        # Copy the lttng_home used at runtime using hardlink to prevent useless
-        # data duplication
-        shutil.copytree(self.lttng_home, self.__post_runtime_lttng_home_path, copy_function=os.link)
+        # Hard linking would be nice here but it could be a problem when we use
+        # a tmpdir on another device. Let's consider we have unlimited space.
+        shutil.copytree(self.lttng_home, self.__post_runtime_lttng_home_path,
+                ignore=shutil.ignore_patterns(".lttng"))
