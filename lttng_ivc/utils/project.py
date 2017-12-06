@@ -24,6 +24,7 @@ import git
 import subprocess
 import logging
 import lttng_ivc.settings as Settings
+import pprint
 
 from lttng_ivc.utils.utils import sha256_checksum
 from lttng_ivc.utils.utils import find_dir, find_file
@@ -226,6 +227,12 @@ class Project(object):
 
         out = os.path.join(self.log_path, "configure.out")
         err = os.path.join(self.log_path, "configure.err")
+        env_file = os.path.join(self.log_path, "configure.env")
+
+        env = self.get_env()
+
+        with open(env_file, 'w') as tmp:
+            pprint.pprint(env, stream=tmp)
 
         os.chdir(self.source_path)
         args = ['./configure']
@@ -235,7 +242,7 @@ class Project(object):
 
         # TODO: log output and add INFO log point
         with open(out, 'w') as stdout, open(err, 'w') as stderr:
-            p = subprocess.run(args, env=self.get_env(), stdout=stdout,
+            p = subprocess.run(args, env=env, stdout=stdout,
                                stderr=stderr)
         p.check_returncode()
         self.isConfigured = True
