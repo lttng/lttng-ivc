@@ -122,6 +122,8 @@ class Project(object):
             if var in env:
                 if var == "LD_LIBRARY_PATH":
                     env[var] = ":".join([env[var], value])
+                elif var == "CPPFLAGS" or var == "CFLAGS" or var == "LDFLAGS":
+                    env[var] = " ".join([env[var], value])
                 else:
                     _logger.warning("{} Special var {} is already defined".format(
                                     self.label, var))
