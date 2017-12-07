@@ -120,10 +120,12 @@ class Project(object):
 
         for var, value in self.special_env_variables.items():
             if var in env:
-                # Raise for now since no special cases is known
-                _logger.warning("{} Special var {} is already defined".format(
-                                self.label, var))
-                raise Exception("Multiple definition of a special environment variable")
+                if var == "LD_LIBRARY_PATH":
+                    env[var] = ":".join([env[var], value])
+                else:
+                    _logger.warning("{} Special var {} is already defined".format(
+                                    self.label, var))
+                    raise Exception("Multiple definition of a special environment variable")
             else:
                 env[var] = value
 
