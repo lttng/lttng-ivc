@@ -115,8 +115,8 @@ def test_ust_app_tools_update_tracing_available(tmpdir, ust_label, tools_label, 
         cmd = './app {}'.format(nb_events)
         runtime_tools.run(cmd, cwd=app_path)
 
-        runtime_tools.run("lddtree ./app", cwd=app_path)
-        runtime_app.run("lddtree ./app", cwd=app_path)
+        runtime_tools.run("objdump -p ./app", cwd=app_path)
+        runtime_app.run("objdump -p ./app", cwd=app_path)
 
         # Stop tracing
         runtime_tools.run('lttng stop')
@@ -125,9 +125,8 @@ def test_ust_app_tools_update_tracing_available(tmpdir, ust_label, tools_label, 
         if cp.returncode != 0:
             pytest.fail("Sessiond return code")
 
-
         cmd = 'babeltrace {}'.format(trace_path)
-        if success :
+        if success:
             cp_process, cp_out, cp_err = runtime_tools.run(cmd)
             assert(utils.line_count(cp_out) == nb_events)
         else:
