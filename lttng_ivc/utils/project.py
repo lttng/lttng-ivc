@@ -25,6 +25,7 @@ import subprocess
 import logging
 import lttng_ivc.settings as Settings
 import pprint
+import magic
 
 from lttng_ivc.utils.utils import sha256_checksum
 from lttng_ivc.utils.utils import find_dir, find_file
@@ -166,7 +167,6 @@ class Project(object):
 
         if self.isConfigured ^ self.isBuilt ^ self.isInstalled:
             raise Exception("Project steps where manually triggered. Can't autobuild")
-
         _logger.debug("{} Autobuild configure".format(self.label))
         try:
             self.configure()
@@ -186,6 +186,13 @@ class Project(object):
             self.install()
         except subprocess.CalledProcessError as e:
             _logger.error("{} Install failed. See {} for more details.".format(self.label, self.log_path))
+            raise e
+
+        _logger.debug("{} Autobuild rpath strip".format(self.label))
+        try:
+            self.rpath_strip()
+        except subprocess.CalledProcessError as e:
+            _logger.error("{} Rpath stripping failed. See {} for more details.".format(self.label, self.log_path))
             raise e
 
     def checkout(self):
@@ -304,6 +311,30 @@ class Project(object):
         self.isInstalled = True
         return p
 
+    def rpath_strip(self):
+        to_strip = [os.path.join(self.installation_path, "bin"),
+                    os.path.join(self.installation_path, "lib")]
+
+        out = os.path.join(self.log_path, "rpath-strip.out")
+        err = os.path.join(self.log_path, "rpath-strip.err")
+
+        for path in to_strip:
+            for base, dirs, files in os.walk(path):
+                for tmp in files:
+                    abs_path = os.path.abspath(os.path.join(base, tmp))
+                    magic_str = magic.from_file(abs_path)
+                    # Skip all non-elf file
+                    if "ELF" not in magic_str.split():
+                        with open(err, 'a') as stderr:
+                            stderr.write("{} skip, is not an ELF, file type: {}\n".format(abs_path, magic_str))
+                        continue
+                    cmd = ["chrpath", "-d", abs_path]
+                    with open(out, 'a') as stdout, open(err, 'a') as stderr:
+                        stdout.write("Running {}\n".format(cmd))
+                        stderr.write("Running {}\n".format(cmd))
+                        p = subprocess.run(cmd, stdout=stdout, stderr=stderr)
+                        p.check_returncode()
+
     def cleanup(self):
         if os.path.exists(self.source_path):
             shutil.rmtree(self.source_path)
@@ -344,6 +375,9 @@ class Lttng_modules(Project):
             super(Lttng_modules, self).autobuild()
         except subprocess.CalledProcessError as e:
             self.skip = True
+
+    def rpath_strip(self):
+        pass
 
 
 class Lttng_ust(Project):
