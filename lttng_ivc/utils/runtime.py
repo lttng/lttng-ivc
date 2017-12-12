@@ -162,7 +162,8 @@ class Runtime(object):
         _logger.debug("Spawned sub pid: {} args: {} stdout: {} stderr{}".format(p.pid, p.args, out_path, err_path))
         return tmp_id
 
-    def run(self, command_line, cwd=None, check_return=True, ld_preload="", classpath="", timeout=None):
+    def run(self, command_line, cwd=None, check_return=True, ld_preload="",
+            classpath="", timeout=None, ld_debug=False):
         """
         Run the command and return a tuple of a (CompletedProcess, stdout_path,
         stderr_path). The subprocess is already executed and returned. The
@@ -175,7 +176,9 @@ class Runtime(object):
             env['LD_PRELOAD'] = ld_preload
         if classpath:
             env['CLASSPATH'] = classpath
-
+        if ld_debug:
+            # ld debugging switch
+            env["LD_DEBUG"] = "all"
 
         tmp_id = self._run_command_count
         self._run_command_count += 1
@@ -245,6 +248,7 @@ class Runtime(object):
         env = os.environ.copy()
 
         env["LTTNG_HOME"] = self.lttng_home
+        env["LD_BIND_NOW"] = "enabled"
 
         env_fetch = {"CPPFLAGS": (self.get_cppflags(), " "),
                      "LDFLAGS": (self.get_ldflags(), " "),

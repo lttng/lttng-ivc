@@ -30,3 +30,13 @@ How to run:
 With tox:
 
 1: tox -r ./
+
+Findings
+========
+
+The binding type (ld.so) (now or lazy) is dependent on the gcc/ld distribution
+configuration. Hence, for this test suite, we force the behavior to "now". This
+result in the lookup of all required symbols at launch. This is particularly
+important since we want to prevent inconsistent behavior. Immediate might be
+forced in the future for lttng project but for now we simply force it at
+runtime.
