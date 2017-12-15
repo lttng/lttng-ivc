@@ -29,6 +29,7 @@ import lttng_ivc.settings as Settings
 from lttng_ivc.utils.skip import must_be_root
 from lttng_ivc.utils.utils import sessiond_spawn
 from lttng_ivc.utils.utils import line_count
+from lttng_ivc.utils.utils import file_contains
 
 """
 
@@ -250,7 +251,7 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
 
         # Validate that we have all event base on the current metadata
         cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
-        assert(line_count(cp_out) == nb_events)
+        assert line_count(cp_out) == nb_events
 
         # Empty the metadata file
         open(get_metadata_file_path(trace_path), 'w').close()
@@ -264,13 +265,25 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
         # TODO: rework this a bit to differentiate each errors and rework how
         # the condition are meet
         if scenario == "Unsupported by tools" or scenario == "Unsupported by modules":
+            if modules_label == "lttng-modules-2.7":
+                pytest.xfail("failing configuration (but should work)")
+                # Error from lttng-modules-2.7 is not reported correctly by
+                # sessiond. But it is reported on the sessiond side.
+                # For now, run the command, validate that the error exist on
+                # sessiond side and mark as xfail.
+                runtime.run("lttng {}".format(command))
             with pytest.raises(subprocess.CalledProcessError):
                 runtime.run("lttng {}".format(command))
 
             # Make sure everything looks good on this side
+            stderr_path = runtime.get_subprocess_stderr_path(sessiond)
             sessiond = runtime.subprocess_terminate(sessiond)
-            if sessiond.returncode != 0:
-                pytest.fail("Return value of sessiond is not zero")
+            if scenario == "Unsupported by modules":
+                error_msg = "Error: Failed to regenerate the kernel metadata"
+                assert file_contains(stderr_path, [error_msg]), "Error message missing"
+            if modules_label == "lttng-modules-2.7":
+                pytest.xfail("Lttng-tools does not bubble up error from unsupported metadata regeneration")
+
             return
 
         runtime.run("lttng {}".format(command))
@@ -282,7 +295,7 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
             pytest.fail("Return value of sessiond is not zero")
 
         cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
-        assert(line_count(cp_out) == nb_events)
+        assert line_count(cp_out) == nb_events
 
 
 @must_be_root
