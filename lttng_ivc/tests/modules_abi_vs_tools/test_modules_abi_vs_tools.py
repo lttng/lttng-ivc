@@ -275,6 +275,8 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
                 runtime.run("lttng {}".format(command))
 
             # Make sure everything looks good on this side
+            runtime.run("lttng stop")
+            runtime.run("lttng destroy -a")
             stderr_path = runtime.get_subprocess_stderr_path(sessiond)
             sessiond = runtime.subprocess_terminate(sessiond)
             if scenario == "Unsupported by modules":
@@ -285,7 +287,6 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
 
             return
 
-        runtime.run("lttng {}".format(command))
         runtime.run("lttng stop")
         runtime.run("lttng destroy -a")
 
