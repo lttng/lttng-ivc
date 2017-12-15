@@ -266,7 +266,6 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
         # the condition are meet
         if scenario == "Unsupported by tools" or scenario == "Unsupported by modules":
             if modules_label == "lttng-modules-2.7":
-                pytest.xfail("failing configuration (but should work)")
                 # Error from lttng-modules-2.7 is not reported correctly by
                 # sessiond. But it is reported on the sessiond side.
                 # For now, run the command, validate that the error exist on
