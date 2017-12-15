@@ -88,9 +88,9 @@ test_matrix_base_tracing = [
 
 test_matrix_regen_metadata = [
     ("lttng-modules-2.7", "lttng-tools-2.7",  "metadata regenerate", "Unsupported by tools"),
-    ("lttng-modules-2.7", "lttng-tools-2.8",  "metadata regenerate", "Unsupported by module"),
-    ("lttng-modules-2.7", "lttng-tools-2.9",  "regenerate metadata", "Unsupported by module"),
-    ("lttng-modules-2.7", "lttng-tools-2.10", "regenerate metadata", "Unsupported by module"),
+    ("lttng-modules-2.7", "lttng-tools-2.8",  "metadata regenerate", "Unsupported by modules"),
+    ("lttng-modules-2.7", "lttng-tools-2.9",  "regenerate metadata", "Unsupported by modules"),
+    ("lttng-modules-2.7", "lttng-tools-2.10", "regenerate metadata", "Unsupported by modules"),
     ("lttng-modules-2.8", "lttng-tools-2.7",  "metadata regenerate", "Unsupported by tools"),
     ("lttng-modules-2.8", "lttng-tools-2.8",  "metadata regenerate", "Supported"),
     ("lttng-modules-2.8", "lttng-tools-2.9",  "regenerate metadata", "Supported"),
@@ -108,8 +108,8 @@ test_matrix_regen_metadata = [
 test_matrix_statedump = [
     ("lttng-modules-2.7", "lttng-tools-2.7",  "Unsupported by tools"),
     ("lttng-modules-2.7", "lttng-tools-2.8",  "Unsupported by tools"),
-    ("lttng-modules-2.7", "lttng-tools-2.9",  "Unsupported by module"),
-    ("lttng-modules-2.7", "lttng-tools-2.10", "Unsupported by module"),
+    ("lttng-modules-2.7", "lttng-tools-2.9",  "Unsupported by modules"),
+    ("lttng-modules-2.7", "lttng-tools-2.10", "Unsupported by modules"),
     ("lttng-modules-2.8", "lttng-tools-2.7",  "Unsupported by tools"),
     ("lttng-modules-2.8", "lttng-tools-2.8",  "Unsupported by tools"),
     ("lttng-modules-2.8", "lttng-tools-2.9",  "Unsupported by modules"),
