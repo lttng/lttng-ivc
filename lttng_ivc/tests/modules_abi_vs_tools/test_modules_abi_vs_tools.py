@@ -287,6 +287,7 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
 
             return
 
+        runtime.run("lttng {}".format(command))
         runtime.run("lttng stop")
         runtime.run("lttng destroy -a")
 
