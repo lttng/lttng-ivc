@@ -265,14 +265,15 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
         # TODO: rework this a bit to differentiate each errors and rework how
         # the condition are meet
         if scenario == "Unsupported by tools" or scenario == "Unsupported by modules":
-            if modules_label == "lttng-modules-2.7":
+            if modules_label == "lttng-modules-2.7" and scenario == "Unsupported by modules":
                 # Error from lttng-modules-2.7 is not reported correctly by
                 # sessiond. But it is reported on the sessiond side.
                 # For now, run the command, validate that the error exist on
                 # sessiond side and mark as xfail.
                 runtime.run("lttng {}".format(command))
-            with pytest.raises(subprocess.CalledProcessError):
-                runtime.run("lttng {}".format(command))
+            else:
+                with pytest.raises(subprocess.CalledProcessError):
+                    runtime.run("lttng {}".format(command))
 
             # Make sure everything looks good on this side
             runtime.run("lttng stop")
@@ -282,7 +283,7 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
             if scenario == "Unsupported by modules":
                 error_msg = "Error: Failed to regenerate the kernel metadata"
                 assert file_contains(stderr_path, [error_msg]), "Error message missing"
-            if modules_label == "lttng-modules-2.7":
+            if modules_label == "lttng-modules-2.7" and scenario == "Unsupported by modules":
                 pytest.xfail("Lttng-tools does not bubble up error from unsupported metadata regeneration")
 
             return
