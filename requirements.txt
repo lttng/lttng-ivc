@@ -3,3 +3,4 @@ PyYAML
 lxml
 pytest
 python-magic
+flaky

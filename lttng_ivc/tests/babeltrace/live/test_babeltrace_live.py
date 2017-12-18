@@ -24,6 +24,8 @@ import shutil
 import time
 import socket
 
+from flaky import flaky
+
 import lttng_ivc.utils.ProjectFactory as ProjectFactory
 import lttng_ivc.utils.utils as utils
 import lttng_ivc.utils.runtime as Run
@@ -63,6 +65,7 @@ else:
             runtime_matrix_live.append(tup)
 
 
+@flaky(max_runs=10, min_passes=3)
 @pytest.mark.parametrize("babeltrace_l,tools_l", runtime_matrix_live)
 def test_babeltrace_live(tmpdir, babeltrace_l, tools_l):
 
