@@ -63,7 +63,7 @@ def create_empty_file(path):
     open(path, 'w').close()
 
 
-def __dummy_sigusr1_handler():
+def __dummy_sigusr1_handler(signum, frame):
     pass
 
 
