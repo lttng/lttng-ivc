@@ -34,6 +34,9 @@ from lttng_ivc.utils.utils import xpath_query
 """
 
 
+"""
+TODO JORAJ why is there missing version here ??????
+"""
 test_matrix_app_contexts = [
     ("lttng-tools-2.8", "lttng-tools-2.7",   False),
     ("lttng-tools-2.9", "lttng-tools-2.8",   True),
@@ -46,6 +49,13 @@ test_matrix_blocking_timeout = [
         ("lttng-tools-2.10", "lttng-tools-2.8",   False),
         ("lttng-tools-2.10", "lttng-tools-2.9",   False),
         ("lttng-tools-2.10", "lttng-tools-2.10",  True),
+        ("lttng-tools-2.10", "lttng-tools-2.11",  True),
+        ("lttng-tools-2.11", "lttng-tools-2.7",   False),
+        ("lttng-tools-2.11", "lttng-tools-2.8",   False),
+        ("lttng-tools-2.11", "lttng-tools-2.9",   False),
+        ("lttng-tools-2.11", "lttng-tools-2.10",  True),
+        ("lttng-tools-2.11", "lttng-tools-2.11",  True),
+
 ]
 
 test_matrix_monitor_timer_interval = [
@@ -53,6 +63,12 @@ test_matrix_monitor_timer_interval = [
         ("lttng-tools-2.10", "lttng-tools-2.8",   False),
         ("lttng-tools-2.10", "lttng-tools-2.9",   False),
         ("lttng-tools-2.10", "lttng-tools-2.10",  True),
+        ("lttng-tools-2.10", "lttng-tools-2.11",  True),
+        ("lttng-tools-2.11", "lttng-tools-2.7",   False),
+        ("lttng-tools-2.11", "lttng-tools-2.8",   False),
+        ("lttng-tools-2.11", "lttng-tools-2.9",   False),
+        ("lttng-tools-2.11", "lttng-tools-2.10",  True),
+        ("lttng-tools-2.11", "lttng-tools-2.11",  True),
 ]
 
 runtime_matrix_app_contexts = []

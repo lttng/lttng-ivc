@@ -38,13 +38,13 @@ BC: Feature of the smallest version number will works.
 
 +------------------------------------------------------------------------------+
 |                   Babeltrace vs UST/Tools/Metadata                           |
-+--------------------------+------------+------------+------------+------------+
-| Babeltrace / LTTng       | 2.7        | 2.8        | 2.9        | 2.10       |
-+--------------------------+------------+------------+------------+------------+
-| 1.3                      | FC         | BC         | BC         | BC         |
-| 1.4                      | FC         | FC         | FC         | FC         |
-| 1.5                      | FC         | FC         | FC         | FC         |
-+--------------------------+------------+------------+------------+------------+
++--------------------------+------------+------------+------------+------------+------------+
+| Babeltrace / LTTng       | 2.7        | 2.8        | 2.9        | 2.10       | 2.11       |
++--------------------------+------------+------------+------------+------------+------------+
+| 1.3                      | FC         | BC         | BC         | BC         | BC         |
+| 1.4                      | FC         | FC         | FC         | FC         | FC         |
+| 1.5                      | FC         | FC         | FC         | FC         | FC         |
++--------------------------+------------+------------+------------+------------+------------+
 
 """
 test_matrix_base_ust = [
@@ -52,14 +52,16 @@ test_matrix_base_ust = [
         ("babeltrace-1.3", "lttng-tools-2.8"),
         ("babeltrace-1.3", "lttng-tools-2.9"),
         ("babeltrace-1.3", "lttng-tools-2.10"),
+        ("babeltrace-1.3", "lttng-tools-2.11"),
         ("babeltrace-1.4", "lttng-tools-2.7"),
         ("babeltrace-1.4", "lttng-tools-2.8"),
         ("babeltrace-1.4", "lttng-tools-2.9"),
         ("babeltrace-1.4", "lttng-tools-2.10"),
+        ("babeltrace-1.4", "lttng-tools-2.11"),
         ("babeltrace-1.5", "lttng-tools-2.7"),
         ("babeltrace-1.5", "lttng-tools-2.8"),
         ("babeltrace-1.5", "lttng-tools-2.9"),
-        ("babeltrace-1.5", "lttng-tools-2.10"),
+        ("babeltrace-1.5", "lttng-tools-2.11"),
 ]
 
 test_matrix_base_modules = [
@@ -67,14 +69,17 @@ test_matrix_base_modules = [
         ("babeltrace-1.3", "lttng-modules-2.8",  "lttng-tools-2.8"),
         ("babeltrace-1.3", "lttng-modules-2.9",  "lttng-tools-2.9"),
         ("babeltrace-1.3", "lttng-modules-2.10", "lttng-tools-2.10"),
+        ("babeltrace-1.3", "lttng-modules-2.11", "lttng-tools-2.11"),
         ("babeltrace-1.4", "lttng-modules-2.7",  "lttng-tools-2.7"),
         ("babeltrace-1.4", "lttng-modules-2.8",  "lttng-tools-2.8"),
         ("babeltrace-1.4", "lttng-modules-2.9",  "lttng-tools-2.9"),
         ("babeltrace-1.4", "lttng-modules-2.10", "lttng-tools-2.10"),
+        ("babeltrace-1.4", "lttng-modules-2.11", "lttng-tools-2.11"),
         ("babeltrace-1.5", "lttng-modules-2.7",  "lttng-tools-2.7"),
         ("babeltrace-1.5", "lttng-modules-2.8",  "lttng-tools-2.8"),
         ("babeltrace-1.5", "lttng-modules-2.9",  "lttng-tools-2.9"),
         ("babeltrace-1.5", "lttng-modules-2.10", "lttng-tools-2.10"),
+        ("babeltrace-1.5", "lttng-modules-2.11", "lttng-tools-2.11"),
 ]
 
 test_matrix_lost_packet = [
@@ -88,6 +93,7 @@ test_matrix_same_trace_modules = [
         (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-modules-2.8",  "lttng-tools-2.8"),
         (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-modules-2.9",  "lttng-tools-2.9"),
         (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-modules-2.10", "lttng-tools-2.10"),
+        (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-modules-2.11", "lttng-tools-2.11"),
 ]
 
 test_matrix_same_trace_ust = [
@@ -95,6 +101,7 @@ test_matrix_same_trace_ust = [
         (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.8"),
         (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.9"),
         (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.10"),
+        (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.11"),
 ]
 
 
