@@ -38,7 +38,7 @@ test_matrix_app_contexts = [
     ("lttng-tools-2.8", "lttng-tools-2.7",   False),
     ("lttng-tools-2.9", "lttng-tools-2.8",   True),
     ("lttng-tools-2.8", "lttng-tools-2.9",   True),
-    pytest.param("lttng-tools-2.8", "lttng-tools-2.10",  True, marks=pytest.mark.xfail(reason="See https://bugs.lttng.org/issues/1136")),
+    ("lttng-tools-2.8", "lttng-tools-2.10",  True),
 ]
 
 test_matrix_blocking_timeout = [
