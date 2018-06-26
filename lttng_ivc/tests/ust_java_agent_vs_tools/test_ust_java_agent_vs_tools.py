@@ -39,14 +39,15 @@ Note: actual testing is limited by lttng-ust and lttng-tools abi/api.
 
 +----------------------------------------------------------------------------------+
 |             LTTng UST Java agent protocol vs LTTng session daemon                |
-+--------------------------+------------+------------+------------+----------------+
-| LTTng UST Java/ LTTng Tools  | 2.7 (1.0)  | 2.8 (2.0)  | 2.9 (2.0)  | 2.10 (2.0) |
-+--------------------------+------------+------------+------------+----------------+
-| 2.7 (1.0)                    | FC         | TU         | TU         | TU         |
-| 2.8 (2.0)                    | TU         | FC         | BC         | BC         |
-| 2.9 (2.0)                    | TU         | BC         | FC         | BC         |
-| 2.10 (2.0)                   | TU         | BC         | BC         | FC         |
-+--------------------------+------------+------------+------------+----------------+
++--------------------------+------------+------------+------------+----------------+------------+
+| LTTng UST Java/ LTTng Tools  | 2.7 (1.0)  | 2.8 (2.0)  | 2.9 (2.0)  | 2.10 (2.0) | 2.11 (2.0) |
++--------------------------+------------+------------+------------+----------------+------------+
+| 2.7 (1.0)                    | FC         | TU         | TU         | TU         | TU         |
+| 2.8 (2.0)                    | TU         | FC         | BC         | BC         | BC         |
+| 2.9 (2.0)                    | TU         | BC         | FC         | BC         | BC         |
+| 2.10 (2.0)                   | TU         | BC         | BC         | FC         | BC         |
+| 2.11 (2.0)                   | TU         | BC         | BC         | BC         | FC         |
++--------------------------+------------+------------+------------+----------------+------------+
 
 """
 
@@ -65,18 +66,27 @@ test_matrix_tracing_available = [
     ("lttng-ust-2.7", "lttng-tools-2.8",   1, False),
     ("lttng-ust-2.7", "lttng-tools-2.9",   1, False),
     ("lttng-ust-2.7", "lttng-tools-2.10",  1, False),
+    ("lttng-ust-2.7", "lttng-tools-2.11",  1, False),
     ("lttng-ust-2.8", "lttng-tools-2.7",   2, False),
     ("lttng-ust-2.8", "lttng-tools-2.8",   2, True),
     ("lttng-ust-2.8", "lttng-tools-2.9",   2, False),
     ("lttng-ust-2.8", "lttng-tools-2.10",  2, False),
+    ("lttng-ust-2.8", "lttng-tools-2.11",  2, False),
     ("lttng-ust-2.9", "lttng-tools-2.7",   2, False),
     ("lttng-ust-2.9", "lttng-tools-2.8",   2, False),
     ("lttng-ust-2.9", "lttng-tools-2.9",   2, True),
     ("lttng-ust-2.9", "lttng-tools-2.10",  2, True),
+    ("lttng-ust-2.9", "lttng-tools-2.11",  2, True),
     ("lttng-ust-2.10", "lttng-tools-2.7",  2, False),
     ("lttng-ust-2.10", "lttng-tools-2.8",  2, False),
     ("lttng-ust-2.10", "lttng-tools-2.9",  2, True),
     ("lttng-ust-2.10", "lttng-tools-2.10", 2, True),
+    ("lttng-ust-2.10", "lttng-tools-2.11", 2, True),
+    ("lttng-ust-2.11", "lttng-tools-2.7",  2, False),
+    ("lttng-ust-2.11", "lttng-tools-2.8",  2, False),
+    ("lttng-ust-2.11", "lttng-tools-2.9",  2, True),
+    ("lttng-ust-2.11", "lttng-tools-2.10", 2, True),
+    ("lttng-ust-2.11", "lttng-tools-2.11", 2, True),
 ]
 
 test_matrix_agent_interface = [
@@ -84,18 +94,27 @@ test_matrix_agent_interface = [
     ("lttng-ust-2.7", "lttng-tools-2.8",   1, "Unsupported protocol"),
     ("lttng-ust-2.7", "lttng-tools-2.9",   1, "Unsupported protocol"),
     ("lttng-ust-2.7", "lttng-tools-2.10",  1, "Unsupported protocol"),
+    ("lttng-ust-2.7", "lttng-tools-2.11",  1, "Unsupported protocol"),
     ("lttng-ust-2.8", "lttng-tools-2.7",   2, "Unsupported protocol"),
     ("lttng-ust-2.8", "lttng-tools-2.8",   2, "Success"),
     ("lttng-ust-2.8", "lttng-tools-2.9",   2, "Success"),
     ("lttng-ust-2.8", "lttng-tools-2.10",  2, "Success"),
+    ("lttng-ust-2.8", "lttng-tools-2.11",  2, "Success"),
     ("lttng-ust-2.9", "lttng-tools-2.7",   2, "Unsupported protocol"),
     ("lttng-ust-2.9", "lttng-tools-2.8",   2, "Success"),
     ("lttng-ust-2.9", "lttng-tools-2.9",   2, "Success"),
     ("lttng-ust-2.9", "lttng-tools-2.10",  2, "Success"),
+    ("lttng-ust-2.9", "lttng-tools-2.11",  2, "Success"),
     ("lttng-ust-2.10", "lttng-tools-2.7",  2, "Unsupported protocol"),
     ("lttng-ust-2.10", "lttng-tools-2.8",  2, "Success"),
     ("lttng-ust-2.10", "lttng-tools-2.9",  2, "Success"),
     ("lttng-ust-2.10", "lttng-tools-2.10", 2, "Success"),
+    ("lttng-ust-2.10", "lttng-tools-2.11", 2, "Success"),
+    ("lttng-ust-2.11", "lttng-tools-2.7",  2, "Unsupported protocol"),
+    ("lttng-ust-2.11", "lttng-tools-2.8",  2, "Success"),
+    ("lttng-ust-2.11", "lttng-tools-2.9",  2, "Success"),
+    ("lttng-ust-2.11", "lttng-tools-2.10", 2, "Success"),
+    ("lttng-ust-2.11", "lttng-tools-2.11", 2, "Success"),
 ]
 
 runtime_matrix_tracing_available = []
