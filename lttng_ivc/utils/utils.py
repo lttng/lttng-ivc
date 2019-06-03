@@ -129,7 +129,7 @@ def find_multiple_free_port(number):
     """
     Return a list of supposedly free port
     """
-    assert(number >= 0)
+    assert number >= 0
     ports = []
     while(len(ports) != number):
         port = find_free_port()
