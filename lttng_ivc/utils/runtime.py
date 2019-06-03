@@ -92,7 +92,7 @@ class Runtime(object):
         self.__projects.remove(project)
 
     def subprocess_signal(self, subprocess_uuid, signal):
-        self.__subproces[subprocess_uuid].send_signal(signal)
+        self.__subprocess[subprocess_uuid].send_signal(signal)
 
     def subprocess_terminate(self, subprocess_uuid, timeout=60, check_return=True):
         process = self.__subprocess[subprocess_uuid]
