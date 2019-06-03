@@ -23,9 +23,12 @@ import hashlib
 import os
 import time
 import socket
+import re
+import sys
 
-from lxml import etree
+from typing import Pattern
 from contextlib import closing
+from lxml import etree
 
 
 def line_count(file_path):
@@ -170,6 +173,35 @@ def find_file(root, name):
                 abs_path = os.path.abspath(os.path.join(base, tmp))
     return abs_path
 
+def path_exists_regex(root, regex):
+    '''
+    Check if a path under root match the given compiled regex.
+    '''
+    if not isinstance(regex, Pattern):
+        regex = re.compile(regex)
+    for dirpath, dirs, files in os.walk(root):
+        if regex.match(dirpath):
+            return True
+        for name in files:
+            path = os.path.join(dirpath, name)
+            if regex.match(path):
+                return True
+    return False
+
+def tree(root, ioWrapper=None):
+    '''
+    Check if a path under root match the given compiled regex.
+    '''
+    if ioWrapper:
+        sys.stdout = ioWrapper
+    indent_root = len(root.split('/'))
+    for dirpath, dirs, files in os.walk(root):
+        indent = len(dirpath.split('/')) - indent_root
+        print("{}{}/".format((indent) * ' ', os.path.basename(dirpath)))
+        for name in files:
+            print((indent + 1) * ' ', name)
+    if ioWrapper:
+        sys.stdout = sys.__stdout__
 
 def validate(xml_path, xsd_path):
 
@@ -199,3 +231,13 @@ def xpath_query(xml_file, xpath):
                 elem.tag = elem.tag[i+1:]
 
         return root.xpath(xpath)
+
+def clear_directory(top):
+    """
+    Remove all files and directories under top.
+    """
+    for root, dirs, files in os.walk(top, topdown=False):
+        for name in files:
+            os.remove(os.path.join(root, name))
+        for name in dirs:
+            os.rmdir(os.path.join(root, name))
