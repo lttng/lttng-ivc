@@ -33,7 +33,7 @@ logging.basicConfig(level=logging.INFO)
 _logger = logging.getLogger('project.cache_builder')
 
 with open(Settings.run_configuration_file, 'r') as stream:
-    markers = yaml.load(stream)
+    markers = yaml.load(stream, Loader=yaml.FullLoader)
 
 # Prebuild all projects
 for key in markers:

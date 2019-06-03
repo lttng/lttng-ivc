@@ -44,7 +44,7 @@ _markers = None
 with open(Settings.run_configuration_file, 'r') as stream:
     # This is voluntary static across calls, no need to perform this
     # every time.
-    _markers = yaml.load(stream)
+    _markers = yaml.load(stream, Loader=yaml.FullLoader)
 
 
 def get_fresh(label, tmpdir):

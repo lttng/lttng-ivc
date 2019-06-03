@@ -66,7 +66,7 @@ logger_git = logging.getLogger('setup.git')
 
 # Fetch local base repository
 with open(Settings.configuration_file, 'r') as stream:
-    config = yaml.load(stream)
+    config = yaml.load(stream, Loader=yaml.FullLoader)
 
 # Validate that all default dependancy are present.
 # TODO: move to function
