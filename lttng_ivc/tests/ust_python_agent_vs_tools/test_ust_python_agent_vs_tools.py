@@ -77,7 +77,7 @@ test_matrix_tracing_available = [
     ("lttng-ust-2.10", "lttng-tools-2.8",  False),
     ("lttng-ust-2.10", "lttng-tools-2.9",  True),
     ("lttng-ust-2.10", "lttng-tools-2.10", True),
-    ("lttng-ust-2.10", "lttng-tools-2.11", True),
+    ("lttng-ust-2.10", "lttng-tools-2.11", False),
     ("lttng-ust-2.11", "lttng-tools-2.7",  False),
     ("lttng-ust-2.11", "lttng-tools-2.8",  False),
     ("lttng-ust-2.11", "lttng-tools-2.9",  False),
