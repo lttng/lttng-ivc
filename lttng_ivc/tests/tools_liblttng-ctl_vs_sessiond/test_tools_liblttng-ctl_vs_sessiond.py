@@ -34,6 +34,10 @@ Backward compatibility testing for lttng-ctl
 First tuple member: lttng-tools label from which the client (lttng bin) is sourced
 Second tuple member: lttng-tools label for runtime sessiond and lttng-ctl
 Third tuple member: expected scenario
+
+2.11 deprecate multiple lttng_ctl function and this is observed by the return
+of "ENOSYS 38 Function not implemented" by the command line client. This also
+result in a "Kernel create channel" msg that is simply wrong.
 """
 
 test_matrix_basic_listing = [
@@ -41,22 +45,22 @@ test_matrix_basic_listing = [
     ("lttng-tools-2.7", "lttng-tools-2.8",   "Success"),
     ("lttng-tools-2.7", "lttng-tools-2.9",   "Success"),
     ("lttng-tools-2.7", "lttng-tools-2.10",  "Success"),
-    ("lttng-tools-2.7", "lttng-tools-2.11",  "Success"),
+    ("lttng-tools-2.7", "lttng-tools-2.11",  "Deprecated"),
     ("lttng-tools-2.8", "lttng-tools-2.7",   "Missing symbol"),
     ("lttng-tools-2.8", "lttng-tools-2.8",   "Success"),
     ("lttng-tools-2.8", "lttng-tools-2.9",   "Success"),
     ("lttng-tools-2.8", "lttng-tools-2.10",  "Success"),
-    ("lttng-tools-2.8", "lttng-tools-2.11",  "Success"),
+    ("lttng-tools-2.8", "lttng-tools-2.11",  "Deprecated"),
     ("lttng-tools-2.9", "lttng-tools-2.7",   "Missing symbol"),
     ("lttng-tools-2.9", "lttng-tools-2.8",   "Missing symbol"),
     ("lttng-tools-2.9", "lttng-tools-2.9",   "Success"),
     ("lttng-tools-2.9", "lttng-tools-2.10",  "Success"),
-    ("lttng-tools-2.9", "lttng-tools-2.11",  "Success"),
+    ("lttng-tools-2.9", "lttng-tools-2.11",  "Deprecated"),
     ("lttng-tools-2.10", "lttng-tools-2.7",  "Missing symbol"),
     ("lttng-tools-2.10", "lttng-tools-2.8",  "Missing symbol"),
     ("lttng-tools-2.10", "lttng-tools-2.9",  "Missing symbol"),
     ("lttng-tools-2.10", "lttng-tools-2.10", "Success"),
-    ("lttng-tools-2.10", "lttng-tools-2.11", "Success"),
+    ("lttng-tools-2.10", "lttng-tools-2.11", "Deprecated"),
     ("lttng-tools-2.11", "lttng-tools-2.7",  "Missing symbol"),
     ("lttng-tools-2.11", "lttng-tools-2.8",  "Missing symbol"),
     ("lttng-tools-2.11", "lttng-tools-2.9",  "Missing symbol"),
@@ -93,8 +97,11 @@ def test_tools_liblttng_ctl_vs_sessiond_basic_listing(tmpdir, client_label, tool
 
         cp, out, err = runtime_tools.run('{} create trace'.format(lttng_client), check_return=False, ld_debug=True)
         if outcome == "Missing symbol":
-            assert(cp.returncode != 0)
-            assert(utils.file_contains(err, "Missing symbol"))
+            assert cp.returncode != 0
+            assert utils.file_contains(err, "Missing symbol")
+            return
+        if outcome == "Deprecated":
+            assert cp.returncode == 38
             return
 
         assert(cp.returncode == 0)
