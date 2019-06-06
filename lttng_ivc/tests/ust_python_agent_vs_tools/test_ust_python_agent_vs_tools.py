@@ -43,10 +43,10 @@ Note: actual testing is limited by lttng-ust and lttng-tools abi/api.
 | LTTng UST Java/ LTTng Tools  | 2.7 (1.0)  | 2.8 (2.0)  | 2.9 (2.0)  | 2.10 (2.0) | 2.11 (2.0) |
 +--------------------------+------------+------------+------------+----------------+------------+
 | 2.7                          | NA         | NA         | NA         | NA         | NA         |
-| 2.8 (2.0)                    | TU         | FC         | BC         | BC         | BC         |
-| 2.9 (2.0)                    | TU         | BC         | FC         | BC         | BC         |
-| 2.10 (2.0)                   | TU         | BC         | BC         | FC         | BC         |
-| 2.11 (2.0)                   | TU         | BC         | BC         | BC         | FC         |
+| 2.8 (2.0)                    | TU         | FC         | BC         | BC         | TU         |
+| 2.9 (2.0)                    | TU         | BC         | FC         | BC         | TU         |
+| 2.10 (2.0)                   | TU         | BC         | BC         | FC         | TU         |
+| 2.11 (2.0)                   | TU         | TU         | TU         | TU         | FC         |
 +--------------------------+------------+------------+------------+----------------+------------+
 
 """
@@ -72,7 +72,7 @@ test_matrix_tracing_available = [
     ("lttng-ust-2.9", "lttng-tools-2.8",   False),
     ("lttng-ust-2.9", "lttng-tools-2.9",   True),
     ("lttng-ust-2.9", "lttng-tools-2.10",  True),
-    ("lttng-ust-2.9", "lttng-tools-2.11",  True),
+    ("lttng-ust-2.9", "lttng-tools-2.11",  False),
     ("lttng-ust-2.10", "lttng-tools-2.7",  False),
     ("lttng-ust-2.10", "lttng-tools-2.8",  False),
     ("lttng-ust-2.10", "lttng-tools-2.9",  True),
@@ -80,8 +80,8 @@ test_matrix_tracing_available = [
     ("lttng-ust-2.10", "lttng-tools-2.11", True),
     ("lttng-ust-2.11", "lttng-tools-2.7",  False),
     ("lttng-ust-2.11", "lttng-tools-2.8",  False),
-    ("lttng-ust-2.11", "lttng-tools-2.9",  True),
-    ("lttng-ust-2.11", "lttng-tools-2.10", True),
+    ("lttng-ust-2.11", "lttng-tools-2.9",  False),
+    ("lttng-ust-2.11", "lttng-tools-2.10", False),
     ("lttng-ust-2.11", "lttng-tools-2.11", True),
 
 ]

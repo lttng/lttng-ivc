@@ -37,6 +37,8 @@ TU: Tracing unavailable
 
 Note: actual testing is limited by lttng-ust and lttng-tools abi/api.
 
+TU is due to ust abi breaking.
+
 +----------------------------------------------------------------------------------+
 |             LTTng UST Java agent protocol vs LTTng session daemon                |
 +--------------------------+------------+------------+------------+----------------+------------+
@@ -46,7 +48,7 @@ Note: actual testing is limited by lttng-ust and lttng-tools abi/api.
 | 2.8 (2.0)                    | TU         | FC         | BC         | BC         | BC         |
 | 2.9 (2.0)                    | TU         | BC         | FC         | BC         | BC         |
 | 2.10 (2.0)                   | TU         | BC         | BC         | FC         | BC         |
-| 2.11 (2.0)                   | TU         | BC         | BC         | BC         | FC         |
+| 2.11 (2.0)                   | TU         | TU         | TU         | TU         | FC         |
 +--------------------------+------------+------------+------------+----------------+------------+
 
 """
@@ -76,16 +78,16 @@ test_matrix_tracing_available = [
     ("lttng-ust-2.9", "lttng-tools-2.8",   2, False),
     ("lttng-ust-2.9", "lttng-tools-2.9",   2, True),
     ("lttng-ust-2.9", "lttng-tools-2.10",  2, True),
-    ("lttng-ust-2.9", "lttng-tools-2.11",  2, True),
+    ("lttng-ust-2.9", "lttng-tools-2.11",  2, False),
     ("lttng-ust-2.10", "lttng-tools-2.7",  2, False),
     ("lttng-ust-2.10", "lttng-tools-2.8",  2, False),
     ("lttng-ust-2.10", "lttng-tools-2.9",  2, True),
     ("lttng-ust-2.10", "lttng-tools-2.10", 2, True),
-    ("lttng-ust-2.10", "lttng-tools-2.11", 2, True),
+    ("lttng-ust-2.10", "lttng-tools-2.11", 2, False),
     ("lttng-ust-2.11", "lttng-tools-2.7",  2, False),
     ("lttng-ust-2.11", "lttng-tools-2.8",  2, False),
-    ("lttng-ust-2.11", "lttng-tools-2.9",  2, True),
-    ("lttng-ust-2.11", "lttng-tools-2.10", 2, True),
+    ("lttng-ust-2.11", "lttng-tools-2.9",  2, False),
+    ("lttng-ust-2.11", "lttng-tools-2.10", 2, False),
     ("lttng-ust-2.11", "lttng-tools-2.11", 2, True),
 ]
 
@@ -248,11 +250,11 @@ def test_ust_java_agent_interface(tmpdir, ust_label, tools_label, app_version, o
         # Read trace with babeltrace and check for event count via number of line
         cmd = 'babeltrace {}'.format(trace_path)
         if outcome == "Success":
-            assert(utils.file_contains(runtime_tools.get_subprocess_stderr_path(sessiond),["New registration for pid"]))
+            assert utils.file_contains(runtime_tools.get_subprocess_stderr_path(sessiond),["New registration for pid"])
             cp_process, cp_out, cp_err = runtime_tools.run(cmd)
-            assert(utils.line_count(cp_out) == nb_events)
+            assert utils.line_count(cp_out) == nb_events
         else:
             if outcome == "Unsupported protocol":
-                assert(not(utils.file_contains(runtime_tools.get_subprocess_stderr_path(sessiond),["New registration for pid"])))
+                assert not(utils.file_contains(runtime_tools.get_subprocess_stderr_path(sessiond),["New registration for pid"]))
                 cp_process, cp_out, cp_err = runtime_tools.run(cmd)
-                assert(utils.line_count(cp_out) == 0)
+                assert utils.line_count(cp_out) == 0
