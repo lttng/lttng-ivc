@@ -20,8 +20,9 @@
 
 import os
 import sys
-import yaml
 import logging
+
+import yaml
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.insert(0, os.path.join(dir_path, ".."))
@@ -37,6 +38,6 @@ with open(Settings.run_configuration_file, 'r') as stream:
 
 # Prebuild all projects
 for key in markers:
-        _logger.info('Preparing and building {}'.format(key))
-        ProjectFactory.get_precook(key)
-        _logger.info('Done: {}'.format(key))
+    _logger.info('Preparing and building %s', key)
+    ProjectFactory.get_precook(key)
+    _logger.info('Done: %s', key)
