@@ -29,9 +29,12 @@ import contextlib
 import pprint
 import signal
 
+from pprint import pformat
+
 from tempfile import TemporaryDirectory
 
 import lttng_ivc.settings as Settings
+import lttng_ivc.utils.utils as utils
 _logger = logging.getLogger("Runtime")
 
 
@@ -163,7 +166,7 @@ class Runtime(object):
         return tmp_id
 
     def run(self, command_line, cwd=None, check_return=True, ld_preload="",
-            classpath="", timeout=None, ld_debug=False):
+            classpath="", timeout=None, ld_debug=False, gdbserver=False):
         """
         Run the command and return a tuple of a (CompletedProcess, stdout_path,
         stderr_path). The subprocess is already executed and returned. The
@@ -179,6 +182,11 @@ class Runtime(object):
         if ld_debug:
             # ld debugging switch
             env["LD_DEBUG"] = "all"
+        if gdbserver:
+            port = utils.find_free_port()
+            cmd = ["gdbserver", "localhost:{}".format(port)]
+            args = cmd + args
+            _logger.warning("Starting gdbserver: {}".format(pprint.pformat(args)))
 
         tmp_id = self._run_command_count
         self._run_command_count += 1
