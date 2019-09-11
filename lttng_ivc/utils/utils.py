@@ -190,7 +190,7 @@ def path_exists_regex(root, regex):
 
 def tree(root, ioWrapper=None):
     '''
-    Check if a path under root match the given compiled regex.
+    Print the tree from root directory
     '''
     if ioWrapper:
         sys.stdout = ioWrapper
