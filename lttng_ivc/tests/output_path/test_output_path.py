@@ -100,7 +100,7 @@ else:
             runtime_matrix_relayd.append(tup)
 
 """
-Generate tuple for relayd test invoving snapshot:
+Generate tuple for relayd test involving snapshot:
 This is needed due to:
     commit 10d653513d572b8727d6935767a96c9dd82e4fe2
     Author: Julien Desfossez <jdesfossez@efficios.com>
