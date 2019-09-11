@@ -174,13 +174,10 @@ def test_relayd_vs_consumerd_streaming_base(tmpdir, relayd_label, consumerd_labe
         runtime_consumerd.run("make V=1", cwd=app_path)
 
         # Start lttng-sessiond
-        relayd = runtime_relayd.spawn_subprocess('lttng-relayd -vvv')
-        # FIX: No way to know if good to go...
-        time.sleep(1)
-
+        relayd, ctrl_port, data_port, live_port = utils.relayd_spawn(runtime_relayd)
         sessiond = utils.sessiond_spawn(runtime_consumerd)
 
-        url = "net://localhost"
+        url = "net://localhost:{}:{}".format(ctrl_port, data_port)
 
         # Create session using mi to get path and session name
         runtime_consumerd.run('lttng create --set-url={} trace '.format(url))
@@ -234,14 +231,11 @@ def test_relayd_vs_consumerd_streaming_regenerate_metadata(tmpdir, relayd_label,
         shutil.copytree(Settings.apps_gen_events_folder, app_path)
         runtime_consumerd.run("make V=1", cwd=app_path)
 
-        # Start lttng-sessiond
-        relayd = runtime_relayd.spawn_subprocess('lttng-relayd -vvv')
-        # FIX: No way to know if good to go...
-        time.sleep(1)
-
+        # Start lttng-relayd
+        relayd, ctrl_port, data_port, live_port = utils.relayd_spawn(runtime_relayd)
         sessiond = utils.sessiond_spawn(runtime_consumerd)
 
-        url = "net://localhost"
+        url = "net://localhost:{}:{}".format(ctrl_port, data_port)
 
         # Create session using mi to get path and session name
         runtime_consumerd.run('lttng create --set-url={} trace '.format(url))
@@ -322,14 +316,11 @@ def test_relayd_vs_consumerd_live_base(tmpdir, relayd_label, consumerd_label, sc
         shutil.copytree(Settings.apps_gen_events_folder, app_path)
         runtime_consumerd.run("make V=1", cwd=app_path)
 
-        # Start lttng-sessiond
-        relayd = runtime_relayd.spawn_subprocess('lttng-relayd -vvv')
-        # FIX: No way to know if good to go...
-        time.sleep(1)
-
+        # Start lttng-relayd
+        relayd, ctrl_port, data_port, live_port = utils.relayd_spawn(runtime_relayd)
         sessiond = utils.sessiond_spawn(runtime_consumerd)
 
-        url = "net://localhost"
+        url = "net://localhost:{}:{}".format(ctrl_port, data_port)
 
         # Create session using mi to get path and session name
         runtime_consumerd.run('lttng create --live --set-url={} trace '.format(url))
