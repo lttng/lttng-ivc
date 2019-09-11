@@ -290,7 +290,7 @@ def test_relayd_vs_consumerd_streaming_regenerate_metadata(tmpdir, relayd_label,
 
         # Read trace with babeltrace and check for event count via number of line
         cp_process, cp_out, cp_err = runtime_relayd.run(babeltrace_cmd)
-        assert(utils.line_count(cp_out) == nb_expected_events)
+        assert utils.line_count(cp_out) == nb_expected_events
 
 @pytest.mark.parametrize("relayd_label,consumerd_label,scenario", runtime_matrix_streaming_base)
 def test_relayd_vs_consumerd_live_base(tmpdir, relayd_label, consumerd_label, scenario):
