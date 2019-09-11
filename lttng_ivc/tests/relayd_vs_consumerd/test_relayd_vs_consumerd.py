@@ -262,7 +262,7 @@ def test_relayd_vs_consumerd_streaming_regenerate_metadata(tmpdir, relayd_label,
 
         # TODO: rework this a bit to differentiate each errors and rework how
         # the condition are meet
-        if scenario == "Unsupported by tools" or scenario == "Unsupported by relayd":
+        if scenario in ("Unsupported by tools", "Unsupported by relayd"):
             with pytest.raises(subprocess.CalledProcessError):
                 runtime_consumerd.run("lttng {}".format(command))
 
