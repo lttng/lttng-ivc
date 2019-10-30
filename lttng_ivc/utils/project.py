@@ -45,9 +45,10 @@ class Project(object):
         if ccache is not None:
             self.custom_configure_flags.append("CC={} gcc".format(ccache))
             self.custom_configure_flags.append("CXX={} g++".format(ccache))
-        self.custom_configure_flags.append("CFLAGS=-g -O0".format(ccache))
 
-        """ A collection of Project dependencies """
+        self.custom_configure_flags.append("CFLAGS=-g -O0")
+
+        # A collection of Project dependencies
         self.dependencies = {}
         # used for project cache and pickle validation
         self._immutable = False
@@ -71,6 +72,8 @@ class Project(object):
         os.makedirs(self.log_path)
         os.makedirs(self.source_path)
         os.makedirs(self.installation_path)
+        os.makedirs(os.path.join(self.installation_path, "include"))
+        os.makedirs(os.path.join(self.installation_path, "lib"))
 
         self.special_env_variables = {}
 
