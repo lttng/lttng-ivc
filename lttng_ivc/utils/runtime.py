@@ -149,7 +149,7 @@ class Runtime(object):
         if not os.path.isdir(self.lttng_home):
             raise Exception("lttng home does not exist")
 
-        tmp_id = uuid.uuid1()
+        tmp_id = os.path.basename(args[0]) + '-' + str(uuid.uuid1())
         out_path = os.path.join(self.__runtime_log_sub, str(tmp_id) + ".out")
         err_path = os.path.join(self.__runtime_log_sub, str(tmp_id) + ".err")
 
