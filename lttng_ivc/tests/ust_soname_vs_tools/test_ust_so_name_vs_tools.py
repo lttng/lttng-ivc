@@ -136,9 +136,16 @@ def test_soname_build(tmpdir, ust_label, tools_label, base_tools_ust_dep, should
     ust.autobuild()
     ust_configure_mockup.autobuild()
 
-    # Fool configure
     tools.dependencies['custom-ust'] = ust_configure_mockup
-    tools.configure()
+    # Fool configure
+    if not should_pass:
+        # It's okai if we get an error here
+        with pytest.raises(subprocess.CalledProcessError) as error:
+            tools.configure()
+        print(error)
+    else:
+        tools.configure()
+
 
     # Use ust under test
     tools.special_env_variables["CPPFLAGS"] = ust.get_cppflags()
