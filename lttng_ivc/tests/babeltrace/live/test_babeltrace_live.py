@@ -100,6 +100,7 @@ def test_babeltrace_live(tmpdir, babeltrace_l, tools_l):
         runtime.run('lttng create --set-url={} {} --live'.format(url, session_name))
 
         runtime.run('lttng enable-event -u tp:tptest')
+        runtime.run('lttng start')
 
         # From now on babeltrace should be able to hook itself up.
         # Synchronization point is done via relayd log
@@ -109,7 +110,7 @@ def test_babeltrace_live(tmpdir, babeltrace_l, tools_l):
         timeout = 60
         # TODO: Move to settings
         # Make sure that babeltrace did hook itself or at least tried to.
-        synchro_text = "Version check done using protocol"
+        synchro_text = "Viewer is establishing a connection to the relayd"
         listening = False
         for i in range(timeout):
             log = runtime.get_subprocess_stderr_path(relayd)
@@ -121,7 +122,6 @@ def test_babeltrace_live(tmpdir, babeltrace_l, tools_l):
         if not listening:
             raise Exception("Babeltrace live is not listening after timeout")
 
-        runtime.run('lttng start')
 
         # Run application
         cmd = './app {}'.format(nb_loop)
