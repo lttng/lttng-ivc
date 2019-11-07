@@ -140,9 +140,10 @@ def test_soname_build(tmpdir, ust_label, tools_label, base_tools_ust_dep, should
     # Fool configure
     if not should_pass:
         # It's okai if we get an error here
-        with pytest.raises(subprocess.CalledProcessError) as error:
+        try:
             tools.configure()
-        print(error)
+        except subprocess.CalledProcessError as error:
+            print(error)
     else:
         tools.configure()
 
