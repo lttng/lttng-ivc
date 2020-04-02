@@ -88,25 +88,9 @@ test_matrix_monitor_timer_interval = [
 
 ]
 
-runtime_matrix_app_contexts = []
-runtime_matrix_blocking_timeout = []
-runtime_matrix_monitor_timer_interval = []
-
-
-if not Settings.test_only:
-    runtime_matrix_app_contexts = test_matrix_app_contexts
-    runtime_matrix_blocking_timeout = test_matrix_blocking_timeout
-    runtime_matrix_monitor_timer_interval = test_matrix_monitor_timer_interval
-else:
-    for tup in test_matrix_app_contexts:
-        if(tup[0] in Settings.test_only or tup[1] in Settings.test_only):
-            runtime_matrix_app_contexts.append(tup)
-    for tup in test_matrix_blocking_timeout:
-        if(tup[0] in Settings.test_only or tup[1] in Settings.test_only):
-            runtime_matrix_blocking_timeout.append(tup)
-    for tup in test_matrix_monitor_timer_interval:
-        if(tup[0] in Settings.test_only or tup[1] in Settings.test_only):
-            runtime_matrix_monitor_timer_interval.append(tup)
+runtime_matrix_app_contexts = Settings.generate_runtime_test_matrix(test_matrix_app_contexts, [0, 1])
+runtime_matrix_blocking_timeout = Settings.generate_runtime_test_matrix(test_matrix_blocking_timeout, [0, 1])
+runtime_matrix_monitor_timer_interval = Settings.generate_runtime_test_matrix(test_matrix_monitor_timer_interval, [0, 1])
 
 
 def validate_app_context(session_name, save_file):

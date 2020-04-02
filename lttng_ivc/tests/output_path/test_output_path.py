@@ -98,19 +98,9 @@ Generate tuple for uid and pid mode.
 """
 test_matrix_relayd = [tup + ("uid",) for tup in matrix_relayd] + [tup + ("pid",) for tup in matrix_relayd]
 
-runtime_matrix_base = []
-runtime_matrix_relayd = []
+runtime_matrix_base = Settings.generate_runtime_test_matrix(test_matrix_base, [0])
+runtime_matrix_relayd = Settings.generate_runtime_test_matrix(test_matrix_relayd, [0, 1])
 
-if not Settings.test_only:
-    runtime_matrix_base = test_matrix_base
-    runtime_matrix_relayd = test_matrix_relayd
-else:
-    for tup in test_matrix_base:
-        if tup[0] in Settings.test_only:
-            runtime_matrix_base.append(tup)
-    for tup in test_matrix_relayd:
-        if tup[0] in Settings.test_only or tup[1] in Settings.test_only:
-            runtime_matrix_relayd.append(tup)
 
 """
 Generate tuple for relayd test involving snapshot:

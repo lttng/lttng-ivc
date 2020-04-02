@@ -163,27 +163,9 @@ test_matrix_live_base = [
 
 ]
 
-runtime_matrix_streaming_base = []
-runtime_matrix_streaming_regenerate_metadata = []
-runtime_matrix_live_base = []
-
-if not Settings.test_only:
-    runtime_matrix_streaming_base = test_matrix_streaming_base
-    runtime_matrix_streaming_regenerate_metadata = test_matrix_streaming_regenerate_metadata
-    runtime_matrix_live_base = test_matrix_live_base
-else:
-    for tup in test_matrix_streaming_base:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_streaming_base.append(tup)
-    for tup in test_matrix_streaming_regenerate_metadata:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_streaming_regenerate_metadata.append(tup)
-    for tup in test_matrix_live_base:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_live_base.append(tup)
+runtime_matrix_streaming_base = Settings.generate_runtime_test_matrix(test_matrix_streaming_base, [0, 1])
+runtime_matrix_streaming_regenerate_metadata = Settings.generate_runtime_test_matrix(test_matrix_streaming_regenerate_metadata, [0, 1])
+runtime_matrix_live_base = Settings.generate_runtime_test_matrix(test_matrix_live_base, [0, 1])
 
 @pytest.mark.parametrize("relayd_label,consumerd_label,scenario", runtime_matrix_streaming_base)
 def test_relayd_vs_consumerd_streaming_base(tmpdir, relayd_label, consumerd_label, scenario):

@@ -153,21 +153,8 @@ test_matrix_base = [
 
 ]
 
-runtime_matrix_enum = []
-runtime_matrix_base = []
-
-if not Settings.test_only:
-    runtime_matrix_enum = test_matrix_enum
-    runtime_matrix_base = test_matrix_base
-else:
-    for tup in test_matrix_enum:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_enum.append(tup)
-    for tup in test_matrix_base:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_base.append(tup)
+runtime_matrix_enum = Settings.generate_runtime_test_matrix(test_matrix_enum, [0, 1])
+runtime_matrix_base = Settings.generate_runtime_test_matrix(test_matrix_base, [0, 1])
 
 @pytest.mark.parametrize("ust_label,tools_label,scenario", runtime_matrix_enum)
 def test_ust_tracepoint_abi_api_vs_ust_enum(tmpdir, ust_label, tools_label, scenario):

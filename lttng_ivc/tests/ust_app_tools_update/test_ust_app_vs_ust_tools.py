@@ -85,16 +85,7 @@ test_matrix_base_app_tracing_available = [
 
 ]
 
-runtime_matrix_base_app_tracing_available = []
-
-if not Settings.test_only:
-    runtime_matrix_base_app_tracing_available = test_matrix_base_app_tracing_available
-else:
-    for tup in test_matrix_base_app_tracing_available:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_base_app_tracing_available.append(tup)
-
+runtime_matrix_base_app_tracing_available = Settings.generate_runtime_test_matrix(test_matrix_base_app_tracing_available, [0, 1])
 
 @pytest.mark.parametrize("ust_label,tools_label,success", runtime_matrix_base_app_tracing_available)
 def test_ust_app_tools_update_tracing_available(tmpdir, ust_label, tools_label, success):

@@ -105,40 +105,17 @@ test_matrix_same_trace_ust = [
 ]
 
 
-runtime_matrix_base_ust = []
-runtime_matrix_lost_packet = []
-runtime_matrix_base_modules = []
-runtime_matrix_same_trace_modules = []
-runtime_matrix_same_trace_ust = []
+runtime_matrix_base_ust = Settings.generate_runtime_test_matrix(test_matrix_base_ust, [0, 1])
+pprint.pprint(runtime_matrix_base_ust);
 
+runtime_matrix_lost_packet = Settings.generate_runtime_test_matrix(test_matrix_lost_packet, [0])
+runtime_matrix_base_modules = Settings.generate_runtime_test_matrix(test_matrix_base_modules, [0, 1])
 
-if not Settings.test_only:
-    runtime_matrix_base_ust = test_matrix_base_ust
-    runtime_matrix_base_modules = test_matrix_base_modules
-    runtime_matrix_lost_packet = test_matrix_lost_packet
-    runtime_matrix_same_trace_modules = test_matrix_same_trace_modules
-    runtime_matrix_same_trace_ust = test_matrix_same_trace_ust
-else:
-    for tup in test_matrix_base_ust:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_base_ust.append(tup)
-    for tup in test_matrix_base_modules:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_base_modules.append(tup)
-    for tup in test_matrix_lost_packet:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            test_matrix_lost_packet.append(tup)
-    for tup in test_matrix_same_trace_modules:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_same_trace_modules.append(tup)
-    for tup in test_matrix_same_trace_ust:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_same_trace_ust.append(tup)
+# For these if one of the babeltrace is "deprecated" or in the "test only", the
+# whole sub list will be discarded/passed. We can do further processing later on when
+# this situation occurs.
+runtime_matrix_same_trace_modules = Settings.generate_runtime_test_matrix(test_matrix_same_trace_modules, [0, 1])
+runtime_matrix_same_trace_ust = Settings.generate_runtime_test_matrix(test_matrix_same_trace_ust, [0, 1])
 
 
 @pytest.mark.parametrize("babeltrace_l, tools_l", runtime_matrix_base_ust)

@@ -143,21 +143,8 @@ test_matrix_agent_interface = [
     ("lttng-ust-2.12", "lttng-tools-2.12", 2, "Success"),
 ]
 
-runtime_matrix_tracing_available = []
-runtime_matrix_agent_interface = []
-
-if not Settings.test_only:
-    runtime_matrix_tracing_available = test_matrix_tracing_available
-    runtime_matrix_agent_interface = test_matrix_agent_interface
-else:
-    for tup in test_matrix_tracing_available:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_tracing_available.append(tup)
-    for tup in test_matrix_agent_interface:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_agent_interface.append(tup)
+runtime_matrix_tracing_available = Settings.generate_runtime_test_matrix(test_matrix_tracing_available, [0, 1])
+runtime_matrix_agent_interface = Settings.generate_runtime_test_matrix(test_matrix_agent_interface, [0, 1])
 
 
 @pytest.mark.parametrize("ust_label,tools_label,app_version,should_trace", runtime_matrix_tracing_available)

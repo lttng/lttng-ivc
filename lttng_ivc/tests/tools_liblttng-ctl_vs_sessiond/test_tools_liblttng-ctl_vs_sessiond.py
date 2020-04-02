@@ -80,15 +80,7 @@ test_matrix_basic_listing = [
 
 ]
 
-runtime_matrix_basic_listing = []
-
-if not Settings.test_only:
-    runtime_matrix_basic_listing = test_matrix_basic_listing
-else:
-    for tup in test_matrix_basic_listing:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_basic_listing.append(tup)
+runtime_matrix_basic_listing = Settings.generate_runtime_test_matrix(test_matrix_basic_listing, [0, 1])
 
 @pytest.mark.parametrize("client_label,tools_label,outcome", runtime_matrix_basic_listing)
 def test_tools_liblttng_ctl_vs_sessiond_basic_listing(tmpdir, client_label, tools_label, outcome):

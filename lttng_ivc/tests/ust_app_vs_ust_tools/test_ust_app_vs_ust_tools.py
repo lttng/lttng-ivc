@@ -143,28 +143,9 @@ test_matrix_starglobing_enabler = [
 
 ]
 
-runtime_matrix_tracing_available = []
-runtime_matrix_regen_statedump = []
-runtime_matrix_starglobing_enabler = []
-
-if not Settings.test_only:
-    runtime_matrix_tracing_available = test_matrix_tracing_available
-    runtime_matrix_regen_statedump = test_matrix_regen_statedump
-    runtime_matrix_starglobing_enabler = test_matrix_starglobing_enabler
-else:
-    for tup in test_matrix_tracing_available:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_tracing_available.append(tup)
-    for tup in test_matrix_regen_statedump:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_regen_statedump.append(tup)
-    for tup in test_matrix_starglobing_enabler:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_starglobing_enabler.append(tup)
-
+runtime_matrix_tracing_available = Settings.generate_runtime_test_matrix(test_matrix_tracing_available, [0, 1])
+runtime_matrix_regen_statedump = Settings.generate_runtime_test_matrix(test_matrix_regen_statedump, [0, 1])
+runtime_matrix_starglobing_enabler = Settings.generate_runtime_test_matrix(test_matrix_starglobing_enabler, [0, 1])
 
 @pytest.mark.parametrize("ust_label,tools_label,outcome", runtime_matrix_tracing_available)
 def test_ust_app_tracing_available(tmpdir, ust_label, tools_label, outcome):

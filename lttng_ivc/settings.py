@@ -1,7 +1,15 @@
-# All tests are run if empty
 import os
+import yaml
+import itertools
+import pytest
+import _pytest
 
 test_only = {}
+
+projects_deprecated = {"lttng-ust-2.7", "lttng-modules-2.7", "lttng-tools-2.7",
+                       "lttng-ust-2.8", "lttng-modules-2.8", "lttng-tools-2.8",
+                       "lttng-ust-2.9", "lttng-modules-2.9", "lttng-tools-2.9"}
+projects_under_test = {}
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -34,3 +42,36 @@ lttng_test_procfile = "/proc/lttng-test-filter-event"
 save_ext = ".lttng"
 
 mi_xsd_file_name = ['mi_lttng.xsd', 'mi-lttng-3.0.xsd', 'mi-lttng-4.0.xsd']
+
+# Fetch the project under test
+# We start with the complete set and substract deprecated projects
+with open(run_configuration_file, 'r') as stream:
+    projects_under_test = set(yaml.load(stream, Loader=yaml.FullLoader))
+
+projects_under_test = projects_under_test.difference(projects_deprecated)
+
+def generate_runtime_test_matrix(base_matrix, indexes_of_criteria_list):
+    result_matrix = []
+    for tup in base_matrix:
+        criteria = []
+        for index in indexes_of_criteria_list:
+            crit = tup[index]
+            if isinstance(crit, (list, tuple)):
+                # Single level flattening
+                for i in crit:
+                    if isinstance(i, _pytest.mark.structures.MarkDecorator):
+                        # This is necessary due to the presence of
+                        # MarkDecorator allowing identification of flaky test
+                        # etc. In such case the first "member" of our tuple
+                        # actually contains all the criteria
+                        continue
+                    criteria.append(i)
+            else:
+                criteria.append(crit)
+
+        if any(i in projects_deprecated for i in criteria):
+            continue
+        if test_only and not any(i in test_only for i in criteria):
+            continue
+        result_matrix.append(tup)
+    return result_matrix

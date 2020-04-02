@@ -103,16 +103,7 @@ test_matrix_label = [
 
 ]
 
-runtime_matrix_label = []
-if not Settings.test_only:
-    runtime_matrix_label = test_matrix_label
-else:
-    for tup in test_matrix_label:
-        ust_label, tools_label = tup[0], tup[1]
-        if (ust_label in Settings.test_only or tools_label in
-                Settings.test_only):
-            runtime_matrix_label.append(tup)
-
+runtime_matrix_label = Settings.generate_runtime_test_matrix(test_matrix_label, [0, 1])
 
 @pytest.mark.parametrize("ust_label,tools_label,base_tools_ust_dep,should_pass", runtime_matrix_label)
 def test_soname_configure(tmpdir, ust_label, tools_label, base_tools_ust_dep, should_pass):

@@ -236,34 +236,10 @@ def get_metadata_file_path(base_trace_path):
     return metadata
 
 
-runtime_matrix_base_tracing = []
-runtime_matrix_regen_metadata = []
-runtime_matrix_statedump = []
-runtime_matrix_starglobing_enabler = []
-
-if not Settings.test_only:
-    runtime_matrix_base_tracing = test_matrix_base_tracing
-    runtime_matrix_regen_metadata = test_matrix_regen_metadata
-    runtime_matrix_statedump = test_matrix_statedump
-    runtime_matrix_starglobing_enabler = test_matrix_starglobing_enabler
-else:
-    for tup in test_matrix_base_tracing:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_base_tracing.append(tup)
-    for tup in test_matrix_regen_metadata:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_regen_metadata.append(tup)
-    for tup in test_matrix_statedump:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_statedump.append(tup)
-    for tup in test_matrix_starglobing_enabler:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_starglobing_enabler.append(tup)
-
+runtime_matrix_base_tracing = Settings.generate_runtime_test_matrix(test_matrix_base_tracing, [0, 1])
+runtime_matrix_regen_metadata = Settings.generate_runtime_test_matrix(test_matrix_regen_metadata, [0, 1])
+runtime_matrix_statedump = Settings.generate_runtime_test_matrix(test_matrix_statedump, [0, 1])
+runtime_matrix_starglobing_enabler = Settings.generate_runtime_test_matrix(test_matrix_starglobing_enabler, [0, 1])
 
 @must_be_root
 @pytest.mark.parametrize("modules_label,tools_label", runtime_matrix_base_tracing)

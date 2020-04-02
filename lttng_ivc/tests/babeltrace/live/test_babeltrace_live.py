@@ -57,15 +57,7 @@ test_matrix_live = [
         ("babeltrace-1.5", "lttng-tools-2.11"),
 ]
 
-runtime_matrix_live = []
-
-if not Settings.test_only:
-    runtime_matrix_live = test_matrix_live
-else:
-    for tup in test_matrix_live:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_live.append(tup)
+runtime_matrix_live = Settings.generate_runtime_test_matrix(test_matrix_live, [0, 1])
 
 
 @flaky(max_runs=10, min_passes=3)

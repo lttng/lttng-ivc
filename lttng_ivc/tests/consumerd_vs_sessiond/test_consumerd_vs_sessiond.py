@@ -87,16 +87,7 @@ test_matrix_consumerd = [
     ("lttng-tools-2.12",  "lttng-tools-2.12", True),
 ]
 
-runtime_matrix_consumerd = []
-
-if not Settings.test_only:
-    runtime_matrix_consumerd = test_matrix_consumerd
-else:
-    for tup in test_matrix_consumerd:
-        if (tup[0] in Settings.test_only or tup[1] in
-                Settings.test_only):
-            runtime_matrix_consumerd.append(tup)
-
+runtime_matrix_consumerd = Settings.generate_runtime_test_matrix(test_matrix_consumerd, [0, 1])
 
 @pytest.mark.parametrize("consumerd_l,tools_l,should_work", runtime_matrix_consumerd)
 def test_consumerd_vs_sessiond(tmpdir, consumerd_l, tools_l, should_work):
