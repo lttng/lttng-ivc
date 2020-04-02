@@ -38,15 +38,16 @@ I: Incompatible
 
 +------------------------------------------------------------------+
 | LTTng UST control library vs LTTng Tools                         |
-+-----------------------------------------+-----+-----+-----+------+------+
-| LTTng UST Control(soname) / LTTng Tools | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 |
-+-----------------------------------------+-----+-----+-----+------+------+
-| 2.7 (2.0.0)                             | FC  | I   | I   | I    | I    |
-| 2.8 (2.0.0)                             | BC  | FC  | I   | I    | I    |
-| 2.9 (2.0.0)                             | BC  | BC  | FC  | I    | I    |
-| 2.10 (4.0.0)                            | I   | I   | I   | FC   | FC   |
-| 2.11 (4.0.0)                            | I   | I   | I   | FC   | FC   |
-+-----------------------------------------+-----+-----+-----+------+------+
++-----------------------------------------+-----+-----+-----+------+------+------+
+| LTTng UST Control(soname) / LTTng Tools | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 |
++-----------------------------------------+-----+-----+-----+------+------+------+
+| 2.7 (2.0.0)                             | FC  | I   | I   | I    | I    | I    |
+| 2.8 (2.0.0)                             | BC  | FC  | I   | I    | I    | I    |
+| 2.9 (2.0.0)                             | BC  | BC  | FC  | I    | I    | I    |
+| 2.10 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   |
+| 2.11 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   |
+| 2.12 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   |
++-----------------------------------------+-----+-----+-----+------+------+------+
 
 In this scenario:
 
@@ -69,25 +70,36 @@ test_matrix_label = [
     ("lttng-ust-2.7", "lttng-tools-2.9", "lttng-ust-2.9", False),
     ("lttng-ust-2.7", "lttng-tools-2.10", "lttng-ust-2.10", False),
     ("lttng-ust-2.7", "lttng-tools-2.11", "lttng-ust-2.11", False),
+    ("lttng-ust-2.7", "lttng-tools-2.12", "lttng-ust-2.12", False),
     ("lttng-ust-2.8", "lttng-tools-2.7", "lttng-ust-2.7", True),
     ("lttng-ust-2.8", "lttng-tools-2.8", "lttng-ust-2.8", True),
     ("lttng-ust-2.8", "lttng-tools-2.9", "lttng-ust-2.9", False),
     ("lttng-ust-2.8", "lttng-tools-2.10", "lttng-ust-2.10", False),
     ("lttng-ust-2.8", "lttng-tools-2.11", "lttng-ust-2.11", False),
+    ("lttng-ust-2.8", "lttng-tools-2.12", "lttng-ust-2.12", False),
     ("lttng-ust-2.9", "lttng-tools-2.7", "lttng-ust-2.7", True),
     ("lttng-ust-2.9", "lttng-tools-2.8", "lttng-ust-2.8", True),
     ("lttng-ust-2.9", "lttng-tools-2.9", "lttng-ust-2.9", True),
     ("lttng-ust-2.9", "lttng-tools-2.10", "lttng-ust-2.10", False),
     ("lttng-ust-2.9", "lttng-tools-2.11", "lttng-ust-2.11", False),
+    ("lttng-ust-2.9", "lttng-tools-2.12", "lttng-ust-2.12", False),
     pytest.param("lttng-ust-2.10", "lttng-tools-2.7", "lttng-ust-2.7", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
     pytest.param("lttng-ust-2.10", "lttng-tools-2.8", "lttng-ust-2.8", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
     pytest.param("lttng-ust-2.10", "lttng-tools-2.9", "lttng-ust-2.9", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
     ("lttng-ust-2.10", "lttng-tools-2.10", "lttng-ust-2.10", True),
+    ("lttng-ust-2.10", "lttng-tools-2.11", "lttng-ust-2.11", True),
     pytest.param("lttng-ust-2.11", "lttng-tools-2.7", "lttng-ust-2.7", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
     pytest.param("lttng-ust-2.11", "lttng-tools-2.8", "lttng-ust-2.8", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
     pytest.param("lttng-ust-2.11", "lttng-tools-2.9", "lttng-ust-2.9", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
     ("lttng-ust-2.11", "lttng-tools-2.10", "lttng-ust-2.10", True),
     ("lttng-ust-2.11", "lttng-tools-2.11", "lttng-ust-2.11", True),
+    ("lttng-ust-2.11", "lttng-tools-2.12", "lttng-ust-2.12", True),
+    pytest.param("lttng-ust-2.12", "lttng-tools-2.7", "lttng-ust-2.7", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
+    pytest.param("lttng-ust-2.12", "lttng-tools-2.8", "lttng-ust-2.8", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
+    pytest.param("lttng-ust-2.12", "lttng-tools-2.9", "lttng-ust-2.9", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
+    ("lttng-ust-2.12", "lttng-tools-2.10", "lttng-ust-2.10", True),
+    ("lttng-ust-2.12", "lttng-tools-2.11", "lttng-ust-2.11", True),
+    ("lttng-ust-2.12", "lttng-tools-2.12", "lttng-ust-2.12", True),
 
 ]
 

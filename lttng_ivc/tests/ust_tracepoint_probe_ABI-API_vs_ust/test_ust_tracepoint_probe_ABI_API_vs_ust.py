@@ -38,15 +38,16 @@ EU: Event unavailable for tracing
 +-----------------------------------------+-----+------+------+-------+
 |                      LTTng UST tracepoint API/ABI:                  |
 |                    Probe provider vs LTTng UST library              |
-+-----------------------------------------+-----+------+------+-------+-------+
-| Probe Provider / LTTng UST              | 2.7 |  2.8 |  2.9 |  2.10 |  2.11 |
-+-----------------------------------------+-----+------+------+-------+-------+
-| 2.7                                     | FC  | BC   | BC   | BC    | BC    |
-| 2.8                                     | EU  | FC   | BC   | BC    | BC    |
-| 2.9                                     | EU  | EU   | FC   | BC    | BC    |
-| 2.10                                    | EU  | EU   | EU   | FC    | BC    |
-| 2.11                                    | EU  | EU   | EU   | EU    | FC    |
-+-----------------------------------------+-----+------+------+-------+-------+
++-----------------------------------------+-----+------+------+-------+-------+-------+
+| Probe Provider / LTTng UST              | 2.7 |  2.8 |  2.9 |  2.10 |  2.11 |  2.11 |
++-----------------------------------------+-----+------+------+-------+-------+-------+
+| 2.7                                     | FC  | BC   | BC   | BC    | BC    | BC    |
+| 2.8                                     | EU  | FC   | BC   | BC    | BC    | BC    |
+| 2.9                                     | EU  | EU   | FC   | BC    | BC    | BC    |
+| 2.10                                    | EU  | EU   | EU   | FC    | BC    | BC    |
+| 2.11                                    | EU  | EU   | EU   | EU    | FC    | BC    |
+| 2.12                                    | EU  | EU   | EU   | EU    | EU    | FC    |
++-----------------------------------------+-----+------+------+-------+-------+-------+
 
 Using tracepoint.h as a reference for change between version.
 
@@ -78,26 +79,38 @@ test_matrix_enum = [
         ("lttng-ust-2.7",  "lttng-tools-2.9",  fail_provider, 0),
         ("lttng-ust-2.7",  "lttng-tools-2.10", fail_provider, 0),
         ("lttng-ust-2.7",  "lttng-tools-2.11", fail_provider, 0),
+        ("lttng-ust-2.7",  "lttng-tools-2.12", fail_provider, 0),
         ("lttng-ust-2.8",  "lttng-tools-2.7",  success, 100),
         ("lttng-ust-2.8",  "lttng-tools-2.8",  success, 200),
         ("lttng-ust-2.8",  "lttng-tools-2.9",  success, 200),
         ("lttng-ust-2.8",  "lttng-tools-2.10", success, 200),
         ("lttng-ust-2.8",  "lttng-tools-2.11", success, 200),
+        ("lttng-ust-2.8",  "lttng-tools-2.12", success, 200),
         ("lttng-ust-2.9",  "lttng-tools-2.7",  success, 100),
         ("lttng-ust-2.9",  "lttng-tools-2.8",  success, 200),
         ("lttng-ust-2.9",  "lttng-tools-2.9",  success, 200),
         ("lttng-ust-2.9",  "lttng-tools-2.10", success, 200),
         ("lttng-ust-2.9",  "lttng-tools-2.11", success, 200),
+        ("lttng-ust-2.9",  "lttng-tools-2.12", success, 200),
         ("lttng-ust-2.10", "lttng-tools-2.7",  success, 100),
         ("lttng-ust-2.10", "lttng-tools-2.8",  success, 200),
         ("lttng-ust-2.10", "lttng-tools-2.9",  success, 200),
         ("lttng-ust-2.10", "lttng-tools-2.10", success, 200),
         ("lttng-ust-2.10", "lttng-tools-2.11", success, 200),
+        ("lttng-ust-2.10", "lttng-tools-2.11", success, 200),
+        ("lttng-ust-2.10", "lttng-tools-2.12", success, 200),
         ("lttng-ust-2.11", "lttng-tools-2.7",  success, 100),
         ("lttng-ust-2.11", "lttng-tools-2.8",  success, 200),
         ("lttng-ust-2.11", "lttng-tools-2.9",  success, 200),
         ("lttng-ust-2.11", "lttng-tools-2.10", success, 200),
         ("lttng-ust-2.11", "lttng-tools-2.11", success, 200),
+        ("lttng-ust-2.11", "lttng-tools-2.12", success, 200),
+        ("lttng-ust-2.12", "lttng-tools-2.7",  success, 100),
+        ("lttng-ust-2.12", "lttng-tools-2.8",  success, 200),
+        ("lttng-ust-2.12", "lttng-tools-2.9",  success, 200),
+        ("lttng-ust-2.12", "lttng-tools-2.10", success, 200),
+        ("lttng-ust-2.12", "lttng-tools-2.11", success, 200),
+        ("lttng-ust-2.12", "lttng-tools-2.12", success, 200),
 
 ]
 
@@ -107,26 +120,37 @@ test_matrix_base = [
         ("lttng-ust-2.7",  "lttng-tools-2.9",  success),
         ("lttng-ust-2.7",  "lttng-tools-2.10", success),
         ("lttng-ust-2.7",  "lttng-tools-2.11", success),
+        ("lttng-ust-2.7",  "lttng-tools-2.12", success),
         ("lttng-ust-2.8",  "lttng-tools-2.7",  success),
         ("lttng-ust-2.8",  "lttng-tools-2.8",  success),
         ("lttng-ust-2.8",  "lttng-tools-2.9",  success),
         ("lttng-ust-2.8",  "lttng-tools-2.10", success),
         ("lttng-ust-2.8",  "lttng-tools-2.11", success),
+        ("lttng-ust-2.8",  "lttng-tools-2.12", success),
         ("lttng-ust-2.9",  "lttng-tools-2.7",  success),
         ("lttng-ust-2.9",  "lttng-tools-2.8",  success),
         ("lttng-ust-2.9",  "lttng-tools-2.9",  success),
         ("lttng-ust-2.9",  "lttng-tools-2.10", success),
         ("lttng-ust-2.9",  "lttng-tools-2.11", success),
+        ("lttng-ust-2.9",  "lttng-tools-2.12", success),
         ("lttng-ust-2.10", "lttng-tools-2.7",  success),
         ("lttng-ust-2.10", "lttng-tools-2.8",  success),
         ("lttng-ust-2.10", "lttng-tools-2.9",  success),
         ("lttng-ust-2.10", "lttng-tools-2.10", success),
         ("lttng-ust-2.10", "lttng-tools-2.11", success),
+        ("lttng-ust-2.10", "lttng-tools-2.12", success),
         ("lttng-ust-2.11", "lttng-tools-2.7",  success),
         ("lttng-ust-2.11", "lttng-tools-2.8",  success),
         ("lttng-ust-2.11", "lttng-tools-2.9",  success),
         ("lttng-ust-2.11", "lttng-tools-2.10", success),
         ("lttng-ust-2.11", "lttng-tools-2.11", success),
+        ("lttng-ust-2.11", "lttng-tools-2.12", success),
+        ("lttng-ust-2.12", "lttng-tools-2.7",  success),
+        ("lttng-ust-2.12", "lttng-tools-2.8",  success),
+        ("lttng-ust-2.12", "lttng-tools-2.9",  success),
+        ("lttng-ust-2.12", "lttng-tools-2.10", success),
+        ("lttng-ust-2.12", "lttng-tools-2.11", success),
+        ("lttng-ust-2.12", "lttng-tools-2.12", success),
 
 ]
 

@@ -41,6 +41,7 @@ matrix_base = [
     ("lttng-tools-2.9",),
     ("lttng-tools-2.10",),
     ("lttng-tools-2.11",),
+    ("lttng-tools-2.12",),
 ]
 
 """
@@ -58,26 +59,38 @@ matrix_relayd = [
     ("lttng-tools-2.7", "lttng-tools-2.9"),
     ("lttng-tools-2.7", "lttng-tools-2.10"),
     ("lttng-tools-2.7", "lttng-tools-2.11"),
+    ("lttng-tools-2.7", "lttng-tools-2.12"),
     ("lttng-tools-2.8", "lttng-tools-2.7"),
     ("lttng-tools-2.8", "lttng-tools-2.8"),
     ("lttng-tools-2.8", "lttng-tools-2.9"),
     ("lttng-tools-2.8", "lttng-tools-2.10"),
     ("lttng-tools-2.8", "lttng-tools-2.11"),
+    ("lttng-tools-2.8", "lttng-tools-2.12"),
     ("lttng-tools-2.9", "lttng-tools-2.7"),
     ("lttng-tools-2.9", "lttng-tools-2.8"),
     ("lttng-tools-2.9", "lttng-tools-2.9"),
     ("lttng-tools-2.9", "lttng-tools-2.10"),
     ("lttng-tools-2.9", "lttng-tools-2.11"),
+    ("lttng-tools-2.9", "lttng-tools-2.12"),
     ("lttng-tools-2.10", "lttng-tools-2.7"),
     ("lttng-tools-2.10", "lttng-tools-2.8"),
     ("lttng-tools-2.10", "lttng-tools-2.9"),
     ("lttng-tools-2.10", "lttng-tools-2.10"),
     ("lttng-tools-2.10", "lttng-tools-2.11"),
+    ("lttng-tools-2.10", "lttng-tools-2.12"),
     ("lttng-tools-2.11", "lttng-tools-2.7"),
     ("lttng-tools-2.11", "lttng-tools-2.8"),
     ("lttng-tools-2.11", "lttng-tools-2.9"),
     ("lttng-tools-2.11", "lttng-tools-2.10"),
     ("lttng-tools-2.11", "lttng-tools-2.11"),
+    ("lttng-tools-2.11", "lttng-tools-2.12"),
+    ("lttng-tools-2.11", "lttng-tools-2.7"),
+    ("lttng-tools-2.11", "lttng-tools-2.8"),
+    ("lttng-tools-2.11", "lttng-tools-2.9"),
+    ("lttng-tools-2.11", "lttng-tools-2.10"),
+    ("lttng-tools-2.11", "lttng-tools-2.11"),
+    ("lttng-tools-2.11", "lttng-tools-2.12"),
+
 ]
 
 """
