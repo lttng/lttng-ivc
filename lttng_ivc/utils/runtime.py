@@ -273,8 +273,7 @@ class Runtime(object):
         for var, value in self.special_env_variables.items():
             if var in env:
                 # Raise for now since no special cases is known
-                _logger.warning("% Special var % is already defined",
-                                self.label, var)
+                _logger.warning("Special var % is already defined", var)
                 raise Exception("Multiple definition of a special environment variable")
             else:
                 env[var] = value
@@ -283,8 +282,7 @@ class Runtime(object):
             for var, value in project.special_env_variables.items():
                 if var in env:
                     # Raise for now since no special cases is known
-                    _logger.warning("% Special var % is already defined",
-                                    self.label, var)
+                    _logger.warning("Special var % is already defined", var)
                     raise Exception("Multiple definition of a special environment variable")
                 else:
                     env[var] = value
