@@ -41,49 +41,55 @@ result in a "Kernel create channel" msg that is simply wrong.
 """
 
 test_matrix_basic_listing = [
-    ("lttng-tools-2.7", "lttng-tools-2.7",   "Success"),
-    ("lttng-tools-2.7", "lttng-tools-2.8",   "Success"),
-    ("lttng-tools-2.7", "lttng-tools-2.9",   "Success"),
-    ("lttng-tools-2.7", "lttng-tools-2.10",  "Success"),
-    ("lttng-tools-2.7", "lttng-tools-2.11",  "Deprecated"),
-    ("lttng-tools-2.7", "lttng-tools-2.12",  "Deprecated"),
-    ("lttng-tools-2.8", "lttng-tools-2.7",   "Missing symbol"),
-    ("lttng-tools-2.8", "lttng-tools-2.8",   "Success"),
-    ("lttng-tools-2.8", "lttng-tools-2.9",   "Success"),
-    ("lttng-tools-2.8", "lttng-tools-2.10",  "Success"),
-    ("lttng-tools-2.8", "lttng-tools-2.11",  "Deprecated"),
-    ("lttng-tools-2.8", "lttng-tools-2.12",  "Deprecated"),
-    ("lttng-tools-2.9", "lttng-tools-2.7",   "Missing symbol"),
-    ("lttng-tools-2.9", "lttng-tools-2.8",   "Missing symbol"),
-    ("lttng-tools-2.9", "lttng-tools-2.9",   "Success"),
-    ("lttng-tools-2.9", "lttng-tools-2.10",  "Success"),
-    ("lttng-tools-2.9", "lttng-tools-2.11",  "Deprecated"),
-    ("lttng-tools-2.9", "lttng-tools-2.12",  "Deprecated"),
-    ("lttng-tools-2.10", "lttng-tools-2.7",  "Missing symbol"),
-    ("lttng-tools-2.10", "lttng-tools-2.8",  "Missing symbol"),
-    ("lttng-tools-2.10", "lttng-tools-2.9",  "Missing symbol"),
+    ("lttng-tools-2.7", "lttng-tools-2.7", "Success"),
+    ("lttng-tools-2.7", "lttng-tools-2.8", "Success"),
+    ("lttng-tools-2.7", "lttng-tools-2.9", "Success"),
+    ("lttng-tools-2.7", "lttng-tools-2.10", "Success"),
+    ("lttng-tools-2.7", "lttng-tools-2.11", "Deprecated"),
+    ("lttng-tools-2.7", "lttng-tools-2.12", "Deprecated"),
+    ("lttng-tools-2.8", "lttng-tools-2.7", "Missing symbol"),
+    ("lttng-tools-2.8", "lttng-tools-2.8", "Success"),
+    ("lttng-tools-2.8", "lttng-tools-2.9", "Success"),
+    ("lttng-tools-2.8", "lttng-tools-2.10", "Success"),
+    ("lttng-tools-2.8", "lttng-tools-2.11", "Deprecated"),
+    ("lttng-tools-2.8", "lttng-tools-2.12", "Deprecated"),
+    ("lttng-tools-2.9", "lttng-tools-2.7", "Missing symbol"),
+    ("lttng-tools-2.9", "lttng-tools-2.8", "Missing symbol"),
+    ("lttng-tools-2.9", "lttng-tools-2.9", "Success"),
+    ("lttng-tools-2.9", "lttng-tools-2.10", "Success"),
+    ("lttng-tools-2.9", "lttng-tools-2.11", "Deprecated"),
+    ("lttng-tools-2.9", "lttng-tools-2.12", "Deprecated"),
+    ("lttng-tools-2.10", "lttng-tools-2.7", "Missing symbol"),
+    ("lttng-tools-2.10", "lttng-tools-2.8", "Missing symbol"),
+    ("lttng-tools-2.10", "lttng-tools-2.9", "Missing symbol"),
     ("lttng-tools-2.10", "lttng-tools-2.10", "Success"),
     ("lttng-tools-2.10", "lttng-tools-2.11", "Deprecated"),
     ("lttng-tools-2.10", "lttng-tools-2.12", "Deprecated"),
-    ("lttng-tools-2.11", "lttng-tools-2.7",  "Missing symbol"),
-    ("lttng-tools-2.11", "lttng-tools-2.8",  "Missing symbol"),
-    ("lttng-tools-2.11", "lttng-tools-2.9",  "Missing symbol"),
+    ("lttng-tools-2.11", "lttng-tools-2.7", "Missing symbol"),
+    ("lttng-tools-2.11", "lttng-tools-2.8", "Missing symbol"),
+    ("lttng-tools-2.11", "lttng-tools-2.9", "Missing symbol"),
     ("lttng-tools-2.11", "lttng-tools-2.10", "Missing symbol"),
     ("lttng-tools-2.11", "lttng-tools-2.11", "Success"),
     ("lttng-tools-2.11", "lttng-tools-2.12", "Success"),
-    ("lttng-tools-2.12", "lttng-tools-2.7",  "Missing symbol"),
-    ("lttng-tools-2.12", "lttng-tools-2.8",  "Missing symbol"),
-    ("lttng-tools-2.12", "lttng-tools-2.9",  "Missing symbol"),
+    ("lttng-tools-2.12", "lttng-tools-2.7", "Missing symbol"),
+    ("lttng-tools-2.12", "lttng-tools-2.8", "Missing symbol"),
+    ("lttng-tools-2.12", "lttng-tools-2.9", "Missing symbol"),
     ("lttng-tools-2.12", "lttng-tools-2.10", "Missing symbol"),
     ("lttng-tools-2.12", "lttng-tools-2.11", "Success"),
     ("lttng-tools-2.12", "lttng-tools-2.12", "Success"),
-
 ]
 
-runtime_matrix_basic_listing = Settings.generate_runtime_test_matrix(test_matrix_basic_listing, [0, 1])
+runtime_matrix_basic_listing = Settings.generate_runtime_test_matrix(
+    test_matrix_basic_listing, [0, 1]
+)
 
-@pytest.mark.parametrize("client_label,tools_label,outcome", runtime_matrix_basic_listing)
-def test_tools_liblttng_ctl_vs_sessiond_basic_listing(tmpdir, client_label, tools_label, outcome):
+
+@pytest.mark.parametrize(
+    "client_label,tools_label,outcome", runtime_matrix_basic_listing
+)
+def test_tools_liblttng_ctl_vs_sessiond_basic_listing(
+    tmpdir, client_label, tools_label, outcome
+):
 
     # Prepare environment
     client = ProjectFactory.get_precook(client_label)
@@ -98,7 +104,9 @@ def test_tools_liblttng_ctl_vs_sessiond_basic_listing(tmpdir, client_label, tool
 
         sessiond = utils.sessiond_spawn(runtime_tools)
 
-        cp, out, err = runtime_tools.run('{} create trace'.format(lttng_client), check_return=False, ld_debug=True)
+        cp, out, err = runtime_tools.run(
+            "{} create trace".format(lttng_client), check_return=False, ld_debug=True
+        )
         if outcome == "Missing symbol":
             assert cp.returncode != 0
             assert utils.file_contains(err, "Missing symbol")
@@ -107,14 +115,14 @@ def test_tools_liblttng_ctl_vs_sessiond_basic_listing(tmpdir, client_label, tool
             assert cp.returncode == 38
             return
 
-        assert(cp.returncode == 0)
+        assert cp.returncode == 0
 
-        runtime_tools.run('{} enable-event -u tp:tptest'.format(lttng_client))
-        runtime_tools.run('{} start'.format(lttng_client))
+        runtime_tools.run("{} enable-event -u tp:tptest".format(lttng_client))
+        runtime_tools.run("{} start".format(lttng_client))
 
         # Stop tracing
-        runtime_tools.run('{} stop'.format(lttng_client))
-        runtime_tools.run('{} destroy -a'.format(lttng_client))
+        runtime_tools.run("{} stop".format(lttng_client))
+        runtime_tools.run("{} destroy -a".format(lttng_client))
         cp = runtime_tools.subprocess_terminate(sessiond)
         if cp.returncode != 0:
             pytest.fail("Sessiond return code")

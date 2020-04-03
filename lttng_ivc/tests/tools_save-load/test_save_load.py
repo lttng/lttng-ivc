@@ -38,82 +38,92 @@ from lttng_ivc.utils.utils import xpath_query
 TODO JORAJ why is there missing version here ??????
 """
 test_matrix_app_contexts = [
-    ("lttng-tools-2.8", "lttng-tools-2.7",   False),
-    ("lttng-tools-2.9", "lttng-tools-2.8",   True),
-    ("lttng-tools-2.8", "lttng-tools-2.9",   True),
-    ("lttng-tools-2.8", "lttng-tools-2.10",  True),
+    ("lttng-tools-2.8", "lttng-tools-2.7", False),
+    ("lttng-tools-2.9", "lttng-tools-2.8", True),
+    ("lttng-tools-2.8", "lttng-tools-2.9", True),
+    ("lttng-tools-2.8", "lttng-tools-2.10", True),
 ]
 
 test_matrix_blocking_timeout = [
-        ("lttng-tools-2.10", "lttng-tools-2.7",   False),
-        ("lttng-tools-2.10", "lttng-tools-2.8",   False),
-        ("lttng-tools-2.10", "lttng-tools-2.9",   False),
-        ("lttng-tools-2.10", "lttng-tools-2.10",  True),
-        ("lttng-tools-2.10", "lttng-tools-2.11",  True),
-        ("lttng-tools-2.10", "lttng-tools-2.12",  True),
-        ("lttng-tools-2.11", "lttng-tools-2.7",   False),
-        ("lttng-tools-2.11", "lttng-tools-2.8",   False),
-        ("lttng-tools-2.11", "lttng-tools-2.9",   False),
-        ("lttng-tools-2.11", "lttng-tools-2.10",  True),
-        ("lttng-tools-2.11", "lttng-tools-2.11",  True),
-        ("lttng-tools-2.11", "lttng-tools-2.12",  True),
-        ("lttng-tools-2.12", "lttng-tools-2.7",   False),
-        ("lttng-tools-2.12", "lttng-tools-2.8",   False),
-        ("lttng-tools-2.12", "lttng-tools-2.9",   False),
-        ("lttng-tools-2.12", "lttng-tools-2.10",  True),
-        ("lttng-tools-2.12", "lttng-tools-2.11",  True),
-        ("lttng-tools-2.12", "lttng-tools-2.12",  True),
-
+    ("lttng-tools-2.10", "lttng-tools-2.7", False),
+    ("lttng-tools-2.10", "lttng-tools-2.8", False),
+    ("lttng-tools-2.10", "lttng-tools-2.9", False),
+    ("lttng-tools-2.10", "lttng-tools-2.10", True),
+    ("lttng-tools-2.10", "lttng-tools-2.11", True),
+    ("lttng-tools-2.10", "lttng-tools-2.12", True),
+    ("lttng-tools-2.11", "lttng-tools-2.7", False),
+    ("lttng-tools-2.11", "lttng-tools-2.8", False),
+    ("lttng-tools-2.11", "lttng-tools-2.9", False),
+    ("lttng-tools-2.11", "lttng-tools-2.10", True),
+    ("lttng-tools-2.11", "lttng-tools-2.11", True),
+    ("lttng-tools-2.11", "lttng-tools-2.12", True),
+    ("lttng-tools-2.12", "lttng-tools-2.7", False),
+    ("lttng-tools-2.12", "lttng-tools-2.8", False),
+    ("lttng-tools-2.12", "lttng-tools-2.9", False),
+    ("lttng-tools-2.12", "lttng-tools-2.10", True),
+    ("lttng-tools-2.12", "lttng-tools-2.11", True),
+    ("lttng-tools-2.12", "lttng-tools-2.12", True),
 ]
 
 test_matrix_monitor_timer_interval = [
-        ("lttng-tools-2.10", "lttng-tools-2.7",   False),
-        ("lttng-tools-2.10", "lttng-tools-2.8",   False),
-        ("lttng-tools-2.10", "lttng-tools-2.9",   False),
-        ("lttng-tools-2.10", "lttng-tools-2.10",  True),
-        ("lttng-tools-2.10", "lttng-tools-2.11",  True),
-        ("lttng-tools-2.10", "lttng-tools-2.12",  True),
-        ("lttng-tools-2.11", "lttng-tools-2.7",   False),
-        ("lttng-tools-2.11", "lttng-tools-2.8",   False),
-        ("lttng-tools-2.11", "lttng-tools-2.9",   False),
-        ("lttng-tools-2.11", "lttng-tools-2.10",  True),
-        ("lttng-tools-2.11", "lttng-tools-2.11",  True),
-        ("lttng-tools-2.11", "lttng-tools-2.12",  True),
-        ("lttng-tools-2.12", "lttng-tools-2.7",   False),
-        ("lttng-tools-2.12", "lttng-tools-2.8",   False),
-        ("lttng-tools-2.12", "lttng-tools-2.9",   False),
-        ("lttng-tools-2.12", "lttng-tools-2.10",  True),
-        ("lttng-tools-2.12", "lttng-tools-2.11",  True),
-        ("lttng-tools-2.12", "lttng-tools-2.12",  True),
-
+    ("lttng-tools-2.10", "lttng-tools-2.7", False),
+    ("lttng-tools-2.10", "lttng-tools-2.8", False),
+    ("lttng-tools-2.10", "lttng-tools-2.9", False),
+    ("lttng-tools-2.10", "lttng-tools-2.10", True),
+    ("lttng-tools-2.10", "lttng-tools-2.11", True),
+    ("lttng-tools-2.10", "lttng-tools-2.12", True),
+    ("lttng-tools-2.11", "lttng-tools-2.7", False),
+    ("lttng-tools-2.11", "lttng-tools-2.8", False),
+    ("lttng-tools-2.11", "lttng-tools-2.9", False),
+    ("lttng-tools-2.11", "lttng-tools-2.10", True),
+    ("lttng-tools-2.11", "lttng-tools-2.11", True),
+    ("lttng-tools-2.11", "lttng-tools-2.12", True),
+    ("lttng-tools-2.12", "lttng-tools-2.7", False),
+    ("lttng-tools-2.12", "lttng-tools-2.8", False),
+    ("lttng-tools-2.12", "lttng-tools-2.9", False),
+    ("lttng-tools-2.12", "lttng-tools-2.10", True),
+    ("lttng-tools-2.12", "lttng-tools-2.11", True),
+    ("lttng-tools-2.12", "lttng-tools-2.12", True),
 ]
 
-runtime_matrix_app_contexts = Settings.generate_runtime_test_matrix(test_matrix_app_contexts, [0, 1])
-runtime_matrix_blocking_timeout = Settings.generate_runtime_test_matrix(test_matrix_blocking_timeout, [0, 1])
-runtime_matrix_monitor_timer_interval = Settings.generate_runtime_test_matrix(test_matrix_monitor_timer_interval, [0, 1])
+runtime_matrix_app_contexts = Settings.generate_runtime_test_matrix(
+    test_matrix_app_contexts, [0, 1]
+)
+runtime_matrix_blocking_timeout = Settings.generate_runtime_test_matrix(
+    test_matrix_blocking_timeout, [0, 1]
+)
+runtime_matrix_monitor_timer_interval = Settings.generate_runtime_test_matrix(
+    test_matrix_monitor_timer_interval, [0, 1]
+)
 
 
 def validate_app_context(session_name, save_file):
-    xpath_provider_name = '/sessions/session[name="{}"]/domains/domain[type="JUL" or type="LOG4J"]/channels/channel/contexts/context/app/provider_name'.format(session_name)
-    xpath_ctx_name = '/sessions/session[name="{}"]/domains/domain[type="JUL" or type="LOG4J"]/channels/channel/contexts/context/app/ctx_name'.format(session_name)
+    xpath_provider_name = '/sessions/session[name="{}"]/domains/domain[type="JUL" or type="LOG4J"]/channels/channel/contexts/context/app/provider_name'.format(
+        session_name
+    )
+    xpath_ctx_name = '/sessions/session[name="{}"]/domains/domain[type="JUL" or type="LOG4J"]/channels/channel/contexts/context/app/ctx_name'.format(
+        session_name
+    )
     xpath_node_expected = 2
 
     # Check that the file is present
-    assert(os.path.isfile(save_file))
+    assert os.path.isfile(save_file)
     # Validate provider name
     node_list = xpath_query(save_file, xpath_provider_name)
-    assert(len(node_list) == xpath_node_expected)
+    assert len(node_list) == xpath_node_expected
     for node in node_list:
-        assert(node.text == "myRetriever")
+        assert node.text == "myRetriever"
 
     # Validate ctx_name
     node_list = xpath_query(save_file, xpath_ctx_name)
-    assert(len(node_list) == xpath_node_expected)
+    assert len(node_list) == xpath_node_expected
     for node in node_list:
-        assert(node.text == "intCtx")
+        assert node.text == "intCtx"
 
 
-@pytest.mark.parametrize("tools_save_l,tools_load_l,should_load", runtime_matrix_app_contexts)
+@pytest.mark.parametrize(
+    "tools_save_l,tools_load_l,should_load", runtime_matrix_app_contexts
+)
 def test_save_load_app_contexts(tmpdir, tools_save_l, tools_load_l, should_load):
 
     # Prepare environment
@@ -122,8 +132,8 @@ def test_save_load_app_contexts(tmpdir, tools_save_l, tools_load_l, should_load)
 
     t_save_runtime_path = os.path.join(str(tmpdir), "tools-save")
     t_load_runtime_path = os.path.join(str(tmpdir), "tools-load")
-    save_load_path = os.path.join(str(tmpdir), 'save_load')
-    validation_path = os.path.join(str(tmpdir), 'validation')
+    save_load_path = os.path.join(str(tmpdir), "save_load")
+    validation_path = os.path.join(str(tmpdir), "validation")
 
     trace_name = "saved_trace"
     trace_filename = trace_name + Settings.save_ext
@@ -164,8 +174,10 @@ def test_save_load_app_contexts(tmpdir, tools_save_l, tools_load_l, should_load)
 
         if not should_load:
             cp, out, err = runtime.run(cmd, check_return=False)
-            assert(cp.returncode != 0)
-            assert(utils.file_contains(err, ['Session configuration file validation failed']))
+            assert cp.returncode != 0
+            assert utils.file_contains(
+                err, ["Session configuration file validation failed"]
+            )
             return
 
         runtime.run(cmd)
@@ -181,7 +193,9 @@ def test_save_load_app_contexts(tmpdir, tools_save_l, tools_load_l, should_load)
     validate_app_context(trace_name, validation_file_path)
 
 
-@pytest.mark.parametrize("tools_save_l,tools_load_l,should_load", runtime_matrix_blocking_timeout)
+@pytest.mark.parametrize(
+    "tools_save_l,tools_load_l,should_load", runtime_matrix_blocking_timeout
+)
 def test_save_load_blocking_timeout(tmpdir, tools_save_l, tools_load_l, should_load):
 
     # Prepare environment
@@ -190,7 +204,7 @@ def test_save_load_blocking_timeout(tmpdir, tools_save_l, tools_load_l, should_l
 
     t_save_runtime_path = os.path.join(str(tmpdir), "tools-save")
     t_load_runtime_path = os.path.join(str(tmpdir), "tools-load")
-    save_load_path = os.path.join(str(tmpdir), 'save_load')
+    save_load_path = os.path.join(str(tmpdir), "save_load")
 
     trace_name = "saved_trace"
     channel_name = "my_channel"
@@ -207,20 +221,25 @@ def test_save_load_blocking_timeout(tmpdir, tools_save_l, tools_load_l, should_l
         sessiond = utils.sessiond_spawn(runtime)
 
         runtime.run("lttng create {}".format(trace_name))
-        runtime.run("lttng enable-channel -u --blocking-timeout {} {}".format(blocking_timeout, channel_name))
+        runtime.run(
+            "lttng enable-channel -u --blocking-timeout {} {}".format(
+                blocking_timeout, channel_name
+            )
+        )
         runtime.run("lttng save --output-path={}".format(save_load_path))
-
 
         cp = runtime.subprocess_terminate(sessiond)
         if cp.returncode != 0:
             pytest.fail("Sessiond on save return code")
 
-    assert(os.path.isfile(trace_file_path))
+    assert os.path.isfile(trace_file_path)
 
-    xpath_blocking_timeout = '/sessions/session[name="{}"]/domains/domain[type="UST"]/channels/channel[name="{}"]/blocking_timeout'.format(trace_name, channel_name)
+    xpath_blocking_timeout = '/sessions/session[name="{}"]/domains/domain[type="UST"]/channels/channel[name="{}"]/blocking_timeout'.format(
+        trace_name, channel_name
+    )
     node = xpath_query(trace_file_path, xpath_blocking_timeout)
-    assert(len(node) == 1)
-    assert(node[0].text == str(blocking_timeout))
+    assert len(node) == 1
+    assert node[0].text == str(blocking_timeout)
 
     # Load the save
     with Run.get_runtime(t_load_runtime_path) as runtime:
@@ -230,10 +249,14 @@ def test_save_load_blocking_timeout(tmpdir, tools_save_l, tools_load_l, should_l
         sessiond = utils.sessiond_spawn(runtime)
 
         if should_load:
-            runtime.run("lttng load --input-path={} {}".format(save_load_path, trace_name))
+            runtime.run(
+                "lttng load --input-path={} {}".format(save_load_path, trace_name)
+            )
         else:
             with pytest.raises(subprocess.CalledProcessError):
-                runtime.run("lttng load --input-path={} {}".format(save_load_path, trace_name))
+                runtime.run(
+                    "lttng load --input-path={} {}".format(save_load_path, trace_name)
+                )
             cp = runtime.subprocess_terminate(sessiond)
             if cp.returncode != 0:
                 pytest.fail("Sessiond on load return code")
@@ -245,14 +268,16 @@ def test_save_load_blocking_timeout(tmpdir, tools_save_l, tools_load_l, should_l
         if cp.returncode != 0:
             pytest.fail("Sessiond on load return code")
 
-    assert(os.path.isfile(mi_out))
-    xpath_mi_blocking_timeout = '/command/output/sessions/session/domains/domain/channels/channel/attributes/blocking_timeout'
+    assert os.path.isfile(mi_out)
+    xpath_mi_blocking_timeout = "/command/output/sessions/session/domains/domain/channels/channel/attributes/blocking_timeout"
     node = xpath_query(mi_out, xpath_mi_blocking_timeout)
-    assert(len(node) == 1)
-    assert(node[0].text == str(blocking_timeout))
+    assert len(node) == 1
+    assert node[0].text == str(blocking_timeout)
 
 
-@pytest.mark.parametrize("tools_save_l,tools_load_l,should_load", runtime_matrix_monitor_timer_interval)
+@pytest.mark.parametrize(
+    "tools_save_l,tools_load_l,should_load", runtime_matrix_monitor_timer_interval
+)
 def test_save_load_timer_interval(tmpdir, tools_save_l, tools_load_l, should_load):
 
     # Prepare environment
@@ -261,7 +286,7 @@ def test_save_load_timer_interval(tmpdir, tools_save_l, tools_load_l, should_loa
 
     t_save_runtime_path = os.path.join(str(tmpdir), "tools-save")
     t_load_runtime_path = os.path.join(str(tmpdir), "tools-load")
-    save_load_path = os.path.join(str(tmpdir), 'save_load')
+    save_load_path = os.path.join(str(tmpdir), "save_load")
 
     trace_name = "saved_trace"
     channel_name = "my_channel"
@@ -278,21 +303,25 @@ def test_save_load_timer_interval(tmpdir, tools_save_l, tools_load_l, should_loa
         sessiond = utils.sessiond_spawn(runtime)
 
         runtime.run("lttng create {}".format(trace_name))
-        runtime.run("lttng enable-channel -u --monitor-timer={} {}".format(monitor_timer_interval, channel_name))
+        runtime.run(
+            "lttng enable-channel -u --monitor-timer={} {}".format(
+                monitor_timer_interval, channel_name
+            )
+        )
         runtime.run("lttng save --output-path={}".format(save_load_path))
 
-        assert(os.path.isfile(trace_file_path))
+        assert os.path.isfile(trace_file_path)
 
         cp = runtime.subprocess_terminate(sessiond)
         if cp.returncode != 0:
             pytest.fail("Sessiond on save return code")
 
-    assert(os.path.isfile(trace_file_path))
+    assert os.path.isfile(trace_file_path)
 
     xpath_monitor_interval = '/sessions/session/domains/domain[type="UST"]/channels/channel/monitor_timer_interval'
     node = xpath_query(trace_file_path, xpath_monitor_interval)
-    assert(len(node) == 1)
-    assert(node[0].text == str(monitor_timer_interval))
+    assert len(node) == 1
+    assert node[0].text == str(monitor_timer_interval)
 
     # Load the save
     with Run.get_runtime(t_load_runtime_path) as runtime:
@@ -302,10 +331,14 @@ def test_save_load_timer_interval(tmpdir, tools_save_l, tools_load_l, should_loa
         sessiond = utils.sessiond_spawn(runtime)
 
         if should_load:
-            runtime.run("lttng load --input-path={} {}".format(save_load_path, trace_name))
+            runtime.run(
+                "lttng load --input-path={} {}".format(save_load_path, trace_name)
+            )
         else:
             with pytest.raises(subprocess.CalledProcessError):
-                runtime.run("lttng load --input-path={} {}".format(save_load_path, trace_name))
+                runtime.run(
+                    "lttng load --input-path={} {}".format(save_load_path, trace_name)
+                )
             cp = runtime.subprocess_terminate(sessiond)
             if cp.returncode != 0:
                 pytest.fail("Sessiond on load return code")
@@ -317,8 +350,8 @@ def test_save_load_timer_interval(tmpdir, tools_save_l, tools_load_l, should_loa
         if cp.returncode != 0:
             pytest.fail("Sessiond on load return code")
 
-    assert(os.path.isfile(mi_out))
-    xpath_mi = '/command/output/sessions/session/domains/domain/channels/channel/attributes/monitor_timer_interval'
+    assert os.path.isfile(mi_out)
+    xpath_mi = "/command/output/sessions/session/domains/domain/channels/channel/attributes/monitor_timer_interval"
     node = xpath_query(mi_out, xpath_mi)
-    assert(len(node) == 1)
-    assert(node[0].text == str(monitor_timer_interval))
+    assert len(node) == 1
+    assert node[0].text == str(monitor_timer_interval)

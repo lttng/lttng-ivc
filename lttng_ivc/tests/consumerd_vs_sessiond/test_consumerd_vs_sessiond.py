@@ -49,45 +49,48 @@ I: Incompatible
 """
 
 test_matrix_consumerd = [
-    ("lttng-tools-2.7",  "lttng-tools-2.7",   True),
-    ("lttng-tools-2.7",  "lttng-tools-2.8",   False),
-    ("lttng-tools-2.7",  "lttng-tools-2.9",   False),
-    ("lttng-tools-2.7",  "lttng-tools-2.10",  False),
-    ("lttng-tools-2.7",  "lttng-tools-2.11",  False),
-    ("lttng-tools-2.7",  "lttng-tools-2.12",  False),
-    ("lttng-tools-2.8",  "lttng-tools-2.7",   False),
-    ("lttng-tools-2.8",  "lttng-tools-2.8",   True),
-    ("lttng-tools-2.8",  "lttng-tools-2.9",   True),
-    ("lttng-tools-2.8",  "lttng-tools-2.10",  False),
-    ("lttng-tools-2.8",  "lttng-tools-2.11",  False),
-    ("lttng-tools-2.8",  "lttng-tools-2.12",  False),
-    ("lttng-tools-2.9",  "lttng-tools-2.7",   False),
-    ("lttng-tools-2.9",  "lttng-tools-2.8",   True),
-    ("lttng-tools-2.9",  "lttng-tools-2.9",   True),
-    ("lttng-tools-2.9",  "lttng-tools-2.10",  False),
-    ("lttng-tools-2.9",  "lttng-tools-2.11",  False),
-    ("lttng-tools-2.9",  "lttng-tools-2.12",  False),
-    ("lttng-tools-2.10",  "lttng-tools-2.7",  False),
-    ("lttng-tools-2.10",  "lttng-tools-2.8",  False),
-    ("lttng-tools-2.10",  "lttng-tools-2.9",  False),
-    ("lttng-tools-2.10",  "lttng-tools-2.10", True),
-    ("lttng-tools-2.10",  "lttng-tools-2.11", False),
-    ("lttng-tools-2.10",  "lttng-tools-2.12", False),
-    ("lttng-tools-2.11",  "lttng-tools-2.7",  False),
-    ("lttng-tools-2.11",  "lttng-tools-2.8",  False),
-    ("lttng-tools-2.11",  "lttng-tools-2.9",  False),
-    ("lttng-tools-2.11",  "lttng-tools-2.10", False),
-    ("lttng-tools-2.11",  "lttng-tools-2.11", True),
-    ("lttng-tools-2.11",  "lttng-tools-2.12", False),
-    ("lttng-tools-2.12",  "lttng-tools-2.7",  False),
-    ("lttng-tools-2.12",  "lttng-tools-2.8",  False),
-    ("lttng-tools-2.12",  "lttng-tools-2.9",  False),
-    ("lttng-tools-2.12",  "lttng-tools-2.10", False),
-    ("lttng-tools-2.12",  "lttng-tools-2.11", False),
-    ("lttng-tools-2.12",  "lttng-tools-2.12", True),
+    ("lttng-tools-2.7", "lttng-tools-2.7", True),
+    ("lttng-tools-2.7", "lttng-tools-2.8", False),
+    ("lttng-tools-2.7", "lttng-tools-2.9", False),
+    ("lttng-tools-2.7", "lttng-tools-2.10", False),
+    ("lttng-tools-2.7", "lttng-tools-2.11", False),
+    ("lttng-tools-2.7", "lttng-tools-2.12", False),
+    ("lttng-tools-2.8", "lttng-tools-2.7", False),
+    ("lttng-tools-2.8", "lttng-tools-2.8", True),
+    ("lttng-tools-2.8", "lttng-tools-2.9", True),
+    ("lttng-tools-2.8", "lttng-tools-2.10", False),
+    ("lttng-tools-2.8", "lttng-tools-2.11", False),
+    ("lttng-tools-2.8", "lttng-tools-2.12", False),
+    ("lttng-tools-2.9", "lttng-tools-2.7", False),
+    ("lttng-tools-2.9", "lttng-tools-2.8", True),
+    ("lttng-tools-2.9", "lttng-tools-2.9", True),
+    ("lttng-tools-2.9", "lttng-tools-2.10", False),
+    ("lttng-tools-2.9", "lttng-tools-2.11", False),
+    ("lttng-tools-2.9", "lttng-tools-2.12", False),
+    ("lttng-tools-2.10", "lttng-tools-2.7", False),
+    ("lttng-tools-2.10", "lttng-tools-2.8", False),
+    ("lttng-tools-2.10", "lttng-tools-2.9", False),
+    ("lttng-tools-2.10", "lttng-tools-2.10", True),
+    ("lttng-tools-2.10", "lttng-tools-2.11", False),
+    ("lttng-tools-2.10", "lttng-tools-2.12", False),
+    ("lttng-tools-2.11", "lttng-tools-2.7", False),
+    ("lttng-tools-2.11", "lttng-tools-2.8", False),
+    ("lttng-tools-2.11", "lttng-tools-2.9", False),
+    ("lttng-tools-2.11", "lttng-tools-2.10", False),
+    ("lttng-tools-2.11", "lttng-tools-2.11", True),
+    ("lttng-tools-2.11", "lttng-tools-2.12", False),
+    ("lttng-tools-2.12", "lttng-tools-2.7", False),
+    ("lttng-tools-2.12", "lttng-tools-2.8", False),
+    ("lttng-tools-2.12", "lttng-tools-2.9", False),
+    ("lttng-tools-2.12", "lttng-tools-2.10", False),
+    ("lttng-tools-2.12", "lttng-tools-2.11", False),
+    ("lttng-tools-2.12", "lttng-tools-2.12", True),
 ]
 
-runtime_matrix_consumerd = Settings.generate_runtime_test_matrix(test_matrix_consumerd, [0, 1])
+runtime_matrix_consumerd = Settings.generate_runtime_test_matrix(
+    test_matrix_consumerd, [0, 1]
+)
+
 
 @pytest.mark.parametrize("consumerd_l,tools_l,should_work", runtime_matrix_consumerd)
 def test_consumerd_vs_sessiond(tmpdir, consumerd_l, tools_l, should_work):
@@ -99,7 +102,7 @@ def test_consumerd_vs_sessiond(tmpdir, consumerd_l, tools_l, should_work):
         consumerd.
     """
 
-    nb_event = 100;
+    nb_event = 100
 
     consumerd = ProjectFactory.get_precook(consumerd_l)
     tools = ProjectFactory.get_precook(tools_l)
@@ -107,8 +110,10 @@ def test_consumerd_vs_sessiond(tmpdir, consumerd_l, tools_l, should_work):
 
     app_path = os.path.join(str(tmpdir), "app")
 
-    replacement_consumerd = utils.find_file(consumerd.installation_path, "lttng-consumerd")
-    assert(replacement_consumerd)
+    replacement_consumerd = utils.find_file(
+        consumerd.installation_path, "lttng-consumerd"
+    )
+    assert replacement_consumerd
 
     c_dict = {"32bit": "--consumerd32-path", "64bit": "--consumerd64-path"}
     platform_type = platform.architecture()[0]
@@ -131,13 +136,13 @@ def test_consumerd_vs_sessiond(tmpdir, consumerd_l, tools_l, should_work):
             runtime.run("lttng start", timeout=5)
 
             # Run application
-            cmd = './app {}'.format(100)
+            cmd = "./app {}".format(100)
             runtime.run(cmd, cwd=app_path)
 
             runtime.run("lttng stop", timeout=5)
             runtime.run("lttng destroy -a", timeout=5)
             cp, cp_out, cp_err = runtime.run("babeltrace {}".format(runtime.lttng_home))
-            assert(utils.line_count(cp_out) == nb_event)
+            assert utils.line_count(cp_out) == nb_event
         except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
             if should_work:
                 raise e

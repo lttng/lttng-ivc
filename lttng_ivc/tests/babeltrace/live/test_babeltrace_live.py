@@ -40,24 +40,60 @@ First member: babeltrace label
 Second member: tools label
 """
 test_matrix_live = [
-        pytest.param("babeltrace-1.3", "lttng-tools-2.7", marks=pytest.mark.xfail(reason="Flaky test or Flaky babeltrace. Is under investigation")),
-        pytest.param("babeltrace-1.3", "lttng-tools-2.8", marks=pytest.mark.xfail(reason="Flaky test or Flaky babeltrace. Is under investigation")),
-        pytest.param("babeltrace-1.3", "lttng-tools-2.9", marks=pytest.mark.xfail(reason="Flaky test or Flaky babeltrace. Is under investigation")),
-        pytest.param("babeltrace-1.3", "lttng-tools-2.10", marks=pytest.mark.xfail(reason="Flaky test or Flaky babeltrace. Is under investigation")),
-        pytest.param("babeltrace-1.3", "lttng-tools-2.11", marks=pytest.mark.xfail(reason="Flaky test or Flaky babeltrace. Is under investigation")),
-        pytest.param("babeltrace-1.3", "lttng-tools-2.12", marks=pytest.mark.xfail(reason="Flaky test or Flaky babeltrace. Is under investigation")),
-        ("babeltrace-1.4", "lttng-tools-2.7"),
-        ("babeltrace-1.4", "lttng-tools-2.8"),
-        ("babeltrace-1.4", "lttng-tools-2.9"),
-        ("babeltrace-1.4", "lttng-tools-2.10"),
-        ("babeltrace-1.4", "lttng-tools-2.11"),
-        ("babeltrace-1.4", "lttng-tools-2.12"),
-        ("babeltrace-1.5", "lttng-tools-2.7"),
-        ("babeltrace-1.5", "lttng-tools-2.8"),
-        ("babeltrace-1.5", "lttng-tools-2.9"),
-        ("babeltrace-1.5", "lttng-tools-2.10"),
-        ("babeltrace-1.5", "lttng-tools-2.11"),
-        ("babeltrace-1.5", "lttng-tools-2.12"),
+    pytest.param(
+        "babeltrace-1.3",
+        "lttng-tools-2.7",
+        marks=pytest.mark.xfail(
+            reason="Flaky test or Flaky babeltrace. Is under investigation"
+        ),
+    ),
+    pytest.param(
+        "babeltrace-1.3",
+        "lttng-tools-2.8",
+        marks=pytest.mark.xfail(
+            reason="Flaky test or Flaky babeltrace. Is under investigation"
+        ),
+    ),
+    pytest.param(
+        "babeltrace-1.3",
+        "lttng-tools-2.9",
+        marks=pytest.mark.xfail(
+            reason="Flaky test or Flaky babeltrace. Is under investigation"
+        ),
+    ),
+    pytest.param(
+        "babeltrace-1.3",
+        "lttng-tools-2.10",
+        marks=pytest.mark.xfail(
+            reason="Flaky test or Flaky babeltrace. Is under investigation"
+        ),
+    ),
+    pytest.param(
+        "babeltrace-1.3",
+        "lttng-tools-2.11",
+        marks=pytest.mark.xfail(
+            reason="Flaky test or Flaky babeltrace. Is under investigation"
+        ),
+    ),
+    pytest.param(
+        "babeltrace-1.3",
+        "lttng-tools-2.12",
+        marks=pytest.mark.xfail(
+            reason="Flaky test or Flaky babeltrace. Is under investigation"
+        ),
+    ),
+    ("babeltrace-1.4", "lttng-tools-2.7"),
+    ("babeltrace-1.4", "lttng-tools-2.8"),
+    ("babeltrace-1.4", "lttng-tools-2.9"),
+    ("babeltrace-1.4", "lttng-tools-2.10"),
+    ("babeltrace-1.4", "lttng-tools-2.11"),
+    ("babeltrace-1.4", "lttng-tools-2.12"),
+    ("babeltrace-1.5", "lttng-tools-2.7"),
+    ("babeltrace-1.5", "lttng-tools-2.8"),
+    ("babeltrace-1.5", "lttng-tools-2.9"),
+    ("babeltrace-1.5", "lttng-tools-2.10"),
+    ("babeltrace-1.5", "lttng-tools-2.11"),
+    ("babeltrace-1.5", "lttng-tools-2.12"),
 ]
 
 runtime_matrix_live = Settings.generate_runtime_test_matrix(test_matrix_live, [0, 1])
@@ -88,18 +124,22 @@ def test_babeltrace_live(tmpdir, babeltrace_l, tools_l):
         sessiond = utils.sessiond_spawn(runtime)
 
         hostname = socket.gethostname()
-        url_babeltrace = "net://localhost:{}/host/{}/{}".format(live_port, hostname, session_name)
+        url_babeltrace = "net://localhost:{}/host/{}/{}".format(
+            live_port, hostname, session_name
+        )
         url = "net://localhost:{}:{}".format(ctrl_port, data_port)
 
         # Create session using mi to get path and session name
-        runtime.run('lttng create --set-url={} {} --live'.format(url, session_name))
+        runtime.run("lttng create --set-url={} {} --live".format(url, session_name))
 
-        runtime.run('lttng enable-event -u tp:tptest')
-        runtime.run('lttng start')
+        runtime.run("lttng enable-event -u tp:tptest")
+        runtime.run("lttng start")
 
         # From now on babeltrace should be able to hook itself up.
         # Synchronization point is done via relayd log
-        p_babeltrace = runtime.spawn_subprocess("babeltrace -i lttng-live {}".format(url_babeltrace))
+        p_babeltrace = runtime.spawn_subprocess(
+            "babeltrace -i lttng-live {}".format(url_babeltrace)
+        )
 
         # TODO: Move to settings
         timeout = 60
@@ -117,14 +157,13 @@ def test_babeltrace_live(tmpdir, babeltrace_l, tools_l):
         if not listening:
             raise Exception("Babeltrace live is not listening after timeout")
 
-
         # Run application
-        cmd = './app {}'.format(nb_loop)
+        cmd = "./app {}".format(nb_loop)
         runtime.run(cmd, cwd=app_path)
 
         # Stop tracing
-        runtime.run('lttng stop')
-        runtime.run('lttng destroy -a')
+        runtime.run("lttng stop")
+        runtime.run("lttng destroy -a")
 
         # Make sure babeltrace is done reading
         runtime.subprocess_wait(p_babeltrace)
@@ -134,4 +173,4 @@ def test_babeltrace_live(tmpdir, babeltrace_l, tools_l):
 
         # Check the output from babeltrace
         cp_out = runtime.get_subprocess_stdout_path(p_babeltrace)
-        assert(utils.line_count(cp_out) == nb_expected_events)
+        assert utils.line_count(cp_out) == nb_expected_events

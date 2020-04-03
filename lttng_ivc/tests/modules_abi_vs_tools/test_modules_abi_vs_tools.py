@@ -107,139 +107,199 @@ test_matrix_base_tracing = [
     ("lttng-modules-2.12", "lttng-tools-2.10"),
     ("lttng-modules-2.12", "lttng-tools-2.11"),
     ("lttng-modules-2.12", "lttng-tools-2.12"),
-
 ]
 
 test_matrix_regen_metadata = [
-    ("lttng-modules-2.7", "lttng-tools-2.7",  "metadata regenerate", "Unsupported by tools"),
-    ("lttng-modules-2.7", "lttng-tools-2.8",  "metadata regenerate", "Unsupported by modules"),
-    ("lttng-modules-2.7", "lttng-tools-2.9",  "regenerate metadata", "Unsupported by modules"),
-    ("lttng-modules-2.7", "lttng-tools-2.10", "regenerate metadata", "Unsupported by modules"),
-    ("lttng-modules-2.7", "lttng-tools-2.11", "regenerate metadata", "Unsupported by modules"),
-    ("lttng-modules-2.7", "lttng-tools-2.12", "regenerate metadata", "Unsupported by modules"),
-    ("lttng-modules-2.8", "lttng-tools-2.7",  "metadata regenerate", "Unsupported by tools"),
-    ("lttng-modules-2.8", "lttng-tools-2.8",  "metadata regenerate", "Supported"),
-    ("lttng-modules-2.8", "lttng-tools-2.9",  "regenerate metadata", "Supported"),
+    (
+        "lttng-modules-2.7",
+        "lttng-tools-2.7",
+        "metadata regenerate",
+        "Unsupported by tools",
+    ),
+    (
+        "lttng-modules-2.7",
+        "lttng-tools-2.8",
+        "metadata regenerate",
+        "Unsupported by modules",
+    ),
+    (
+        "lttng-modules-2.7",
+        "lttng-tools-2.9",
+        "regenerate metadata",
+        "Unsupported by modules",
+    ),
+    (
+        "lttng-modules-2.7",
+        "lttng-tools-2.10",
+        "regenerate metadata",
+        "Unsupported by modules",
+    ),
+    (
+        "lttng-modules-2.7",
+        "lttng-tools-2.11",
+        "regenerate metadata",
+        "Unsupported by modules",
+    ),
+    (
+        "lttng-modules-2.7",
+        "lttng-tools-2.12",
+        "regenerate metadata",
+        "Unsupported by modules",
+    ),
+    (
+        "lttng-modules-2.8",
+        "lttng-tools-2.7",
+        "metadata regenerate",
+        "Unsupported by tools",
+    ),
+    ("lttng-modules-2.8", "lttng-tools-2.8", "metadata regenerate", "Supported"),
+    ("lttng-modules-2.8", "lttng-tools-2.9", "regenerate metadata", "Supported"),
     ("lttng-modules-2.8", "lttng-tools-2.10", "regenerate metadata", "Supported"),
     ("lttng-modules-2.8", "lttng-tools-2.11", "regenerate metadata", "Supported"),
     ("lttng-modules-2.8", "lttng-tools-2.12", "regenerate metadata", "Supported"),
-    ("lttng-modules-2.9", "lttng-tools-2.7",  "metadata regenerate", "Unsupported by tools"),
-    ("lttng-modules-2.9", "lttng-tools-2.8",  "metadata regenerate", "Supported"),
-    ("lttng-modules-2.9", "lttng-tools-2.9",  "regenerate metadata", "Supported"),
+    (
+        "lttng-modules-2.9",
+        "lttng-tools-2.7",
+        "metadata regenerate",
+        "Unsupported by tools",
+    ),
+    ("lttng-modules-2.9", "lttng-tools-2.8", "metadata regenerate", "Supported"),
+    ("lttng-modules-2.9", "lttng-tools-2.9", "regenerate metadata", "Supported"),
     ("lttng-modules-2.9", "lttng-tools-2.10", "regenerate metadata", "Supported"),
     ("lttng-modules-2.9", "lttng-tools-2.11", "regenerate metadata", "Supported"),
     ("lttng-modules-2.9", "lttng-tools-2.12", "regenerate metadata", "Supported"),
-    ("lttng-modules-2.10", "lttng-tools-2.7", "metadata regenerate", "Unsupported by tools"),
+    (
+        "lttng-modules-2.10",
+        "lttng-tools-2.7",
+        "metadata regenerate",
+        "Unsupported by tools",
+    ),
     ("lttng-modules-2.10", "lttng-tools-2.8", "metadata regenerate", "Supported"),
     ("lttng-modules-2.10", "lttng-tools-2.9", "regenerate metadata", "Supported"),
-    ("lttng-modules-2.10", "lttng-tools-2.10","regenerate metadata", "Supported"),
-    ("lttng-modules-2.10", "lttng-tools-2.11","regenerate metadata", "Supported"),
-    ("lttng-modules-2.10", "lttng-tools-2.12","regenerate metadata", "Supported"),
-    ("lttng-modules-2.11", "lttng-tools-2.7", "metadata regenerate", "Unsupported by tools"),
+    ("lttng-modules-2.10", "lttng-tools-2.10", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.10", "lttng-tools-2.11", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.10", "lttng-tools-2.12", "regenerate metadata", "Supported"),
+    (
+        "lttng-modules-2.11",
+        "lttng-tools-2.7",
+        "metadata regenerate",
+        "Unsupported by tools",
+    ),
     ("lttng-modules-2.11", "lttng-tools-2.8", "metadata regenerate", "Supported"),
     ("lttng-modules-2.11", "lttng-tools-2.9", "regenerate metadata", "Supported"),
-    ("lttng-modules-2.11", "lttng-tools-2.10","regenerate metadata", "Supported"),
-    ("lttng-modules-2.11", "lttng-tools-2.11","regenerate metadata", "Supported"),
-    ("lttng-modules-2.11", "lttng-tools-2.12","regenerate metadata", "Supported"),
-    ("lttng-modules-2.12", "lttng-tools-2.7", "metadata regenerate", "Unsupported by tools"),
+    ("lttng-modules-2.11", "lttng-tools-2.10", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.11", "lttng-tools-2.11", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.11", "lttng-tools-2.12", "regenerate metadata", "Supported"),
+    (
+        "lttng-modules-2.12",
+        "lttng-tools-2.7",
+        "metadata regenerate",
+        "Unsupported by tools",
+    ),
     ("lttng-modules-2.12", "lttng-tools-2.8", "metadata regenerate", "Supported"),
     ("lttng-modules-2.12", "lttng-tools-2.9", "regenerate metadata", "Supported"),
-    ("lttng-modules-2.12", "lttng-tools-2.10","regenerate metadata", "Supported"),
-    ("lttng-modules-2.12", "lttng-tools-2.11","regenerate metadata", "Supported"),
-    ("lttng-modules-2.12", "lttng-tools-2.12","regenerate metadata", "Supported"),
-
+    ("lttng-modules-2.12", "lttng-tools-2.10", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.12", "lttng-tools-2.11", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.12", "lttng-tools-2.12", "regenerate metadata", "Supported"),
 ]
 
 test_matrix_statedump = [
-    ("lttng-modules-2.7", "lttng-tools-2.7",  "Unsupported by tools"),
-    ("lttng-modules-2.7", "lttng-tools-2.8",  "Unsupported by tools"),
-    ("lttng-modules-2.7", "lttng-tools-2.9",  "Unsupported by modules"),
+    ("lttng-modules-2.7", "lttng-tools-2.7", "Unsupported by tools"),
+    ("lttng-modules-2.7", "lttng-tools-2.8", "Unsupported by tools"),
+    ("lttng-modules-2.7", "lttng-tools-2.9", "Unsupported by modules"),
     ("lttng-modules-2.7", "lttng-tools-2.10", "Unsupported by modules"),
     ("lttng-modules-2.7", "lttng-tools-2.11", "Unsupported by modules"),
     ("lttng-modules-2.7", "lttng-tools-2.12", "Unsupported by modules"),
-    ("lttng-modules-2.8", "lttng-tools-2.7",  "Unsupported by tools"),
-    ("lttng-modules-2.8", "lttng-tools-2.8",  "Unsupported by tools"),
-    ("lttng-modules-2.8", "lttng-tools-2.9",  "Unsupported by modules"),
+    ("lttng-modules-2.8", "lttng-tools-2.7", "Unsupported by tools"),
+    ("lttng-modules-2.8", "lttng-tools-2.8", "Unsupported by tools"),
+    ("lttng-modules-2.8", "lttng-tools-2.9", "Unsupported by modules"),
     ("lttng-modules-2.8", "lttng-tools-2.10", "Unsupported by modules"),
     ("lttng-modules-2.8", "lttng-tools-2.11", "Unsupported by modules"),
     ("lttng-modules-2.8", "lttng-tools-2.12", "Unsupported by modules"),
-    ("lttng-modules-2.9", "lttng-tools-2.7",  "Unsupported by tools"),
-    ("lttng-modules-2.9", "lttng-tools-2.8",  "Unsupported by tools"),
-    ("lttng-modules-2.9", "lttng-tools-2.9",  "Supported"),
+    ("lttng-modules-2.9", "lttng-tools-2.7", "Unsupported by tools"),
+    ("lttng-modules-2.9", "lttng-tools-2.8", "Unsupported by tools"),
+    ("lttng-modules-2.9", "lttng-tools-2.9", "Supported"),
     ("lttng-modules-2.9", "lttng-tools-2.10", "Supported"),
     ("lttng-modules-2.9", "lttng-tools-2.11", "Supported"),
     ("lttng-modules-2.9", "lttng-tools-2.12", "Supported"),
     ("lttng-modules-2.10", "lttng-tools-2.7", "Unsupported by tools"),
     ("lttng-modules-2.10", "lttng-tools-2.8", "Unsupported by tools"),
     ("lttng-modules-2.10", "lttng-tools-2.9", "Supported"),
-    ("lttng-modules-2.10", "lttng-tools-2.10","Supported"),
-    ("lttng-modules-2.10", "lttng-tools-2.11","Supported"),
-    ("lttng-modules-2.10", "lttng-tools-2.12","Supported"),
-    ("lttng-modules-2.11", "lttng-tools-2.7", "Unsupported by tools"),
-    ("lttng-modules-2.11", "lttng-tools-2.8", "Unsupported by tools"),
-    ("lttng-modules-2.11", "lttng-tools-2.9", "Supported"),
-    ("lttng-modules-2.11", "lttng-tools-2.10","Supported"),
-    ("lttng-modules-2.11", "lttng-tools-2.11","Supported"),
-    ("lttng-modules-2.11", "lttng-tools-2.12","Supported"),
-    ("lttng-modules-2.12", "lttng-tools-2.7", "Unsupported by tools"),
-    ("lttng-modules-2.12", "lttng-tools-2.8", "Unsupported by tools"),
-    ("lttng-modules-2.12", "lttng-tools-2.9", "Supported"),
-    ("lttng-modules-2.12", "lttng-tools-2.10","Supported"),
-    ("lttng-modules-2.12", "lttng-tools-2.11","Supported"),
-    ("lttng-modules-2.12", "lttng-tools-2.12","Supported"),
-
-]
-
-test_matrix_starglobing_enabler = [
-    ("lttng-modules-2.7", "lttng-tools-2.7",   "Unsupported by tools"),
-    ("lttng-modules-2.7", "lttng-tools-2.8",   "Unsupported by tools"),
-    ("lttng-modules-2.7", "lttng-tools-2.9",   "Unsupported by tools"),
-    ("lttng-modules-2.7", "lttng-tools-2.10",  "Unsupported by modules"),
-    ("lttng-modules-2.7", "lttng-tools-2.11",  "Unsupported by modules"),
-    ("lttng-modules-2.7", "lttng-tools-2.12",  "Unsupported by modules"),
-    ("lttng-modules-2.8", "lttng-tools-2.7",   "Unsupported by tools"),
-    ("lttng-modules-2.8", "lttng-tools-2.8",   "Unsupported by tools"),
-    ("lttng-modules-2.8", "lttng-tools-2.9",   "Unsupported by tools"),
-    ("lttng-modules-2.8", "lttng-tools-2.10",  "Unsupported by modules"),
-    ("lttng-modules-2.8", "lttng-tools-2.11",  "Unsupported by modules"),
-    ("lttng-modules-2.8", "lttng-tools-2.12",  "Unsupported by modules"),
-    ("lttng-modules-2.9", "lttng-tools-2.7",   "Unsupported by tools"),
-    ("lttng-modules-2.9", "lttng-tools-2.8",   "Unsupported by tools"),
-    ("lttng-modules-2.9", "lttng-tools-2.9",   "Unsupported by tools"),
-    ("lttng-modules-2.9", "lttng-tools-2.10",  "Unsupported by modules"),
-    ("lttng-modules-2.9", "lttng-tools-2.11",  "Unsupported by modules"),
-    ("lttng-modules-2.9", "lttng-tools-2.12",  "Unsupported by modules"),
-    ("lttng-modules-2.10", "lttng-tools-2.7",  "Unsupported by tools"),
-    ("lttng-modules-2.10", "lttng-tools-2.8",  "Unsupported by tools"),
-    ("lttng-modules-2.10", "lttng-tools-2.9",  "Unsupported by tools"),
     ("lttng-modules-2.10", "lttng-tools-2.10", "Supported"),
     ("lttng-modules-2.10", "lttng-tools-2.11", "Supported"),
     ("lttng-modules-2.10", "lttng-tools-2.12", "Supported"),
-    ("lttng-modules-2.11", "lttng-tools-2.7",  "Unsupported by tools"),
-    ("lttng-modules-2.11", "lttng-tools-2.8",  "Unsupported by tools"),
-    ("lttng-modules-2.11", "lttng-tools-2.9",  "Unsupported by tools"),
+    ("lttng-modules-2.11", "lttng-tools-2.7", "Unsupported by tools"),
+    ("lttng-modules-2.11", "lttng-tools-2.8", "Unsupported by tools"),
+    ("lttng-modules-2.11", "lttng-tools-2.9", "Supported"),
     ("lttng-modules-2.11", "lttng-tools-2.10", "Supported"),
     ("lttng-modules-2.11", "lttng-tools-2.11", "Supported"),
     ("lttng-modules-2.11", "lttng-tools-2.12", "Supported"),
-    ("lttng-modules-2.12", "lttng-tools-2.7",  "Unsupported by tools"),
-    ("lttng-modules-2.12", "lttng-tools-2.8",  "Unsupported by tools"),
-    ("lttng-modules-2.12", "lttng-tools-2.9",  "Unsupported by tools"),
+    ("lttng-modules-2.12", "lttng-tools-2.7", "Unsupported by tools"),
+    ("lttng-modules-2.12", "lttng-tools-2.8", "Unsupported by tools"),
+    ("lttng-modules-2.12", "lttng-tools-2.9", "Supported"),
     ("lttng-modules-2.12", "lttng-tools-2.10", "Supported"),
     ("lttng-modules-2.12", "lttng-tools-2.11", "Supported"),
     ("lttng-modules-2.12", "lttng-tools-2.12", "Supported"),
+]
 
+test_matrix_starglobing_enabler = [
+    ("lttng-modules-2.7", "lttng-tools-2.7", "Unsupported by tools"),
+    ("lttng-modules-2.7", "lttng-tools-2.8", "Unsupported by tools"),
+    ("lttng-modules-2.7", "lttng-tools-2.9", "Unsupported by tools"),
+    ("lttng-modules-2.7", "lttng-tools-2.10", "Unsupported by modules"),
+    ("lttng-modules-2.7", "lttng-tools-2.11", "Unsupported by modules"),
+    ("lttng-modules-2.7", "lttng-tools-2.12", "Unsupported by modules"),
+    ("lttng-modules-2.8", "lttng-tools-2.7", "Unsupported by tools"),
+    ("lttng-modules-2.8", "lttng-tools-2.8", "Unsupported by tools"),
+    ("lttng-modules-2.8", "lttng-tools-2.9", "Unsupported by tools"),
+    ("lttng-modules-2.8", "lttng-tools-2.10", "Unsupported by modules"),
+    ("lttng-modules-2.8", "lttng-tools-2.11", "Unsupported by modules"),
+    ("lttng-modules-2.8", "lttng-tools-2.12", "Unsupported by modules"),
+    ("lttng-modules-2.9", "lttng-tools-2.7", "Unsupported by tools"),
+    ("lttng-modules-2.9", "lttng-tools-2.8", "Unsupported by tools"),
+    ("lttng-modules-2.9", "lttng-tools-2.9", "Unsupported by tools"),
+    ("lttng-modules-2.9", "lttng-tools-2.10", "Unsupported by modules"),
+    ("lttng-modules-2.9", "lttng-tools-2.11", "Unsupported by modules"),
+    ("lttng-modules-2.9", "lttng-tools-2.12", "Unsupported by modules"),
+    ("lttng-modules-2.10", "lttng-tools-2.7", "Unsupported by tools"),
+    ("lttng-modules-2.10", "lttng-tools-2.8", "Unsupported by tools"),
+    ("lttng-modules-2.10", "lttng-tools-2.9", "Unsupported by tools"),
+    ("lttng-modules-2.10", "lttng-tools-2.10", "Supported"),
+    ("lttng-modules-2.10", "lttng-tools-2.11", "Supported"),
+    ("lttng-modules-2.10", "lttng-tools-2.12", "Supported"),
+    ("lttng-modules-2.11", "lttng-tools-2.7", "Unsupported by tools"),
+    ("lttng-modules-2.11", "lttng-tools-2.8", "Unsupported by tools"),
+    ("lttng-modules-2.11", "lttng-tools-2.9", "Unsupported by tools"),
+    ("lttng-modules-2.11", "lttng-tools-2.10", "Supported"),
+    ("lttng-modules-2.11", "lttng-tools-2.11", "Supported"),
+    ("lttng-modules-2.11", "lttng-tools-2.12", "Supported"),
+    ("lttng-modules-2.12", "lttng-tools-2.7", "Unsupported by tools"),
+    ("lttng-modules-2.12", "lttng-tools-2.8", "Unsupported by tools"),
+    ("lttng-modules-2.12", "lttng-tools-2.9", "Unsupported by tools"),
+    ("lttng-modules-2.12", "lttng-tools-2.10", "Supported"),
+    ("lttng-modules-2.12", "lttng-tools-2.11", "Supported"),
+    ("lttng-modules-2.12", "lttng-tools-2.12", "Supported"),
 ]
 
 
 def get_metadata_file_path(base_trace_path):
-    metadata = os.path.join(base_trace_path, 'kernel', 'metadata')
+    metadata = os.path.join(base_trace_path, "kernel", "metadata")
     return metadata
 
 
-runtime_matrix_base_tracing = Settings.generate_runtime_test_matrix(test_matrix_base_tracing, [0, 1])
-runtime_matrix_regen_metadata = Settings.generate_runtime_test_matrix(test_matrix_regen_metadata, [0, 1])
-runtime_matrix_statedump = Settings.generate_runtime_test_matrix(test_matrix_statedump, [0, 1])
-runtime_matrix_starglobing_enabler = Settings.generate_runtime_test_matrix(test_matrix_starglobing_enabler, [0, 1])
+runtime_matrix_base_tracing = Settings.generate_runtime_test_matrix(
+    test_matrix_base_tracing, [0, 1]
+)
+runtime_matrix_regen_metadata = Settings.generate_runtime_test_matrix(
+    test_matrix_regen_metadata, [0, 1]
+)
+runtime_matrix_statedump = Settings.generate_runtime_test_matrix(
+    test_matrix_statedump, [0, 1]
+)
+runtime_matrix_starglobing_enabler = Settings.generate_runtime_test_matrix(
+    test_matrix_starglobing_enabler, [0, 1]
+)
+
 
 @must_be_root
 @pytest.mark.parametrize("modules_label,tools_label", runtime_matrix_base_tracing)
@@ -257,8 +317,8 @@ def test_modules_base_tracing(tmpdir, modules_label, tools_label):
         runtime.add_project(tools)
         runtime.add_project(babeltrace)
 
-        trace_path = os.path.join(runtime.lttng_home, 'trace')
-        babeltrace_cmd = 'babeltrace {}'.format(trace_path)
+        trace_path = os.path.join(runtime.lttng_home, "trace")
+        babeltrace_cmd = "babeltrace {}".format(trace_path)
 
         sessiond = sessiond_spawn(runtime)
         runtime.load_test_module()
@@ -266,7 +326,7 @@ def test_modules_base_tracing(tmpdir, modules_label, tools_label):
         runtime.run("lttng create trace -o {}".format(trace_path))
         runtime.run("lttng enable-event -k lttng_test_filter_event")
         runtime.run("lttng start")
-        with open(Settings.lttng_test_procfile, 'w') as procfile:
+        with open(Settings.lttng_test_procfile, "w") as procfile:
             procfile.write("{}".format(nb_events))
 
         runtime.run("lttng stop")
@@ -278,11 +338,13 @@ def test_modules_base_tracing(tmpdir, modules_label, tools_label):
             return
 
         cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
-        assert(line_count(cp_out) == nb_events)
+        assert line_count(cp_out) == nb_events
 
 
 @must_be_root
-@pytest.mark.parametrize("modules_label,tools_label,command,scenario", runtime_matrix_regen_metadata)
+@pytest.mark.parametrize(
+    "modules_label,tools_label,command,scenario", runtime_matrix_regen_metadata
+)
 def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, scenario):
     modules = ProjectFactory.get_precook(modules_label)
     if modules.skip:
@@ -297,8 +359,8 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
         runtime.add_project(tools)
         runtime.add_project(babeltrace)
 
-        trace_path = os.path.join(runtime.lttng_home, 'trace')
-        babeltrace_cmd = 'babeltrace {}'.format(trace_path)
+        trace_path = os.path.join(runtime.lttng_home, "trace")
+        babeltrace_cmd = "babeltrace {}".format(trace_path)
 
         sessiond = sessiond_spawn(runtime)
         runtime.load_test_module()
@@ -306,7 +368,7 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
         runtime.run("lttng create trace -o {}".format(trace_path))
         runtime.run("lttng enable-event -k lttng_test_filter_event")
         runtime.run("lttng start")
-        with open(Settings.lttng_test_procfile, 'w') as procfile:
+        with open(Settings.lttng_test_procfile, "w") as procfile:
             procfile.write("{}".format(nb_events))
 
         runtime.run("lttng stop")
@@ -316,7 +378,7 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
         assert line_count(cp_out) == nb_events
 
         # Empty the metadata file
-        open(get_metadata_file_path(trace_path), 'w').close()
+        open(get_metadata_file_path(trace_path), "w").close()
 
         # Babeltrace should never be able to parse the trace
         with pytest.raises(subprocess.CalledProcessError):
@@ -327,7 +389,10 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
         # TODO: rework this a bit to differentiate each errors and rework how
         # the condition are meet
         if scenario == "Unsupported by tools" or scenario == "Unsupported by modules":
-            if modules_label == "lttng-modules-2.7" and scenario == "Unsupported by modules":
+            if (
+                modules_label == "lttng-modules-2.7"
+                and scenario == "Unsupported by modules"
+            ):
                 # Error from lttng-modules-2.7 is not reported correctly by
                 # sessiond. But it is reported on the sessiond side.
                 # For now, run the command, validate that the error exist on
@@ -345,8 +410,13 @@ def test_modules_regen_metadata(tmpdir, modules_label, tools_label, command, sce
             if scenario == "Unsupported by modules":
                 error_msg = "Error: Failed to regenerate the kernel metadata"
                 assert file_contains(stderr_path, [error_msg]), "Error message missing"
-            if modules_label == "lttng-modules-2.7" and scenario == "Unsupported by modules":
-                pytest.xfail("Lttng-tools does not bubble up error from unsupported metadata regeneration")
+            if (
+                modules_label == "lttng-modules-2.7"
+                and scenario == "Unsupported by modules"
+            ):
+                pytest.xfail(
+                    "Lttng-tools does not bubble up error from unsupported metadata regeneration"
+                )
 
             return
 
@@ -382,8 +452,8 @@ def test_modules_statedump(tmpdir, modules_label, tools_label, scenario):
         runtime.add_project(tools)
         runtime.add_project(babeltrace)
 
-        trace_path = os.path.join(runtime.lttng_home, 'trace')
-        babeltrace_cmd = 'babeltrace {}'.format(trace_path)
+        trace_path = os.path.join(runtime.lttng_home, "trace")
+        babeltrace_cmd = "babeltrace {}".format(trace_path)
 
         sessiond = sessiond_spawn(runtime)
         runtime.load_test_module()
@@ -393,7 +463,7 @@ def test_modules_statedump(tmpdir, modules_label, tools_label, scenario):
         runtime.run("lttng start")
 
         # Generate some event
-        with open(Settings.lttng_test_procfile, 'w') as procfile:
+        with open(Settings.lttng_test_procfile, "w") as procfile:
             procfile.write("{}".format(nb_events))
 
         if scenario == "Unsupported by tools" or scenario == "Unsupported by modules":
@@ -410,11 +480,13 @@ def test_modules_statedump(tmpdir, modules_label, tools_label, scenario):
             pytest.fail("Return value of sessiond is not zero")
 
         cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
-        assert(line_count(cp_out) == expected_event)
+        assert line_count(cp_out) == expected_event
 
 
 @must_be_root
-@pytest.mark.parametrize("modules_label,tools_label, scenario", runtime_matrix_starglobing_enabler)
+@pytest.mark.parametrize(
+    "modules_label,tools_label, scenario", runtime_matrix_starglobing_enabler
+)
 def test_modules_starglobing_enabler(tmpdir, modules_label, tools_label, scenario):
     modules = ProjectFactory.get_precook(modules_label)
     if modules.skip:
@@ -434,8 +506,8 @@ def test_modules_starglobing_enabler(tmpdir, modules_label, tools_label, scenari
         runtime.add_project(tools)
         runtime.add_project(babeltrace)
 
-        trace_path = os.path.join(runtime.lttng_home, 'trace')
-        babeltrace_cmd = 'babeltrace {}'.format(trace_path)
+        trace_path = os.path.join(runtime.lttng_home, "trace")
+        babeltrace_cmd = "babeltrace {}".format(trace_path)
 
         sessiond = sessiond_spawn(runtime)
         runtime.load_test_module()
@@ -454,7 +526,7 @@ def test_modules_starglobing_enabler(tmpdir, modules_label, tools_label, scenari
         runtime.run("lttng start")
 
         # Generate some event
-        with open(Settings.lttng_test_procfile, 'w') as procfile:
+        with open(Settings.lttng_test_procfile, "w") as procfile:
             procfile.write("{}".format(nb_events))
 
         runtime.run("lttng stop")
@@ -465,4 +537,4 @@ def test_modules_starglobing_enabler(tmpdir, modules_label, tools_label, scenari
             pytest.fail("Return value of sessiond is not zero")
 
         cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
-        assert(line_count(cp_out) == expected_events)
+        assert line_count(cp_out) == expected_events

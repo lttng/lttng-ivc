@@ -47,7 +47,9 @@ matrix_base = [
 """
 Generate tuple for uid and pid mode.
 """
-test_matrix_base = [tup + ("uid",) for tup in matrix_base] + [tup + ("pid",) for tup in matrix_base]
+test_matrix_base = [tup + ("uid",) for tup in matrix_base] + [
+    tup + ("pid",) for tup in matrix_base
+]
 
 """
 First member: relayd via lttng-tools
@@ -90,16 +92,19 @@ matrix_relayd = [
     ("lttng-tools-2.11", "lttng-tools-2.10"),
     ("lttng-tools-2.11", "lttng-tools-2.11"),
     ("lttng-tools-2.11", "lttng-tools-2.12"),
-
 ]
 
 """
 Generate tuple for uid and pid mode.
 """
-test_matrix_relayd = [tup + ("uid",) for tup in matrix_relayd] + [tup + ("pid",) for tup in matrix_relayd]
+test_matrix_relayd = [tup + ("uid",) for tup in matrix_relayd] + [
+    tup + ("pid",) for tup in matrix_relayd
+]
 
 runtime_matrix_base = Settings.generate_runtime_test_matrix(test_matrix_base, [0])
-runtime_matrix_relayd = Settings.generate_runtime_test_matrix(test_matrix_relayd, [0, 1])
+runtime_matrix_relayd = Settings.generate_runtime_test_matrix(
+    test_matrix_relayd, [0, 1]
+)
 
 
 """
@@ -135,10 +140,10 @@ Before this remote path for snapshot is simply broken.
 This is introduced in stable-2.11.
 """
 broken_snapshot_relayd_client = [
-       "lttng-tools-2.7",
-       "lttng-tools-2.8",
-       "lttng-tools-2.9",
-       "lttng-tools-2.10",
+    "lttng-tools-2.7",
+    "lttng-tools-2.8",
+    "lttng-tools-2.9",
+    "lttng-tools-2.10",
 ]
 
 runtime_matrix_relayd_snapshot = []
@@ -170,38 +175,32 @@ def test_output_path_local(tmpdir, version, mode):
                 "",
                 "",
                 "{}/lttng-traces/auto-{}/{}".format(
-                    str(base_path),
-                    datetime_regex,
-                    trailing
-                )
+                    str(base_path), datetime_regex, trailing
+                ),
             ),
             Output_test(
                 "test",
                 "",
                 "{}/lttng-traces/test-{}/{}".format(
-                    str(base_path),
-                    datetime_regex,
-                    trailing
-                )
+                    str(base_path), datetime_regex, trailing
+                ),
             ),
             Output_test(
                 "test-20190319-120000",
                 "",
                 "{}/lttng-traces/test-20190319-120000-{}/{}".format(
-                    str(base_path),
-                    datetime_regex,
-                    trailing
-                )
+                    str(base_path), datetime_regex, trailing
+                ),
             ),
             Output_test(
                 "test1",
                 "--output='{}/custom_output'".format(str(base_path)),
-                "{}/custom_output/{}".format(str(base_path), trailing)
+                "{}/custom_output/{}".format(str(base_path), trailing),
             ),
             Output_test(
                 "test2",
                 "--set-url=file://{}/custom_output2".format(str(base_path)),
-                "{}/custom_output2/{}".format(str(base_path), trailing)
+                "{}/custom_output2/{}".format(str(base_path), trailing),
             ),
         ]
 
@@ -233,7 +232,8 @@ def test_output_path_local(tmpdir, version, mode):
         if failed_tests:
             s = StringIO()
             utils.tree(base_path, s)
-            pytest.fail(pformat(failed_tests) + '\n' + s.getvalue())
+            pytest.fail(pformat(failed_tests) + "\n" + s.getvalue())
+
 
 @pytest.mark.parametrize("version,mode", runtime_matrix_base)
 def test_output_path_snapshot_local_on_create(tmpdir, version, mode):
@@ -243,15 +243,14 @@ def test_output_path_snapshot_local_on_create(tmpdir, version, mode):
     snapshot_re = "snapshot-1-{}-0".format(datetime_re)
     trailing = "{}/ust/{}".format(snapshot_re, mode)
 
-
     Output_test = namedtuple("Output_test", ["name", "command", "path_regex"])
 
     # Prepare environment
     lttng_tools = ProjectFactory.get_precook(version)
 
     app_path = os.path.join(str(tmpdir), "app")
-    app_sync_start = os.path.join(app_path, 'sync_start')
-    app_sync_end = os.path.join(app_path, 'sync_end')
+    app_sync_start = os.path.join(app_path, "sync_start")
+    app_sync_end = os.path.join(app_path, "sync_end")
     shutil.copytree(Settings.apps_gen_events_folder, app_path)
 
     with Run.get_runtime(tmpdir) as runtime:
@@ -261,39 +260,33 @@ def test_output_path_snapshot_local_on_create(tmpdir, version, mode):
                 "",
                 "",
                 "{}/lttng-traces/auto-{}/{}".format(
-                    str(base_path),
-                    datetime_re,
-                    trailing
-                )
+                    str(base_path), datetime_re, trailing
+                ),
             ),
             Output_test(
                 "test",
                 "",
                 "{}/lttng-traces/test-{}/{}".format(
-                    str(base_path),
-                    datetime_re,
-                    trailing
-                )
+                    str(base_path), datetime_re, trailing
+                ),
             ),
             Output_test(
                 "test-20190319-120000",
                 "",
                 "{}/lttng-traces/test-20190319-120000-{}/{}".format(
-                    str(base_path),
-                    datetime_re,
-                    trailing
-                )
+                    str(base_path), datetime_re, trailing
+                ),
             ),
             Output_test(
                 "test1",
                 "--ctrl-url=file://{}/custom_output".format(str(base_path))
                 + " --data-url=''",
-                "{}/custom_output/{}".format(str(base_path), trailing)
+                "{}/custom_output/{}".format(str(base_path), trailing),
             ),
             Output_test(
                 "test2",
                 "--set-url=file://{}/custom_output2".format(str(base_path)),
-                "{}/custom_output2/{}".format(str(base_path), trailing)
+                "{}/custom_output2/{}".format(str(base_path), trailing),
             ),
         ]
 
@@ -315,7 +308,7 @@ def test_output_path_snapshot_local_on_create(tmpdir, version, mode):
             # Run application asynchronously since per-pid and snapshot mode
             # need the application alive at snapshot time. It does not matter
             # in per-uid buffering mode.
-            cmd = './app {} 0 {} {}'.format(nb_loop, app_sync_start, app_sync_end)
+            cmd = "./app {} 0 {} {}".format(nb_loop, app_sync_start, app_sync_end)
             app_id = runtime.spawn_subprocess(cmd, cwd=app_path)
             utils.wait_for_file(app_sync_start)
 
@@ -337,7 +330,8 @@ def test_output_path_snapshot_local_on_create(tmpdir, version, mode):
         if failed_tests:
             s = StringIO()
             utils.tree(base_path, s)
-            pytest.fail(pformat(failed_tests) + '\n' + s.getvalue())
+            pytest.fail(pformat(failed_tests) + "\n" + s.getvalue())
+
 
 @pytest.mark.parametrize("version,mode", runtime_matrix_base)
 def test_output_path_snapshot_local_add_output(tmpdir, version, mode):
@@ -350,15 +344,14 @@ def test_output_path_snapshot_local_add_output(tmpdir, version, mode):
     snapshot_re = "snapshot-1-{}-0".format(datetime_re)
     trailing = "{}/ust/{}".format(snapshot_re, mode)
 
-
     Output_test = namedtuple("Output_test", ["name", "command", "path_regex"])
 
     # Prepare environment
     lttng_tools = ProjectFactory.get_precook(version)
 
     app_path = os.path.join(str(tmpdir), "app")
-    app_sync_start = os.path.join(app_path, 'sync_start')
-    app_sync_end = os.path.join(app_path, 'sync_end')
+    app_sync_start = os.path.join(app_path, "sync_start")
+    app_sync_end = os.path.join(app_path, "sync_end")
     shutil.copytree(Settings.apps_gen_events_folder, app_path)
 
     with Run.get_runtime(tmpdir) as runtime:
@@ -368,12 +361,12 @@ def test_output_path_snapshot_local_add_output(tmpdir, version, mode):
                 "test1",
                 "--ctrl-url=file://{}/custom_output".format(str(base_path))
                 + " --data-url=''",
-                "{}/custom_output/{}".format(str(base_path), trailing)
+                "{}/custom_output/{}".format(str(base_path), trailing),
             ),
             Output_test(
                 "test2",
                 "file://{}/custom_output2".format(str(base_path)),
-                "{}/custom_output2/{}".format(str(base_path), trailing)
+                "{}/custom_output2/{}".format(str(base_path), trailing),
             ),
         ]
 
@@ -390,13 +383,15 @@ def test_output_path_snapshot_local_add_output(tmpdir, version, mode):
             runtime.run("lttng create {} --snapshot --no-output".format(test.name))
             runtime.run("lttng enable-channel -u --buffers-{} channel".format(mode))
             runtime.run("lttng enable-event -u tp:tptest -c channel")
-            runtime.run("lttng snapshot add-output --name snapshot-1 {}".format(test.command))
+            runtime.run(
+                "lttng snapshot add-output --name snapshot-1 {}".format(test.command)
+            )
             runtime.run("lttng start")
 
             # Run application asynchronously since per-pid and snapshot mode
             # need the application alive at snapshot time. It does not matter
             # in per-uid buffering mode.
-            cmd = './app {} 0 {} {}'.format(nb_loop, app_sync_start, app_sync_end)
+            cmd = "./app {} 0 {} {}".format(nb_loop, app_sync_start, app_sync_end)
             app_id = runtime.spawn_subprocess(cmd, cwd=app_path)
             utils.wait_for_file(app_sync_start)
 
@@ -418,7 +413,8 @@ def test_output_path_snapshot_local_add_output(tmpdir, version, mode):
         if failed_tests:
             s = StringIO()
             utils.tree(base_path, s)
-            pytest.fail(pformat(failed_tests) + '\n' + s.getvalue())
+            pytest.fail(pformat(failed_tests) + "\n" + s.getvalue())
+
 
 @pytest.mark.parametrize("client,server,mode", runtime_matrix_relayd)
 def test_output_path_relayd(tmpdir, client, server, mode):
@@ -440,7 +436,9 @@ def test_output_path_relayd(tmpdir, client, server, mode):
     app_path = os.path.join(str(tmpdir), "app")
     shutil.copytree(Settings.apps_gen_events_folder, app_path)
 
-    with Run.get_runtime(tools_runtime_path) as rt_tools, Run.get_runtime(relayd_runtime_path) as rt_relayd:
+    with Run.get_runtime(tools_runtime_path) as rt_tools, Run.get_runtime(
+        relayd_runtime_path
+    ) as rt_relayd:
         rt_tools.add_project(lttng_tools)
         rt_relayd.add_project(relay)
 
@@ -450,79 +448,57 @@ def test_output_path_relayd(tmpdir, client, server, mode):
         sessiond = utils.sessiond_spawn(rt_tools)
         relayd, ctrl_port, data_port, live_port = utils.relayd_spawn(rt_relayd)
 
-        base_path = "{}/{}/{}".format(rt_relayd.lttng_home,
-                                      "lttng-traces",
-                                      hostname)
+        base_path = "{}/{}/{}".format(rt_relayd.lttng_home, "lttng-traces", hostname)
         tests = [
             Output_test(
                 "",
                 "--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
-                "{}/auto-{}/{}".format(
-                    base_path,
-                    datetime_regex,
-                    trailing
-                )
+                "{}/auto-{}/{}".format(base_path, datetime_regex, trailing),
             ),
             Output_test(
                 "test",
                 "--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
-                "{}/test-{}/{}".format(
-                    base_path,
-                    datetime_regex,
-                    trailing
-                )
+                "{}/test-{}/{}".format(base_path, datetime_regex, trailing),
             ),
             Output_test(
                 "test1",
                 "--set-url=net://127.0.0.1:{}:{}/".format(ctrl_port, data_port),
-                "{}/test1-{}/{}".format(
-                    base_path,
-                    datetime_regex,
-                    trailing
-                )
+                "{}/test1-{}/{}".format(base_path, datetime_regex, trailing),
             ),
             Output_test(
                 "test-20190319-120000",
                 "--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
                 "{}/test-20190319-120000-{}/{}".format(
-                    base_path,
-                    datetime_regex,
-                    trailing
-                )
+                    base_path, datetime_regex, trailing
+                ),
             ),
             Output_test(
                 "test3",
-                "--set-url=net://127.0.0.1:{}:{}/custom_output".format(ctrl_port, data_port),
-                "{}/custom_output/{}".format(
-                    base_path,
-                    trailing
-                )
+                "--set-url=net://127.0.0.1:{}:{}/custom_output".format(
+                    ctrl_port, data_port
+                ),
+                "{}/custom_output/{}".format(base_path, trailing),
             ),
             Output_test(
                 "test4",
-                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}".format(ctrl_port, data_port),
-                "{}/test4-{}/{}".format(
-                    base_path,
-                    datetime_regex,
-                    trailing
-                )
+                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}".format(
+                    ctrl_port, data_port
+                ),
+                "{}/test4-{}/{}".format(base_path, datetime_regex, trailing),
             ),
             Output_test(
                 "test5",
-                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output2 --data-url=tcp4://127.0.0.1:{}".format(ctrl_port, data_port),
-                "{}/custom_output2/{}".format(
-                    base_path,
-                    trailing
-                )
+                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output2 --data-url=tcp4://127.0.0.1:{}".format(
+                    ctrl_port, data_port
+                ),
+                "{}/custom_output2/{}".format(base_path, trailing),
             ),
             Output_test(
                 "test6",
-                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}/custom_output3".format(ctrl_port, data_port),
-                "{}/test6-{}/{}".format(
-                    base_path,
-                    datetime_regex,
-                    trailing
-                )
+                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}/custom_output3".format(
+                    ctrl_port, data_port
+                ),
+                "{}/test6-{}/{}".format(base_path, datetime_regex, trailing),
             ),
         ]
 
@@ -546,11 +522,11 @@ def test_output_path_relayd(tmpdir, client, server, mode):
         if failed_tests:
             s = StringIO()
             utils.tree(base_path, s)
-            pytest.fail(pformat(failed_tests) + '\n' + s.getvalue())
+            pytest.fail(pformat(failed_tests) + "\n" + s.getvalue())
+
 
 @pytest.mark.parametrize("client,server,mode,state", runtime_matrix_relayd_snapshot)
-def test_output_path_snapshot_relayd_on_create(tmpdir, client, server,
-        mode, state):
+def test_output_path_snapshot_relayd_on_create(tmpdir, client, server, mode, state):
 
     nb_loop = 10
     datetime_re = "[0-9]{8}-[0-9]{6}"
@@ -565,15 +541,17 @@ def test_output_path_snapshot_relayd_on_create(tmpdir, client, server,
     relay = ProjectFactory.get_precook(server)
 
     app_path = os.path.join(str(tmpdir), "app")
-    app_sync_start = os.path.join(app_path, 'sync_start')
-    app_sync_end = os.path.join(app_path, 'sync_end')
+    app_sync_start = os.path.join(app_path, "sync_start")
+    app_sync_end = os.path.join(app_path, "sync_end")
     shutil.copytree(Settings.apps_gen_events_folder, app_path)
 
     tools_runtime_path = os.path.join(str(tmpdir), "client")
     relayd_runtime_path = os.path.join(str(tmpdir), "relayd")
     app_path = os.path.join(str(tmpdir), "app")
 
-    with Run.get_runtime(tools_runtime_path) as rt_tools, Run.get_runtime(relayd_runtime_path) as rt_relayd:
+    with Run.get_runtime(tools_runtime_path) as rt_tools, Run.get_runtime(
+        relayd_runtime_path
+    ) as rt_relayd:
         rt_tools.add_project(lttng_tools)
         rt_relayd.add_project(relay)
 
@@ -583,91 +561,67 @@ def test_output_path_snapshot_relayd_on_create(tmpdir, client, server,
         sessiond = utils.sessiond_spawn(rt_tools)
         relayd, ctrl_port, data_port, live_port = utils.relayd_spawn(rt_relayd)
 
-        base_path = "{}/{}/{}".format(rt_relayd.lttng_home,
-                                      "lttng-traces",
-                                      hostname)
+        base_path = "{}/{}/{}".format(rt_relayd.lttng_home, "lttng-traces", hostname)
         path_with_session_name_tests = [
             Output_test(
                 "",
                 "--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
-                "{}/auto-{}/{}".format(
-                    base_path,
-                    datetime_re,
-                    trailing
-                )
+                "{}/auto-{}/{}".format(base_path, datetime_re, trailing),
             ),
             Output_test(
                 "test",
                 "--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
-                "{}/test-{}/{}".format(
-                    base_path,
-                    datetime_re,
-                    trailing
-                )
+                "{}/test-{}/{}".format(base_path, datetime_re, trailing),
             ),
             Output_test(
                 "test1",
                 "--set-url=net://127.0.0.1:{}:{}/".format(ctrl_port, data_port),
-                "{}/test1-{}/{}".format(
-                    base_path,
-                    datetime_re,
-                    trailing
-                )
+                "{}/test1-{}/{}".format(base_path, datetime_re, trailing),
             ),
             Output_test(
                 "test-20190319-120000",
                 "--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
                 "{}/test-20190319-120000-{}/{}".format(
-                    base_path,
-                    datetime_re,
-                    trailing
-                )
+                    base_path, datetime_re, trailing
+                ),
             ),
             Output_test(
                 "test4",
-                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}".format(ctrl_port, data_port),
-                "{}/test4-{}/{}".format(
-                    base_path,
-                    datetime_re,
-                    trailing
-                )
+                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}".format(
+                    ctrl_port, data_port
+                ),
+                "{}/test4-{}/{}".format(base_path, datetime_re, trailing),
             ),
             Output_test(
                 "test6",
-                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}/custom_output3".format(ctrl_port, data_port),
-                "{}/test6-{}/{}".format(
-                    base_path,
-                    datetime_re,
-                    trailing
-                )
+                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}/custom_output3".format(
+                    ctrl_port, data_port
+                ),
+                "{}/test6-{}/{}".format(base_path, datetime_re, trailing),
             ),
-
         ]
 
         custom_output_tests = [
             Output_test(
                 "test3",
-                "--set-url=net://127.0.0.1:{}:{}/custom_output".format(ctrl_port, data_port),
-                "{}/custom_output/{}".format(
-                    base_path,
-                    trailing
-                )
+                "--set-url=net://127.0.0.1:{}:{}/custom_output".format(
+                    ctrl_port, data_port
+                ),
+                "{}/custom_output/{}".format(base_path, trailing),
             ),
             Output_test(
                 "test5",
-                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output2 --data-url=tcp4://127.0.0.1:{}".format(ctrl_port, data_port),
-                "{}/custom_output2/{}".format(
-                    base_path,
-                    trailing
-                )
+                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output2 --data-url=tcp4://127.0.0.1:{}".format(
+                    ctrl_port, data_port
+                ),
+                "{}/custom_output2/{}".format(base_path, trailing),
             ),
             Output_test(
                 "test7",
-                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output4 --data-url=tcp4://127.0.0.1:{}/custom_output4".format(ctrl_port, data_port),
-                "{}/custom_output4/{}".format(
-                    base_path,
-                    trailing
-                )
+                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output4 --data-url=tcp4://127.0.0.1:{}/custom_output4".format(
+                    ctrl_port, data_port
+                ),
+                "{}/custom_output4/{}".format(base_path, trailing),
             ),
         ]
 
@@ -678,7 +632,9 @@ def test_output_path_snapshot_relayd_on_create(tmpdir, client, server,
         # Create session using mi to get path and session name
         failed_tests = []
         for test in tests:
-            rt_tools.run("lttng create --snapshot {} {}".format(test.name, test.command))
+            rt_tools.run(
+                "lttng create --snapshot {} {}".format(test.name, test.command)
+            )
             rt_tools.run("lttng enable-channel -u --buffers-{} channel".format(mode))
             rt_tools.run("lttng enable-event -u tp:tptest -c channel")
             rt_tools.run("lttng start")
@@ -686,7 +642,7 @@ def test_output_path_snapshot_relayd_on_create(tmpdir, client, server,
             # Run application asynchronously since per-pid and snapshot mode
             # need the application alive at snapshot time. It does not matter
             # in per-uid buffering mode.
-            cmd = './app {} 0 {} {}'.format(nb_loop, app_sync_start, app_sync_end)
+            cmd = "./app {} 0 {} {}".format(nb_loop, app_sync_start, app_sync_end)
             app_id = rt_tools.spawn_subprocess(cmd, cwd=app_path)
             utils.wait_for_file(app_sync_start)
 
@@ -710,11 +666,11 @@ def test_output_path_snapshot_relayd_on_create(tmpdir, client, server,
         if failed_tests:
             s = StringIO()
             utils.tree(base_path, s)
-            pytest.fail(pformat(failed_tests) + '\n' + s.getvalue())
+            pytest.fail(pformat(failed_tests) + "\n" + s.getvalue())
+
 
 @pytest.mark.parametrize("client,server,mode,state", runtime_matrix_relayd_snapshot)
-def test_output_path_snapshot_relayd_add_output(tmpdir, client, server,
-        mode, state):
+def test_output_path_snapshot_relayd_add_output(tmpdir, client, server, mode, state):
     """
     Test of output path for relayd snapshot output created with 'lttng snapshot
     add-output'.
@@ -732,15 +688,17 @@ def test_output_path_snapshot_relayd_add_output(tmpdir, client, server,
     relay = ProjectFactory.get_precook(server)
 
     app_path = os.path.join(str(tmpdir), "app")
-    app_sync_start = os.path.join(app_path, 'sync_start')
-    app_sync_end = os.path.join(app_path, 'sync_end')
+    app_sync_start = os.path.join(app_path, "sync_start")
+    app_sync_end = os.path.join(app_path, "sync_end")
     shutil.copytree(Settings.apps_gen_events_folder, app_path)
 
     tools_runtime_path = os.path.join(str(tmpdir), "client")
     relayd_runtime_path = os.path.join(str(tmpdir), "relayd")
     app_path = os.path.join(str(tmpdir), "app")
 
-    with Run.get_runtime(tools_runtime_path) as rt_tools, Run.get_runtime(relayd_runtime_path) as rt_relayd:
+    with Run.get_runtime(tools_runtime_path) as rt_tools, Run.get_runtime(
+        relayd_runtime_path
+    ) as rt_relayd:
         rt_tools.add_project(lttng_tools)
         rt_relayd.add_project(relay)
 
@@ -750,82 +708,60 @@ def test_output_path_snapshot_relayd_add_output(tmpdir, client, server,
         sessiond = utils.sessiond_spawn(rt_tools)
         relayd, ctrl_port, data_port, live_port = utils.relayd_spawn(rt_relayd)
 
-        base_path = "{}/{}/{}".format(rt_relayd.lttng_home,
-                                      "lttng-traces",
-                                      hostname)
+        base_path = "{}/{}/{}".format(rt_relayd.lttng_home, "lttng-traces", hostname)
         path_with_session_name_tests = [
             Output_test(
                 "test",
                 "net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
-                "{}/test-{}/{}".format(
-                    base_path,
-                    datetime_re,
-                    trailing
-                )
+                "{}/test-{}/{}".format(base_path, datetime_re, trailing),
             ),
             Output_test(
                 "test1",
                 "net://127.0.0.1:{}:{}/".format(ctrl_port, data_port),
-                "{}/test1-{}/{}".format(
-                    base_path,
-                    datetime_re,
-                    trailing
-                )
+                "{}/test1-{}/{}".format(base_path, datetime_re, trailing),
             ),
             Output_test(
                 "test-20190319-120000",
                 "net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
                 "{}/test-20190319-120000-{}/{}".format(
-                    base_path,
-                    datetime_re,
-                    trailing
-                )
+                    base_path, datetime_re, trailing
+                ),
             ),
             Output_test(
                 "test4",
-                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}".format(ctrl_port, data_port),
-                "{}/test4-{}/{}".format(
-                    base_path,
-                    datetime_re,
-                    trailing
-                )
+                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}".format(
+                    ctrl_port, data_port
+                ),
+                "{}/test4-{}/{}".format(base_path, datetime_re, trailing),
             ),
             Output_test(
                 "test6",
-                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}/custom_output3".format(ctrl_port, data_port),
-                "{}/test6-{}/{}".format(
-                    base_path,
-                    datetime_re,
-                    trailing
-                )
+                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}/custom_output3".format(
+                    ctrl_port, data_port
+                ),
+                "{}/test6-{}/{}".format(base_path, datetime_re, trailing),
             ),
-
         ]
 
         custom_output_tests = [
             Output_test(
                 "test3",
                 "net://127.0.0.1:{}:{}/custom_output".format(ctrl_port, data_port),
-                "{}/custom_output/{}".format(
-                    base_path,
-                    trailing
-                )
+                "{}/custom_output/{}".format(base_path, trailing),
             ),
             Output_test(
                 "test5",
-                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output2 --data-url=tcp4://127.0.0.1:{}".format(ctrl_port, data_port),
-                "{}/custom_output2/{}".format(
-                    base_path,
-                    trailing
-                )
+                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output2 --data-url=tcp4://127.0.0.1:{}".format(
+                    ctrl_port, data_port
+                ),
+                "{}/custom_output2/{}".format(base_path, trailing),
             ),
             Output_test(
                 "test7",
-                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output4 --data-url=tcp4://127.0.0.1:{}/custom_output4".format(ctrl_port, data_port),
-                "{}/custom_output4/{}".format(
-                    base_path,
-                    trailing
-                )
+                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output4 --data-url=tcp4://127.0.0.1:{}/custom_output4".format(
+                    ctrl_port, data_port
+                ),
+                "{}/custom_output4/{}".format(base_path, trailing),
             ),
         ]
 
@@ -839,13 +775,15 @@ def test_output_path_snapshot_relayd_add_output(tmpdir, client, server,
             rt_tools.run("lttng create {} --snapshot --no-output".format(test.name))
             rt_tools.run("lttng enable-channel -u --buffers-{} channel".format(mode))
             rt_tools.run("lttng enable-event -u tp:tptest -c channel")
-            rt_tools.run("lttng snapshot add-output --name snapshot-1 {}".format(test.command))
+            rt_tools.run(
+                "lttng snapshot add-output --name snapshot-1 {}".format(test.command)
+            )
             rt_tools.run("lttng start")
 
             # Run application asynchronously since per-pid and snapshot mode
             # need the application alive at snapshot time. It does not matter
             # in per-uid buffering mode.
-            cmd = './app {} 0 {} {}'.format(nb_loop, app_sync_start, app_sync_end)
+            cmd = "./app {} 0 {} {}".format(nb_loop, app_sync_start, app_sync_end)
             app_id = rt_tools.spawn_subprocess(cmd, cwd=app_path)
             utils.wait_for_file(app_sync_start)
 
@@ -869,4 +807,4 @@ def test_output_path_snapshot_relayd_add_output(tmpdir, client, server,
         if failed_tests:
             s = StringIO()
             utils.tree(base_path, s)
-            pytest.fail(pformat(failed_tests) + '\n' + s.getvalue())
+            pytest.fail(pformat(failed_tests) + "\n" + s.getvalue())

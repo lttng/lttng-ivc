@@ -44,131 +44,194 @@ First member: relayd via lttng-tools
 Second member: consumerd via lttng-tools
 """
 test_matrix_streaming_base = [
-        ("lttng-tools-2.7",  "lttng-tools-2.7",  True),
-        ("lttng-tools-2.7",  "lttng-tools-2.8",  True),
-        ("lttng-tools-2.7",  "lttng-tools-2.9",  True),
-        ("lttng-tools-2.7",  "lttng-tools-2.10", True),
-        ("lttng-tools-2.7",  "lttng-tools-2.11", True),
-        ("lttng-tools-2.7",  "lttng-tools-2.12", True),
-        ("lttng-tools-2.8",  "lttng-tools-2.7",  True),
-        ("lttng-tools-2.8",  "lttng-tools-2.8",  True),
-        ("lttng-tools-2.8",  "lttng-tools-2.9",  True),
-        ("lttng-tools-2.8",  "lttng-tools-2.10", True),
-        ("lttng-tools-2.8",  "lttng-tools-2.11", True),
-        ("lttng-tools-2.8",  "lttng-tools-2.12", True),
-        ("lttng-tools-2.9",  "lttng-tools-2.7",  True),
-        ("lttng-tools-2.9",  "lttng-tools-2.8",  True),
-        ("lttng-tools-2.9",  "lttng-tools-2.9",  True),
-        ("lttng-tools-2.9",  "lttng-tools-2.10", True),
-        ("lttng-tools-2.9",  "lttng-tools-2.11", True),
-        ("lttng-tools-2.9",  "lttng-tools-2.12", True),
-        ("lttng-tools-2.10", "lttng-tools-2.7",  True),
-        ("lttng-tools-2.10", "lttng-tools-2.8",  True),
-        ("lttng-tools-2.10", "lttng-tools-2.9",  True),
-        ("lttng-tools-2.10", "lttng-tools-2.10", True),
-        ("lttng-tools-2.10", "lttng-tools-2.11", True),
-        ("lttng-tools-2.10", "lttng-tools-2.12", True),
-        ("lttng-tools-2.11", "lttng-tools-2.7",  True),
-        ("lttng-tools-2.11", "lttng-tools-2.8",  True),
-        ("lttng-tools-2.11", "lttng-tools-2.9",  True),
-        ("lttng-tools-2.11", "lttng-tools-2.10", True),
-        ("lttng-tools-2.11", "lttng-tools-2.11", True),
-        ("lttng-tools-2.11", "lttng-tools-2.12", True),
-        ("lttng-tools-2.12", "lttng-tools-2.7",  True),
-        ("lttng-tools-2.12", "lttng-tools-2.8",  True),
-        ("lttng-tools-2.12", "lttng-tools-2.9",  True),
-        ("lttng-tools-2.12", "lttng-tools-2.10", True),
-        ("lttng-tools-2.12", "lttng-tools-2.11", True),
-        ("lttng-tools-2.12", "lttng-tools-2.12", True),
-
+    ("lttng-tools-2.7", "lttng-tools-2.7", True),
+    ("lttng-tools-2.7", "lttng-tools-2.8", True),
+    ("lttng-tools-2.7", "lttng-tools-2.9", True),
+    ("lttng-tools-2.7", "lttng-tools-2.10", True),
+    ("lttng-tools-2.7", "lttng-tools-2.11", True),
+    ("lttng-tools-2.7", "lttng-tools-2.12", True),
+    ("lttng-tools-2.8", "lttng-tools-2.7", True),
+    ("lttng-tools-2.8", "lttng-tools-2.8", True),
+    ("lttng-tools-2.8", "lttng-tools-2.9", True),
+    ("lttng-tools-2.8", "lttng-tools-2.10", True),
+    ("lttng-tools-2.8", "lttng-tools-2.11", True),
+    ("lttng-tools-2.8", "lttng-tools-2.12", True),
+    ("lttng-tools-2.9", "lttng-tools-2.7", True),
+    ("lttng-tools-2.9", "lttng-tools-2.8", True),
+    ("lttng-tools-2.9", "lttng-tools-2.9", True),
+    ("lttng-tools-2.9", "lttng-tools-2.10", True),
+    ("lttng-tools-2.9", "lttng-tools-2.11", True),
+    ("lttng-tools-2.9", "lttng-tools-2.12", True),
+    ("lttng-tools-2.10", "lttng-tools-2.7", True),
+    ("lttng-tools-2.10", "lttng-tools-2.8", True),
+    ("lttng-tools-2.10", "lttng-tools-2.9", True),
+    ("lttng-tools-2.10", "lttng-tools-2.10", True),
+    ("lttng-tools-2.10", "lttng-tools-2.11", True),
+    ("lttng-tools-2.10", "lttng-tools-2.12", True),
+    ("lttng-tools-2.11", "lttng-tools-2.7", True),
+    ("lttng-tools-2.11", "lttng-tools-2.8", True),
+    ("lttng-tools-2.11", "lttng-tools-2.9", True),
+    ("lttng-tools-2.11", "lttng-tools-2.10", True),
+    ("lttng-tools-2.11", "lttng-tools-2.11", True),
+    ("lttng-tools-2.11", "lttng-tools-2.12", True),
+    ("lttng-tools-2.12", "lttng-tools-2.7", True),
+    ("lttng-tools-2.12", "lttng-tools-2.8", True),
+    ("lttng-tools-2.12", "lttng-tools-2.9", True),
+    ("lttng-tools-2.12", "lttng-tools-2.10", True),
+    ("lttng-tools-2.12", "lttng-tools-2.11", True),
+    ("lttng-tools-2.12", "lttng-tools-2.12", True),
 ]
 
 test_matrix_streaming_regenerate_metadata = [
-        ("lttng-tools-2.7",  "lttng-tools-2.7",  "metadata regenerate", "Unsupported by tools"),
-        ("lttng-tools-2.7",  "lttng-tools-2.8",  "metadata regenerate", "Unsupported by relayd"),
-        ("lttng-tools-2.7",  "lttng-tools-2.9",  "regenerate metadata", "Unsupported by relayd"),
-        ("lttng-tools-2.7",  "lttng-tools-2.10", "regenerate metadata", "Unsupported by relayd"),
-        ("lttng-tools-2.7",  "lttng-tools-2.11", "regenerate metadata", "Unsupported by relayd"),
-        ("lttng-tools-2.7",  "lttng-tools-2.12", "regenerate metadata", "Unsupported by relayd"),
-        ("lttng-tools-2.8",  "lttng-tools-2.7",  "metadata regenerate", "Unsupported by tools"),
-        ("lttng-tools-2.8",  "lttng-tools-2.8",  "metadata regenerate", "Supported"),
-        ("lttng-tools-2.8",  "lttng-tools-2.9",  "regenerate metadata", "Supported"),
-        ("lttng-tools-2.8",  "lttng-tools-2.10", "regenerate metadata", "Supported"),
-        ("lttng-tools-2.8",  "lttng-tools-2.11", "regenerate metadata", "Supported"),
-        ("lttng-tools-2.8",  "lttng-tools-2.12", "regenerate metadata", "Supported"),
-        ("lttng-tools-2.9",  "lttng-tools-2.7",  "metadata regenerate", "Unsupported by tools"),
-        ("lttng-tools-2.9",  "lttng-tools-2.8",  "metadata regenerate", "Supported"),
-        ("lttng-tools-2.9",  "lttng-tools-2.9",  "regenerate metadata", "Supported"),
-        ("lttng-tools-2.9",  "lttng-tools-2.10", "regenerate metadata", "Supported"),
-        ("lttng-tools-2.9",  "lttng-tools-2.11", "regenerate metadata", "Supported"),
-        ("lttng-tools-2.9",  "lttng-tools-2.12", "regenerate metadata", "Supported"),
-        ("lttng-tools-2.10", "lttng-tools-2.7",  "metadata regenerate", "Unsupported by tools"),
-        ("lttng-tools-2.10", "lttng-tools-2.8",  "metadata regenerate", "Supported"),
-        ("lttng-tools-2.10", "lttng-tools-2.9",  "regenerate metadata", "Supported"),
-        ("lttng-tools-2.10", "lttng-tools-2.10", "regenerate metadata", "Supported"),
-        ("lttng-tools-2.10", "lttng-tools-2.11", "regenerate metadata", "Supported"),
-        ("lttng-tools-2.10", "lttng-tools-2.12", "regenerate metadata", "Supported"),
-        ("lttng-tools-2.11", "lttng-tools-2.7",  "metadata regenerate", "Unsupported by tools"),
-        ("lttng-tools-2.11", "lttng-tools-2.8",  "metadata regenerate", "Supported"),
-        ("lttng-tools-2.11", "lttng-tools-2.9",  "regenerate metadata", "Supported"),
-        ("lttng-tools-2.11", "lttng-tools-2.10", "regenerate metadata", "Supported"),
-        ("lttng-tools-2.11", "lttng-tools-2.11", "regenerate metadata", "Supported"),
-        ("lttng-tools-2.11", "lttng-tools-2.12", "regenerate metadata", "Supported"),
-        ("lttng-tools-2.12", "lttng-tools-2.7",  "metadata regenerate", "Unsupported by tools"),
-        ("lttng-tools-2.12", "lttng-tools-2.8",  "metadata regenerate", "Supported"),
-        ("lttng-tools-2.12", "lttng-tools-2.9",  "regenerate metadata", "Supported"),
-        ("lttng-tools-2.12", "lttng-tools-2.10", "regenerate metadata", "Supported"),
-        ("lttng-tools-2.12", "lttng-tools-2.11", "regenerate metadata", "Supported"),
-        ("lttng-tools-2.12", "lttng-tools-2.12", "regenerate metadata", "Supported"),
-
+    (
+        "lttng-tools-2.7",
+        "lttng-tools-2.7",
+        "metadata regenerate",
+        "Unsupported by tools",
+    ),
+    (
+        "lttng-tools-2.7",
+        "lttng-tools-2.8",
+        "metadata regenerate",
+        "Unsupported by relayd",
+    ),
+    (
+        "lttng-tools-2.7",
+        "lttng-tools-2.9",
+        "regenerate metadata",
+        "Unsupported by relayd",
+    ),
+    (
+        "lttng-tools-2.7",
+        "lttng-tools-2.10",
+        "regenerate metadata",
+        "Unsupported by relayd",
+    ),
+    (
+        "lttng-tools-2.7",
+        "lttng-tools-2.11",
+        "regenerate metadata",
+        "Unsupported by relayd",
+    ),
+    (
+        "lttng-tools-2.7",
+        "lttng-tools-2.12",
+        "regenerate metadata",
+        "Unsupported by relayd",
+    ),
+    (
+        "lttng-tools-2.8",
+        "lttng-tools-2.7",
+        "metadata regenerate",
+        "Unsupported by tools",
+    ),
+    ("lttng-tools-2.8", "lttng-tools-2.8", "metadata regenerate", "Supported"),
+    ("lttng-tools-2.8", "lttng-tools-2.9", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.8", "lttng-tools-2.10", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.8", "lttng-tools-2.11", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.8", "lttng-tools-2.12", "regenerate metadata", "Supported"),
+    (
+        "lttng-tools-2.9",
+        "lttng-tools-2.7",
+        "metadata regenerate",
+        "Unsupported by tools",
+    ),
+    ("lttng-tools-2.9", "lttng-tools-2.8", "metadata regenerate", "Supported"),
+    ("lttng-tools-2.9", "lttng-tools-2.9", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.9", "lttng-tools-2.10", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.9", "lttng-tools-2.11", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.9", "lttng-tools-2.12", "regenerate metadata", "Supported"),
+    (
+        "lttng-tools-2.10",
+        "lttng-tools-2.7",
+        "metadata regenerate",
+        "Unsupported by tools",
+    ),
+    ("lttng-tools-2.10", "lttng-tools-2.8", "metadata regenerate", "Supported"),
+    ("lttng-tools-2.10", "lttng-tools-2.9", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.10", "lttng-tools-2.10", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.10", "lttng-tools-2.11", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.10", "lttng-tools-2.12", "regenerate metadata", "Supported"),
+    (
+        "lttng-tools-2.11",
+        "lttng-tools-2.7",
+        "metadata regenerate",
+        "Unsupported by tools",
+    ),
+    ("lttng-tools-2.11", "lttng-tools-2.8", "metadata regenerate", "Supported"),
+    ("lttng-tools-2.11", "lttng-tools-2.9", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.11", "lttng-tools-2.10", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.11", "lttng-tools-2.11", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.11", "lttng-tools-2.12", "regenerate metadata", "Supported"),
+    (
+        "lttng-tools-2.12",
+        "lttng-tools-2.7",
+        "metadata regenerate",
+        "Unsupported by tools",
+    ),
+    ("lttng-tools-2.12", "lttng-tools-2.8", "metadata regenerate", "Supported"),
+    ("lttng-tools-2.12", "lttng-tools-2.9", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.12", "lttng-tools-2.10", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.12", "lttng-tools-2.11", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.12", "lttng-tools-2.12", "regenerate metadata", "Supported"),
 ]
 
 test_matrix_live_base = [
-        ("lttng-tools-2.7",  "lttng-tools-2.7",  True),
-        ("lttng-tools-2.7",  "lttng-tools-2.8",  True),
-        ("lttng-tools-2.7",  "lttng-tools-2.9",  True),
-        ("lttng-tools-2.7",  "lttng-tools-2.10", True),
-        ("lttng-tools-2.7",  "lttng-tools-2.11", True),
-        ("lttng-tools-2.7",  "lttng-tools-2.12", True),
-        ("lttng-tools-2.8",  "lttng-tools-2.7",  True),
-        ("lttng-tools-2.8",  "lttng-tools-2.8",  True),
-        ("lttng-tools-2.8",  "lttng-tools-2.9",  True),
-        ("lttng-tools-2.8",  "lttng-tools-2.10", True),
-        ("lttng-tools-2.8",  "lttng-tools-2.11", True),
-        ("lttng-tools-2.8",  "lttng-tools-2.12", True),
-        ("lttng-tools-2.9",  "lttng-tools-2.7",  True),
-        ("lttng-tools-2.9",  "lttng-tools-2.8",  True),
-        ("lttng-tools-2.9",  "lttng-tools-2.9",  True),
-        ("lttng-tools-2.9",  "lttng-tools-2.10", True),
-        ("lttng-tools-2.9",  "lttng-tools-2.11", True),
-        ("lttng-tools-2.9",  "lttng-tools-2.12", True),
-        ("lttng-tools-2.10", "lttng-tools-2.7",  True),
-        ("lttng-tools-2.10", "lttng-tools-2.8",  True),
-        ("lttng-tools-2.10", "lttng-tools-2.9",  True),
-        ("lttng-tools-2.10", "lttng-tools-2.10", True),
-        ("lttng-tools-2.10", "lttng-tools-2.11", True),
-        ("lttng-tools-2.10", "lttng-tools-2.12", True),
-        ("lttng-tools-2.11", "lttng-tools-2.7",  True),
-        ("lttng-tools-2.11", "lttng-tools-2.8",  True),
-        ("lttng-tools-2.11", "lttng-tools-2.9",  True),
-        ("lttng-tools-2.11", "lttng-tools-2.10", True),
-        ("lttng-tools-2.11", "lttng-tools-2.11", True),
-        ("lttng-tools-2.11", "lttng-tools-2.12", True),
-        ("lttng-tools-2.12", "lttng-tools-2.7",  True),
-        ("lttng-tools-2.12", "lttng-tools-2.8",  True),
-        ("lttng-tools-2.12", "lttng-tools-2.9",  True),
-        ("lttng-tools-2.12", "lttng-tools-2.10", True),
-        ("lttng-tools-2.12", "lttng-tools-2.11", True),
-        ("lttng-tools-2.12", "lttng-tools-2.12", True),
-
+    ("lttng-tools-2.7", "lttng-tools-2.7", True),
+    ("lttng-tools-2.7", "lttng-tools-2.8", True),
+    ("lttng-tools-2.7", "lttng-tools-2.9", True),
+    ("lttng-tools-2.7", "lttng-tools-2.10", True),
+    ("lttng-tools-2.7", "lttng-tools-2.11", True),
+    ("lttng-tools-2.7", "lttng-tools-2.12", True),
+    ("lttng-tools-2.8", "lttng-tools-2.7", True),
+    ("lttng-tools-2.8", "lttng-tools-2.8", True),
+    ("lttng-tools-2.8", "lttng-tools-2.9", True),
+    ("lttng-tools-2.8", "lttng-tools-2.10", True),
+    ("lttng-tools-2.8", "lttng-tools-2.11", True),
+    ("lttng-tools-2.8", "lttng-tools-2.12", True),
+    ("lttng-tools-2.9", "lttng-tools-2.7", True),
+    ("lttng-tools-2.9", "lttng-tools-2.8", True),
+    ("lttng-tools-2.9", "lttng-tools-2.9", True),
+    ("lttng-tools-2.9", "lttng-tools-2.10", True),
+    ("lttng-tools-2.9", "lttng-tools-2.11", True),
+    ("lttng-tools-2.9", "lttng-tools-2.12", True),
+    ("lttng-tools-2.10", "lttng-tools-2.7", True),
+    ("lttng-tools-2.10", "lttng-tools-2.8", True),
+    ("lttng-tools-2.10", "lttng-tools-2.9", True),
+    ("lttng-tools-2.10", "lttng-tools-2.10", True),
+    ("lttng-tools-2.10", "lttng-tools-2.11", True),
+    ("lttng-tools-2.10", "lttng-tools-2.12", True),
+    ("lttng-tools-2.11", "lttng-tools-2.7", True),
+    ("lttng-tools-2.11", "lttng-tools-2.8", True),
+    ("lttng-tools-2.11", "lttng-tools-2.9", True),
+    ("lttng-tools-2.11", "lttng-tools-2.10", True),
+    ("lttng-tools-2.11", "lttng-tools-2.11", True),
+    ("lttng-tools-2.11", "lttng-tools-2.12", True),
+    ("lttng-tools-2.12", "lttng-tools-2.7", True),
+    ("lttng-tools-2.12", "lttng-tools-2.8", True),
+    ("lttng-tools-2.12", "lttng-tools-2.9", True),
+    ("lttng-tools-2.12", "lttng-tools-2.10", True),
+    ("lttng-tools-2.12", "lttng-tools-2.11", True),
+    ("lttng-tools-2.12", "lttng-tools-2.12", True),
 ]
 
-runtime_matrix_streaming_base = Settings.generate_runtime_test_matrix(test_matrix_streaming_base, [0, 1])
-runtime_matrix_streaming_regenerate_metadata = Settings.generate_runtime_test_matrix(test_matrix_streaming_regenerate_metadata, [0, 1])
-runtime_matrix_live_base = Settings.generate_runtime_test_matrix(test_matrix_live_base, [0, 1])
+runtime_matrix_streaming_base = Settings.generate_runtime_test_matrix(
+    test_matrix_streaming_base, [0, 1]
+)
+runtime_matrix_streaming_regenerate_metadata = Settings.generate_runtime_test_matrix(
+    test_matrix_streaming_regenerate_metadata, [0, 1]
+)
+runtime_matrix_live_base = Settings.generate_runtime_test_matrix(
+    test_matrix_live_base, [0, 1]
+)
 
-@pytest.mark.parametrize("relayd_label,consumerd_label,scenario", runtime_matrix_streaming_base)
-def test_relayd_vs_consumerd_streaming_base(tmpdir, relayd_label, consumerd_label, scenario):
+
+@pytest.mark.parametrize(
+    "relayd_label,consumerd_label,scenario", runtime_matrix_streaming_base
+)
+def test_relayd_vs_consumerd_streaming_base(
+    tmpdir, relayd_label, consumerd_label, scenario
+):
 
     nb_loop = 100
     nb_expected_events = 100
@@ -182,7 +245,9 @@ def test_relayd_vs_consumerd_streaming_base(tmpdir, relayd_label, consumerd_labe
     consumerd_runtime_path = os.path.join(str(tmpdir), "consumerd")
     app_path = os.path.join(str(tmpdir), "app")
 
-    with Run.get_runtime(relayd_runtime_path) as runtime_relayd, Run.get_runtime(consumerd_runtime_path) as runtime_consumerd:
+    with Run.get_runtime(relayd_runtime_path) as runtime_relayd, Run.get_runtime(
+        consumerd_runtime_path
+    ) as runtime_consumerd:
         runtime_relayd.add_project(relayd)
         runtime_relayd.add_project(babeltrace)
         runtime_consumerd.add_project(consumerd)
@@ -198,32 +263,36 @@ def test_relayd_vs_consumerd_streaming_base(tmpdir, relayd_label, consumerd_labe
         url = "net://localhost:{}:{}".format(ctrl_port, data_port)
 
         # Create session using mi to get path and session name
-        runtime_consumerd.run('lttng create --set-url={} trace '.format(url))
+        runtime_consumerd.run("lttng create --set-url={} trace ".format(url))
 
-        runtime_consumerd.run('lttng enable-event -u tp:tptest')
-        runtime_consumerd.run('lttng start')
+        runtime_consumerd.run("lttng enable-event -u tp:tptest")
+        runtime_consumerd.run("lttng start")
 
         # Run application
-        cmd = './app {}'.format(nb_loop)
+        cmd = "./app {}".format(nb_loop)
         runtime_consumerd.run(cmd, cwd=app_path)
 
         # Stop tracing
-        runtime_consumerd.run('lttng stop')
-        runtime_consumerd.run('lttng destroy -a')
+        runtime_consumerd.run("lttng stop")
+        runtime_consumerd.run("lttng destroy -a")
         runtime_consumerd.subprocess_terminate(sessiond)
 
         # TODO check for error.
         runtime_relayd.subprocess_terminate(relayd)
 
-
         # Read trace with babeltrace and check for event count via number of line
-        cmd = 'babeltrace {}'.format(runtime_relayd.lttng_home)
+        cmd = "babeltrace {}".format(runtime_relayd.lttng_home)
         cp_process, cp_out, cp_err = runtime_relayd.run(cmd)
-        assert(utils.line_count(cp_out) == nb_expected_events)
+        assert utils.line_count(cp_out) == nb_expected_events
 
 
-@pytest.mark.parametrize("relayd_label,consumerd_label,command, scenario", runtime_matrix_streaming_regenerate_metadata)
-def test_relayd_vs_consumerd_streaming_regenerate_metadata(tmpdir, relayd_label, consumerd_label, command, scenario):
+@pytest.mark.parametrize(
+    "relayd_label,consumerd_label,command, scenario",
+    runtime_matrix_streaming_regenerate_metadata,
+)
+def test_relayd_vs_consumerd_streaming_regenerate_metadata(
+    tmpdir, relayd_label, consumerd_label, command, scenario
+):
 
     nb_loop = 100
     nb_expected_events = 100
@@ -237,13 +306,14 @@ def test_relayd_vs_consumerd_streaming_regenerate_metadata(tmpdir, relayd_label,
     consumerd_runtime_path = os.path.join(str(tmpdir), "consumerd")
     app_path = os.path.join(str(tmpdir), "app")
 
-
-    with Run.get_runtime(relayd_runtime_path) as runtime_relayd, Run.get_runtime(consumerd_runtime_path) as runtime_consumerd:
+    with Run.get_runtime(relayd_runtime_path) as runtime_relayd, Run.get_runtime(
+        consumerd_runtime_path
+    ) as runtime_consumerd:
         runtime_relayd.add_project(relayd)
         runtime_relayd.add_project(babeltrace)
         runtime_consumerd.add_project(consumerd)
 
-        babeltrace_cmd = 'babeltrace {}'.format(runtime_relayd.lttng_home)
+        babeltrace_cmd = "babeltrace {}".format(runtime_relayd.lttng_home)
 
         # Make application using the ust runtime
         shutil.copytree(Settings.apps_gen_events_folder, app_path)
@@ -256,21 +326,21 @@ def test_relayd_vs_consumerd_streaming_regenerate_metadata(tmpdir, relayd_label,
         url = "net://localhost:{}:{}".format(ctrl_port, data_port)
 
         # Create session using mi to get path and session name
-        runtime_consumerd.run('lttng create --set-url={} trace '.format(url))
+        runtime_consumerd.run("lttng create --set-url={} trace ".format(url))
 
-        runtime_consumerd.run('lttng enable-event -u tp:tptest')
-        runtime_consumerd.run('lttng start')
+        runtime_consumerd.run("lttng enable-event -u tp:tptest")
+        runtime_consumerd.run("lttng start")
 
         # Run application
-        cmd = './app {}'.format(nb_loop)
+        cmd = "./app {}".format(nb_loop)
         runtime_consumerd.run(cmd, cwd=app_path)
 
         # Stop tracing
-        runtime_consumerd.run('lttng stop')
+        runtime_consumerd.run("lttng stop")
 
         # Empty the metadata file
         metadata = utils.find_file(runtime_relayd.lttng_home, "metadata")
-        open(metadata, 'w').close()
+        open(metadata, "w").close()
 
         # Babeltrace should never be able to parse the trace
         with pytest.raises(subprocess.CalledProcessError):
@@ -295,8 +365,8 @@ def test_relayd_vs_consumerd_streaming_regenerate_metadata(tmpdir, relayd_label,
 
         runtime_consumerd.run("lttng {}".format(command))
 
-        runtime_consumerd.run('lttng stop')
-        runtime_consumerd.run('lttng destroy -a')
+        runtime_consumerd.run("lttng stop")
+        runtime_consumerd.run("lttng destroy -a")
 
         # Make sure everything looks good
         sessiond = runtime_consumerd.subprocess_terminate(sessiond)
@@ -310,7 +380,10 @@ def test_relayd_vs_consumerd_streaming_regenerate_metadata(tmpdir, relayd_label,
         cp_process, cp_out, cp_err = runtime_relayd.run(babeltrace_cmd)
         assert utils.line_count(cp_out) == nb_expected_events
 
-@pytest.mark.parametrize("relayd_label,consumerd_label,scenario", runtime_matrix_streaming_base)
+
+@pytest.mark.parametrize(
+    "relayd_label,consumerd_label,scenario", runtime_matrix_streaming_base
+)
 def test_relayd_vs_consumerd_live_base(tmpdir, relayd_label, consumerd_label, scenario):
 
     nb_loop = 100
@@ -325,7 +398,9 @@ def test_relayd_vs_consumerd_live_base(tmpdir, relayd_label, consumerd_label, sc
     consumerd_runtime_path = os.path.join(str(tmpdir), "consumerd")
     app_path = os.path.join(str(tmpdir), "app")
 
-    with Run.get_runtime(relayd_runtime_path) as runtime_relayd, Run.get_runtime(consumerd_runtime_path) as runtime_consumerd:
+    with Run.get_runtime(relayd_runtime_path) as runtime_relayd, Run.get_runtime(
+        consumerd_runtime_path
+    ) as runtime_consumerd:
         runtime_relayd.add_project(relayd)
         runtime_relayd.add_project(babeltrace)
         runtime_consumerd.add_project(consumerd)
@@ -341,27 +416,24 @@ def test_relayd_vs_consumerd_live_base(tmpdir, relayd_label, consumerd_label, sc
         url = "net://localhost:{}:{}".format(ctrl_port, data_port)
 
         # Create session using mi to get path and session name
-        runtime_consumerd.run('lttng create --live --set-url={} trace '.format(url))
+        runtime_consumerd.run("lttng create --live --set-url={} trace ".format(url))
 
-        runtime_consumerd.run('lttng enable-event -u tp:tptest')
-        runtime_consumerd.run('lttng start')
+        runtime_consumerd.run("lttng enable-event -u tp:tptest")
+        runtime_consumerd.run("lttng start")
 
         # Run application
-        cmd = './app {}'.format(nb_loop)
+        cmd = "./app {}".format(nb_loop)
         runtime_consumerd.run(cmd, cwd=app_path)
 
         # Stop tracing
-        runtime_consumerd.run('lttng stop')
-        runtime_consumerd.run('lttng destroy -a')
+        runtime_consumerd.run("lttng stop")
+        runtime_consumerd.run("lttng destroy -a")
         runtime_consumerd.subprocess_terminate(sessiond)
 
         # TODO check for error.
         runtime_relayd.subprocess_terminate(relayd)
 
-
         # Read trace with babeltrace and check for event count via number of line
-        cmd = 'babeltrace {}'.format(runtime_relayd.lttng_home)
+        cmd = "babeltrace {}".format(runtime_relayd.lttng_home)
         cp_process, cp_out, cp_err = runtime_relayd.run(cmd)
-        assert(utils.line_count(cp_out) == nb_expected_events)
-
-
+        assert utils.line_count(cp_out) == nb_expected_events

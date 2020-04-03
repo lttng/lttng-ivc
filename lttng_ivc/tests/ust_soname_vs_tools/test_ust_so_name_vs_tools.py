@@ -83,36 +83,94 @@ test_matrix_label = [
     ("lttng-ust-2.9", "lttng-tools-2.10", "lttng-ust-2.10", False),
     ("lttng-ust-2.9", "lttng-tools-2.11", "lttng-ust-2.11", False),
     ("lttng-ust-2.9", "lttng-tools-2.12", "lttng-ust-2.12", False),
-    pytest.param("lttng-ust-2.10", "lttng-tools-2.7", "lttng-ust-2.7", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
-    pytest.param("lttng-ust-2.10", "lttng-tools-2.8", "lttng-ust-2.8", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
-    pytest.param("lttng-ust-2.10", "lttng-tools-2.9", "lttng-ust-2.9", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
+    pytest.param(
+        "lttng-ust-2.10",
+        "lttng-tools-2.7",
+        "lttng-ust-2.7",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail but does not ...."),
+    ),
+    pytest.param(
+        "lttng-ust-2.10",
+        "lttng-tools-2.8",
+        "lttng-ust-2.8",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail but does not ...."),
+    ),
+    pytest.param(
+        "lttng-ust-2.10",
+        "lttng-tools-2.9",
+        "lttng-ust-2.9",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail but does not ...."),
+    ),
     ("lttng-ust-2.10", "lttng-tools-2.10", "lttng-ust-2.10", True),
     ("lttng-ust-2.10", "lttng-tools-2.11", "lttng-ust-2.11", True),
-    pytest.param("lttng-ust-2.11", "lttng-tools-2.7", "lttng-ust-2.7", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
-    pytest.param("lttng-ust-2.11", "lttng-tools-2.8", "lttng-ust-2.8", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
-    pytest.param("lttng-ust-2.11", "lttng-tools-2.9", "lttng-ust-2.9", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
+    pytest.param(
+        "lttng-ust-2.11",
+        "lttng-tools-2.7",
+        "lttng-ust-2.7",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail but does not ...."),
+    ),
+    pytest.param(
+        "lttng-ust-2.11",
+        "lttng-tools-2.8",
+        "lttng-ust-2.8",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail but does not ...."),
+    ),
+    pytest.param(
+        "lttng-ust-2.11",
+        "lttng-tools-2.9",
+        "lttng-ust-2.9",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail but does not ...."),
+    ),
     ("lttng-ust-2.11", "lttng-tools-2.10", "lttng-ust-2.10", True),
     ("lttng-ust-2.11", "lttng-tools-2.11", "lttng-ust-2.11", True),
     ("lttng-ust-2.11", "lttng-tools-2.12", "lttng-ust-2.12", True),
-    pytest.param("lttng-ust-2.12", "lttng-tools-2.7", "lttng-ust-2.7", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
-    pytest.param("lttng-ust-2.12", "lttng-tools-2.8", "lttng-ust-2.8", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
-    pytest.param("lttng-ust-2.12", "lttng-tools-2.9", "lttng-ust-2.9", False, marks=pytest.mark.xfail(reason="Should fail but does not ....")),
+    pytest.param(
+        "lttng-ust-2.12",
+        "lttng-tools-2.7",
+        "lttng-ust-2.7",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail but does not ...."),
+    ),
+    pytest.param(
+        "lttng-ust-2.12",
+        "lttng-tools-2.8",
+        "lttng-ust-2.8",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail but does not ...."),
+    ),
+    pytest.param(
+        "lttng-ust-2.12",
+        "lttng-tools-2.9",
+        "lttng-ust-2.9",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail but does not ...."),
+    ),
     ("lttng-ust-2.12", "lttng-tools-2.10", "lttng-ust-2.10", True),
     ("lttng-ust-2.12", "lttng-tools-2.11", "lttng-ust-2.11", True),
     ("lttng-ust-2.12", "lttng-tools-2.12", "lttng-ust-2.12", True),
-
 ]
 
 runtime_matrix_label = Settings.generate_runtime_test_matrix(test_matrix_label, [0, 1])
 
-@pytest.mark.parametrize("ust_label,tools_label,base_tools_ust_dep,should_pass", runtime_matrix_label)
-def test_soname_configure(tmpdir, ust_label, tools_label, base_tools_ust_dep, should_pass):
+
+@pytest.mark.parametrize(
+    "ust_label,tools_label,base_tools_ust_dep,should_pass", runtime_matrix_label
+)
+def test_soname_configure(
+    tmpdir, ust_label, tools_label, base_tools_ust_dep, should_pass
+):
     ust = ProjectFactory.get_fresh(ust_label, str(tmpdir.mkdir("lttng-ust")))
     tools = ProjectFactory.get_fresh(tools_label, str(tmpdir.mkdir("lttng-tools")))
 
     ust.autobuild()
 
-    tools.dependencies['custom-ust'] = ust
+    tools.dependencies["custom-ust"] = ust
     # TODO: Propose fixes to upstream regarding the check
     if not should_pass:
         # Making sure we get a error here
@@ -128,18 +186,20 @@ def test_soname_configure(tmpdir, ust_label, tools_label, base_tools_ust_dep, sh
         tools.configure()
 
 
-@pytest.mark.parametrize("ust_label,tools_label,base_tools_ust_dep,should_pass", runtime_matrix_label)
+@pytest.mark.parametrize(
+    "ust_label,tools_label,base_tools_ust_dep,should_pass", runtime_matrix_label
+)
 def test_soname_build(tmpdir, ust_label, tools_label, base_tools_ust_dep, should_pass):
     ust = ProjectFactory.get_fresh(ust_label, str(tmpdir.mkdir("lttng-ust")))
-    tools = ProjectFactory.get_fresh(tools_label,
-            str(tmpdir.mkdir("lttng-tools")))
-    ust_configure_mockup = ProjectFactory.get_fresh(ust_label,
-            str(tmpdir.mkdir("lttng-ust-base")))
+    tools = ProjectFactory.get_fresh(tools_label, str(tmpdir.mkdir("lttng-tools")))
+    ust_configure_mockup = ProjectFactory.get_fresh(
+        ust_label, str(tmpdir.mkdir("lttng-ust-base"))
+    )
 
     ust.autobuild()
     ust_configure_mockup.autobuild()
 
-    tools.dependencies['custom-ust'] = ust_configure_mockup
+    tools.dependencies["custom-ust"] = ust_configure_mockup
     # Fool configure
     if not should_pass:
         # It's okai if we get an error here
@@ -149,7 +209,6 @@ def test_soname_build(tmpdir, ust_label, tools_label, base_tools_ust_dep, should
             print(error)
     else:
         tools.configure()
-
 
     # Use ust under test
     tools.special_env_variables["CPPFLAGS"] = ust.get_cppflags()

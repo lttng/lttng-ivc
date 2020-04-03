@@ -31,6 +31,7 @@ import lttng_ivc.settings as Settings
 
 from lttng_ivc.utils.skip import must_be_root
 from itertools import combinations
+
 """
 
 FC: Fully Compatible
@@ -48,80 +49,114 @@ BC: Feature of the smallest version number will works.
 
 """
 test_matrix_base_ust = [
-        ("babeltrace-1.3", "lttng-tools-2.7"),
-        ("babeltrace-1.3", "lttng-tools-2.8"),
-        ("babeltrace-1.3", "lttng-tools-2.9"),
-        ("babeltrace-1.3", "lttng-tools-2.10"),
-        ("babeltrace-1.3", "lttng-tools-2.11"),
-        ("babeltrace-1.3", "lttng-tools-2.12"),
-        ("babeltrace-1.4", "lttng-tools-2.7"),
-        ("babeltrace-1.4", "lttng-tools-2.8"),
-        ("babeltrace-1.4", "lttng-tools-2.9"),
-        ("babeltrace-1.4", "lttng-tools-2.10"),
-        ("babeltrace-1.4", "lttng-tools-2.11"),
-        ("babeltrace-1.4", "lttng-tools-2.12"),
-        ("babeltrace-1.5", "lttng-tools-2.7"),
-        ("babeltrace-1.5", "lttng-tools-2.8"),
-        ("babeltrace-1.5", "lttng-tools-2.9"),
-        ("babeltrace-1.5", "lttng-tools-2.11"),
-        ("babeltrace-1.5", "lttng-tools-2.12"),
+    ("babeltrace-1.3", "lttng-tools-2.7"),
+    ("babeltrace-1.3", "lttng-tools-2.8"),
+    ("babeltrace-1.3", "lttng-tools-2.9"),
+    ("babeltrace-1.3", "lttng-tools-2.10"),
+    ("babeltrace-1.3", "lttng-tools-2.11"),
+    ("babeltrace-1.3", "lttng-tools-2.12"),
+    ("babeltrace-1.4", "lttng-tools-2.7"),
+    ("babeltrace-1.4", "lttng-tools-2.8"),
+    ("babeltrace-1.4", "lttng-tools-2.9"),
+    ("babeltrace-1.4", "lttng-tools-2.10"),
+    ("babeltrace-1.4", "lttng-tools-2.11"),
+    ("babeltrace-1.4", "lttng-tools-2.12"),
+    ("babeltrace-1.5", "lttng-tools-2.7"),
+    ("babeltrace-1.5", "lttng-tools-2.8"),
+    ("babeltrace-1.5", "lttng-tools-2.9"),
+    ("babeltrace-1.5", "lttng-tools-2.11"),
+    ("babeltrace-1.5", "lttng-tools-2.12"),
 ]
 
 test_matrix_base_modules = [
-        ("babeltrace-1.3", "lttng-modules-2.7",  "lttng-tools-2.7"),
-        ("babeltrace-1.3", "lttng-modules-2.8",  "lttng-tools-2.8"),
-        ("babeltrace-1.3", "lttng-modules-2.9",  "lttng-tools-2.9"),
-        ("babeltrace-1.3", "lttng-modules-2.10", "lttng-tools-2.10"),
-        ("babeltrace-1.3", "lttng-modules-2.11", "lttng-tools-2.11"),
-        ("babeltrace-1.3", "lttng-modules-2.12", "lttng-tools-2.12"),
-        ("babeltrace-1.4", "lttng-modules-2.7",  "lttng-tools-2.7"),
-        ("babeltrace-1.4", "lttng-modules-2.8",  "lttng-tools-2.8"),
-        ("babeltrace-1.4", "lttng-modules-2.9",  "lttng-tools-2.9"),
-        ("babeltrace-1.4", "lttng-modules-2.10", "lttng-tools-2.10"),
-        ("babeltrace-1.4", "lttng-modules-2.11", "lttng-tools-2.11"),
-        ("babeltrace-1.4", "lttng-modules-2.12", "lttng-tools-2.12"),
-        ("babeltrace-1.5", "lttng-modules-2.7",  "lttng-tools-2.7"),
-        ("babeltrace-1.5", "lttng-modules-2.8",  "lttng-tools-2.8"),
-        ("babeltrace-1.5", "lttng-modules-2.9",  "lttng-tools-2.9"),
-        ("babeltrace-1.5", "lttng-modules-2.10", "lttng-tools-2.10"),
-        ("babeltrace-1.5", "lttng-modules-2.11", "lttng-tools-2.11"),
-        ("babeltrace-1.5", "lttng-modules-2.12", "lttng-tools-2.12"),
+    ("babeltrace-1.3", "lttng-modules-2.7", "lttng-tools-2.7"),
+    ("babeltrace-1.3", "lttng-modules-2.8", "lttng-tools-2.8"),
+    ("babeltrace-1.3", "lttng-modules-2.9", "lttng-tools-2.9"),
+    ("babeltrace-1.3", "lttng-modules-2.10", "lttng-tools-2.10"),
+    ("babeltrace-1.3", "lttng-modules-2.11", "lttng-tools-2.11"),
+    ("babeltrace-1.3", "lttng-modules-2.12", "lttng-tools-2.12"),
+    ("babeltrace-1.4", "lttng-modules-2.7", "lttng-tools-2.7"),
+    ("babeltrace-1.4", "lttng-modules-2.8", "lttng-tools-2.8"),
+    ("babeltrace-1.4", "lttng-modules-2.9", "lttng-tools-2.9"),
+    ("babeltrace-1.4", "lttng-modules-2.10", "lttng-tools-2.10"),
+    ("babeltrace-1.4", "lttng-modules-2.11", "lttng-tools-2.11"),
+    ("babeltrace-1.4", "lttng-modules-2.12", "lttng-tools-2.12"),
+    ("babeltrace-1.5", "lttng-modules-2.7", "lttng-tools-2.7"),
+    ("babeltrace-1.5", "lttng-modules-2.8", "lttng-tools-2.8"),
+    ("babeltrace-1.5", "lttng-modules-2.9", "lttng-tools-2.9"),
+    ("babeltrace-1.5", "lttng-modules-2.10", "lttng-tools-2.10"),
+    ("babeltrace-1.5", "lttng-modules-2.11", "lttng-tools-2.11"),
+    ("babeltrace-1.5", "lttng-modules-2.12", "lttng-tools-2.12"),
 ]
 
 test_matrix_lost_packet = [
-        ("babeltrace-1.3", False),
-        ("babeltrace-1.4", True),
-        ("babeltrace-1.5", True),
+    ("babeltrace-1.3", False),
+    ("babeltrace-1.4", True),
+    ("babeltrace-1.5", True),
 ]
 
 test_matrix_same_trace_modules = [
-        (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-modules-2.7",  "lttng-tools-2.7"),
-        (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-modules-2.8",  "lttng-tools-2.8"),
-        (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-modules-2.9",  "lttng-tools-2.9"),
-        (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-modules-2.10", "lttng-tools-2.10"),
-        (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-modules-2.11", "lttng-tools-2.11"),
-        (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-modules-2.12", "lttng-tools-2.12"),
+    (
+        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"],
+        "lttng-modules-2.7",
+        "lttng-tools-2.7",
+    ),
+    (
+        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"],
+        "lttng-modules-2.8",
+        "lttng-tools-2.8",
+    ),
+    (
+        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"],
+        "lttng-modules-2.9",
+        "lttng-tools-2.9",
+    ),
+    (
+        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"],
+        "lttng-modules-2.10",
+        "lttng-tools-2.10",
+    ),
+    (
+        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"],
+        "lttng-modules-2.11",
+        "lttng-tools-2.11",
+    ),
+    (
+        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"],
+        "lttng-modules-2.12",
+        "lttng-tools-2.12",
+    ),
 ]
 
 test_matrix_same_trace_ust = [
-        (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.7"),
-        (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.8"),
-        (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.9"),
-        (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.10"),
-        (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.11"),
-        (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.12"),
+    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.7"),
+    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.8"),
+    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.9"),
+    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.10"),
+    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.11"),
+    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.12"),
 ]
 
 
-runtime_matrix_base_ust = Settings.generate_runtime_test_matrix(test_matrix_base_ust, [0, 1])
-runtime_matrix_lost_packet = Settings.generate_runtime_test_matrix(test_matrix_lost_packet, [0])
-runtime_matrix_base_modules = Settings.generate_runtime_test_matrix(test_matrix_base_modules, [0, 1, 2])
+runtime_matrix_base_ust = Settings.generate_runtime_test_matrix(
+    test_matrix_base_ust, [0, 1]
+)
+runtime_matrix_lost_packet = Settings.generate_runtime_test_matrix(
+    test_matrix_lost_packet, [0]
+)
+runtime_matrix_base_modules = Settings.generate_runtime_test_matrix(
+    test_matrix_base_modules, [0, 1, 2]
+)
 
 # For these if one of the babeltrace is "deprecated" or in the "test only", the
 # whole sub list will be discarded/passed. We can do further processing later on when
 # this situation occurs.
-runtime_matrix_same_trace_modules = Settings.generate_runtime_test_matrix(test_matrix_same_trace_modules, [0, 1])
-runtime_matrix_same_trace_ust = Settings.generate_runtime_test_matrix(test_matrix_same_trace_ust, [0, 1])
+runtime_matrix_same_trace_modules = Settings.generate_runtime_test_matrix(
+    test_matrix_same_trace_modules, [0, 1]
+)
+runtime_matrix_same_trace_ust = Settings.generate_runtime_test_matrix(
+    test_matrix_same_trace_ust, [0, 1]
+)
 
 
 @pytest.mark.parametrize("babeltrace_l, tools_l", runtime_matrix_base_ust)
@@ -148,28 +183,28 @@ def test_babeltrace_base_ust(tmpdir, babeltrace_l, tools_l):
         sessiond = utils.sessiond_spawn(runtime)
 
         # Create session using mi to get path and session name
-        runtime.run('lttng create trace')
-        runtime.run('lttng enable-event -u tp:tptest')
-        runtime.run('lttng start')
+        runtime.run("lttng create trace")
+        runtime.run("lttng enable-event -u tp:tptest")
+        runtime.run("lttng start")
 
         # Run application
-        cmd = './app {}'.format(nb_events)
+        cmd = "./app {}".format(nb_events)
         runtime.run(cmd, cwd=app_path)
 
         # Stop tracing
-        runtime.run('lttng stop')
-        runtime.run('lttng destroy -a')
+        runtime.run("lttng stop")
+        runtime.run("lttng destroy -a")
         cp = runtime.subprocess_terminate(sessiond)
         if cp.returncode != 0:
             pytest.fail("Sessiond return code")
 
         # Do not validate the metadata only the return code of babeltrace
-        cmd = 'babeltrace -o ctf-metadata {}'.format(runtime.lttng_home)
+        cmd = "babeltrace -o ctf-metadata {}".format(runtime.lttng_home)
         runtime.run(cmd)
 
-        cmd = 'babeltrace {}'.format(runtime.lttng_home)
+        cmd = "babeltrace {}".format(runtime.lttng_home)
         cp_process, cp_out, cp_err = runtime.run(cmd)
-        assert(utils.line_count(cp_out) == nb_events)
+        assert utils.line_count(cp_out) == nb_events
 
 
 @must_be_root
@@ -194,7 +229,7 @@ def test_babeltrace_base_modules(tmpdir, babeltrace_l, modules_l, tools_l):
         runtime.run("lttng create trace")
         runtime.run("lttng enable-event -k lttng_test_filter_event")
         runtime.run("lttng start")
-        with open(Settings.lttng_test_procfile, 'w') as procfile:
+        with open(Settings.lttng_test_procfile, "w") as procfile:
             procfile.write("{}".format(nb_events))
 
         runtime.run("lttng stop")
@@ -205,13 +240,15 @@ def test_babeltrace_base_modules(tmpdir, babeltrace_l, modules_l, tools_l):
             pytest.fail("Return value of sessiond is not zero")
             return
 
-        babeltrace_cmd = 'babeltrace {}'.format(runtime.lttng_home)
+        babeltrace_cmd = "babeltrace {}".format(runtime.lttng_home)
         cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
-        assert(utils.line_count(cp_out) == nb_events)
+        assert utils.line_count(cp_out) == nb_events
 
 
 @must_be_root
-@pytest.mark.parametrize("babeltrace_list,modules_l,tools_l", runtime_matrix_same_trace_modules)
+@pytest.mark.parametrize(
+    "babeltrace_list,modules_l,tools_l", runtime_matrix_same_trace_modules
+)
 def test_babeltrace_same_trace_modules(tmpdir, babeltrace_list, modules_l, tools_l):
     modules = ProjectFactory.get_precook(modules_l)
     if modules.skip:
@@ -230,7 +267,7 @@ def test_babeltrace_same_trace_modules(tmpdir, babeltrace_list, modules_l, tools
         runtime.run("lttng create trace")
         runtime.run("lttng enable-event -k lttng_test_filter_event")
         runtime.run("lttng start")
-        with open(Settings.lttng_test_procfile, 'w') as procfile:
+        with open(Settings.lttng_test_procfile, "w") as procfile:
             procfile.write("{}".format(nb_events))
 
         runtime.run("lttng stop")
@@ -247,9 +284,9 @@ def test_babeltrace_same_trace_modules(tmpdir, babeltrace_list, modules_l, tools
         for label in babeltrace_list:
             babeltrace = ProjectFactory.get_precook(label)
             runtime.add_project(babeltrace)
-            babeltrace_cmd = 'babeltrace {}'.format(runtime.lttng_home)
+            babeltrace_cmd = "babeltrace {}".format(runtime.lttng_home)
             cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
-            assert (utils.line_count(cp_out) == nb_events)
+            assert utils.line_count(cp_out) == nb_events
             processed_trace_files[label] = cp_out
             runtime.remove_project(babeltrace)
 
@@ -257,7 +294,10 @@ def test_babeltrace_same_trace_modules(tmpdir, babeltrace_list, modules_l, tools
         for a, b in combinations(processed_trace_files, 2):
             version_a = processed_trace_files[a]
             version_b = processed_trace_files[b]
-            assert (filecmp.cmp(version_a, version_b)), "Processed trace from {} and {} differ.".format(a,b)
+            assert filecmp.cmp(
+                version_a, version_b
+            ), "Processed trace from {} and {} differ.".format(a, b)
+
 
 @pytest.mark.parametrize("babeltrace_list,tools_l", runtime_matrix_same_trace_ust)
 def test_babeltrace_same_trace_ust(tmpdir, babeltrace_list, tools_l):
@@ -276,17 +316,17 @@ def test_babeltrace_same_trace_ust(tmpdir, babeltrace_list, tools_l):
         sessiond = utils.sessiond_spawn(runtime)
 
         # Create session using mi to get path and session name
-        runtime.run('lttng create trace')
-        runtime.run('lttng enable-event -u tp:tptest')
-        runtime.run('lttng start')
+        runtime.run("lttng create trace")
+        runtime.run("lttng enable-event -u tp:tptest")
+        runtime.run("lttng start")
 
         # Run application
-        cmd = './app {}'.format(nb_events)
+        cmd = "./app {}".format(nb_events)
         runtime.run(cmd, cwd=app_path)
 
         # Stop tracing
-        runtime.run('lttng stop')
-        runtime.run('lttng destroy -a')
+        runtime.run("lttng stop")
+        runtime.run("lttng destroy -a")
         cp = runtime.subprocess_terminate(sessiond)
         if cp.returncode != 0:
             pytest.fail("Sessiond return code")
@@ -297,9 +337,9 @@ def test_babeltrace_same_trace_ust(tmpdir, babeltrace_list, tools_l):
         for label in babeltrace_list:
             babeltrace = ProjectFactory.get_precook(label)
             runtime.add_project(babeltrace)
-            babeltrace_cmd = 'babeltrace {}'.format(runtime.lttng_home)
+            babeltrace_cmd = "babeltrace {}".format(runtime.lttng_home)
             cp_process, cp_out, cp_err = runtime.run(babeltrace_cmd)
-            assert (utils.line_count(cp_out) == nb_events)
+            assert utils.line_count(cp_out) == nb_events
             processed_trace_files[label] = cp_out
             runtime.remove_project(babeltrace)
 
@@ -307,8 +347,9 @@ def test_babeltrace_same_trace_ust(tmpdir, babeltrace_list, tools_l):
         for a, b in combinations(processed_trace_files, 2):
             version_a = processed_trace_files[a]
             version_b = processed_trace_files[b]
-            assert (filecmp.cmp(version_a, version_b)), "Processed trace from {} and {} differ.".format(a, b)
-
+            assert filecmp.cmp(
+                version_a, version_b
+            ), "Processed trace from {} and {} differ.".format(a, b)
 
 
 @pytest.mark.parametrize("babeltrace_l,supported", runtime_matrix_lost_packet)
@@ -322,10 +363,10 @@ def test_babeltrace_lost_patcket(tmpdir, babeltrace_l, supported):
         cmd = "babeltrace {}".format(trace_path)
         cp, cp_out, cp_err = runtime.run(cmd)
         if supported:
-            assert(utils.file_contains(cp_err, "Tracer lost 3 trace packets"))
-            assert(utils.file_contains(cp_err, "Tracer lost 2 trace packets"))
-            assert(utils.file_contains(cp_err, "Tracer lost 1 trace packets"))
+            assert utils.file_contains(cp_err, "Tracer lost 3 trace packets")
+            assert utils.file_contains(cp_err, "Tracer lost 2 trace packets")
+            assert utils.file_contains(cp_err, "Tracer lost 1 trace packets")
         else:
             os.path.getsize(cp_err) > 0
 
-        assert(utils.line_count(cp_out) == 8)
+        assert utils.line_count(cp_out) == 8

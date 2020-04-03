@@ -46,49 +46,55 @@ Third tuple member: expected scenario
 event_registration_error = "Error: UST app recv reg unsupported version"
 
 test_matrix_base_app_tracing_available = [
-    ("lttng-ust-2.7", "lttng-tools-2.7",   True),
-    ("lttng-ust-2.7", "lttng-tools-2.8",   True),
-    ("lttng-ust-2.7", "lttng-tools-2.9",   True),
-    ("lttng-ust-2.7", "lttng-tools-2.10",  True),
-    ("lttng-ust-2.7", "lttng-tools-2.11",  True),
-    ("lttng-ust-2.7", "lttng-tools-2.12",  True),
-    ("lttng-ust-2.8", "lttng-tools-2.7",   True),
-    ("lttng-ust-2.8", "lttng-tools-2.8",   True),
-    ("lttng-ust-2.8", "lttng-tools-2.9",   True),
-    ("lttng-ust-2.8", "lttng-tools-2.10",  True),
-    ("lttng-ust-2.8", "lttng-tools-2.11",  True),
-    ("lttng-ust-2.8", "lttng-tools-2.12",  True),
-    ("lttng-ust-2.9", "lttng-tools-2.7",   True),
-    ("lttng-ust-2.9", "lttng-tools-2.8",   True),
-    ("lttng-ust-2.9", "lttng-tools-2.9",   True),
-    ("lttng-ust-2.9", "lttng-tools-2.10",  True),
-    ("lttng-ust-2.9", "lttng-tools-2.11",  True),
-    ("lttng-ust-2.9", "lttng-tools-2.12",  True),
-    ("lttng-ust-2.10", "lttng-tools-2.7",  True),
-    ("lttng-ust-2.10", "lttng-tools-2.8",  True),
-    ("lttng-ust-2.10", "lttng-tools-2.9",  True),
+    ("lttng-ust-2.7", "lttng-tools-2.7", True),
+    ("lttng-ust-2.7", "lttng-tools-2.8", True),
+    ("lttng-ust-2.7", "lttng-tools-2.9", True),
+    ("lttng-ust-2.7", "lttng-tools-2.10", True),
+    ("lttng-ust-2.7", "lttng-tools-2.11", True),
+    ("lttng-ust-2.7", "lttng-tools-2.12", True),
+    ("lttng-ust-2.8", "lttng-tools-2.7", True),
+    ("lttng-ust-2.8", "lttng-tools-2.8", True),
+    ("lttng-ust-2.8", "lttng-tools-2.9", True),
+    ("lttng-ust-2.8", "lttng-tools-2.10", True),
+    ("lttng-ust-2.8", "lttng-tools-2.11", True),
+    ("lttng-ust-2.8", "lttng-tools-2.12", True),
+    ("lttng-ust-2.9", "lttng-tools-2.7", True),
+    ("lttng-ust-2.9", "lttng-tools-2.8", True),
+    ("lttng-ust-2.9", "lttng-tools-2.9", True),
+    ("lttng-ust-2.9", "lttng-tools-2.10", True),
+    ("lttng-ust-2.9", "lttng-tools-2.11", True),
+    ("lttng-ust-2.9", "lttng-tools-2.12", True),
+    ("lttng-ust-2.10", "lttng-tools-2.7", True),
+    ("lttng-ust-2.10", "lttng-tools-2.8", True),
+    ("lttng-ust-2.10", "lttng-tools-2.9", True),
     ("lttng-ust-2.10", "lttng-tools-2.10", True),
     ("lttng-ust-2.10", "lttng-tools-2.11", True),
     ("lttng-ust-2.10", "lttng-tools-2.12", True),
-    ("lttng-ust-2.11", "lttng-tools-2.7",  True),
-    ("lttng-ust-2.11", "lttng-tools-2.8",  True),
-    ("lttng-ust-2.11", "lttng-tools-2.9",  True),
+    ("lttng-ust-2.11", "lttng-tools-2.7", True),
+    ("lttng-ust-2.11", "lttng-tools-2.8", True),
+    ("lttng-ust-2.11", "lttng-tools-2.9", True),
     ("lttng-ust-2.11", "lttng-tools-2.10", True),
     ("lttng-ust-2.11", "lttng-tools-2.11", True),
     ("lttng-ust-2.11", "lttng-tools-2.12", True),
-    ("lttng-ust-2.12", "lttng-tools-2.7",  True),
-    ("lttng-ust-2.12", "lttng-tools-2.8",  True),
-    ("lttng-ust-2.12", "lttng-tools-2.9",  True),
+    ("lttng-ust-2.12", "lttng-tools-2.7", True),
+    ("lttng-ust-2.12", "lttng-tools-2.8", True),
+    ("lttng-ust-2.12", "lttng-tools-2.9", True),
     ("lttng-ust-2.12", "lttng-tools-2.10", True),
     ("lttng-ust-2.12", "lttng-tools-2.11", True),
     ("lttng-ust-2.12", "lttng-tools-2.12", True),
-
 ]
 
-runtime_matrix_base_app_tracing_available = Settings.generate_runtime_test_matrix(test_matrix_base_app_tracing_available, [0, 1])
+runtime_matrix_base_app_tracing_available = Settings.generate_runtime_test_matrix(
+    test_matrix_base_app_tracing_available, [0, 1]
+)
 
-@pytest.mark.parametrize("ust_label,tools_label,success", runtime_matrix_base_app_tracing_available)
-def test_ust_app_tools_update_tracing_available(tmpdir, ust_label, tools_label, success):
+
+@pytest.mark.parametrize(
+    "ust_label,tools_label,success", runtime_matrix_base_app_tracing_available
+)
+def test_ust_app_tools_update_tracing_available(
+    tmpdir, ust_label, tools_label, success
+):
 
     nb_events = 100
 
@@ -101,14 +107,16 @@ def test_ust_app_tools_update_tracing_available(tmpdir, ust_label, tools_label, 
     ust_runtime_path = os.path.join(str(tmpdir), "ust")
     app_path = os.path.join(str(tmpdir), "app")
 
-    with Run.get_runtime(ust_runtime_path) as runtime_app, Run.get_runtime(tools_runtime_path) as runtime_tools:
+    with Run.get_runtime(ust_runtime_path) as runtime_app, Run.get_runtime(
+        tools_runtime_path
+    ) as runtime_tools:
         runtime_tools.add_project(tools)
         runtime_tools.add_project(babeltrace)
 
         runtime_app.add_project(ust)
         runtime_app.lttng_home = runtime_tools.lttng_home
 
-        trace_path = os.path.join(runtime_tools.lttng_home, 'trace')
+        trace_path = os.path.join(runtime_tools.lttng_home, "trace")
 
         # Make application using the ust runtime
         shutil.copytree(Settings.apps_gen_events_folder, app_path)
@@ -118,29 +126,29 @@ def test_ust_app_tools_update_tracing_available(tmpdir, ust_label, tools_label, 
         sessiond = utils.sessiond_spawn(runtime_tools)
 
         # Create session using mi to get path and session name
-        runtime_tools.run('lttng create trace --output={}'.format(trace_path))
+        runtime_tools.run("lttng create trace --output={}".format(trace_path))
 
-        runtime_tools.run('lttng enable-event -u tp:tptest')
-        runtime_tools.run('lttng start')
+        runtime_tools.run("lttng enable-event -u tp:tptest")
+        runtime_tools.run("lttng start")
 
         # Run application
-        cmd = './app {}'.format(nb_events)
+        cmd = "./app {}".format(nb_events)
         runtime_tools.run(cmd, cwd=app_path)
 
         runtime_tools.run("objdump -p ./app", cwd=app_path)
         runtime_app.run("objdump -p ./app", cwd=app_path)
 
         # Stop tracing
-        runtime_tools.run('lttng stop')
-        runtime_tools.run('lttng destroy -a')
+        runtime_tools.run("lttng stop")
+        runtime_tools.run("lttng destroy -a")
         cp = runtime_tools.subprocess_terminate(sessiond)
         if cp.returncode != 0:
             pytest.fail("Sessiond return code")
 
-        cmd = 'babeltrace {}'.format(trace_path)
+        cmd = "babeltrace {}".format(trace_path)
         if success:
             cp_process, cp_out, cp_err = runtime_tools.run(cmd)
-            assert(utils.line_count(cp_out) == nb_events)
+            assert utils.line_count(cp_out) == nb_events
         else:
             with pytest.raises(subprocess.CalledProcessError):
                 cp_process, cp_out, cp_err = runtime_tools.run(cmd)

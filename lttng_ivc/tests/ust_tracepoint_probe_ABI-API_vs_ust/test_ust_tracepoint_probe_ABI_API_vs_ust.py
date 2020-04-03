@@ -74,91 +74,94 @@ fail_app = "fail_on_app"
 success = "success"
 
 test_matrix_enum = [
-        ("lttng-ust-2.7",  "lttng-tools-2.7",  fail_provider, 0),
-        ("lttng-ust-2.7",  "lttng-tools-2.8",  fail_provider, 0),
-        ("lttng-ust-2.7",  "lttng-tools-2.9",  fail_provider, 0),
-        ("lttng-ust-2.7",  "lttng-tools-2.10", fail_provider, 0),
-        ("lttng-ust-2.7",  "lttng-tools-2.11", fail_provider, 0),
-        ("lttng-ust-2.7",  "lttng-tools-2.12", fail_provider, 0),
-        ("lttng-ust-2.8",  "lttng-tools-2.7",  success, 100),
-        ("lttng-ust-2.8",  "lttng-tools-2.8",  success, 200),
-        ("lttng-ust-2.8",  "lttng-tools-2.9",  success, 200),
-        ("lttng-ust-2.8",  "lttng-tools-2.10", success, 200),
-        ("lttng-ust-2.8",  "lttng-tools-2.11", success, 200),
-        ("lttng-ust-2.8",  "lttng-tools-2.12", success, 200),
-        ("lttng-ust-2.9",  "lttng-tools-2.7",  success, 100),
-        ("lttng-ust-2.9",  "lttng-tools-2.8",  success, 200),
-        ("lttng-ust-2.9",  "lttng-tools-2.9",  success, 200),
-        ("lttng-ust-2.9",  "lttng-tools-2.10", success, 200),
-        ("lttng-ust-2.9",  "lttng-tools-2.11", success, 200),
-        ("lttng-ust-2.9",  "lttng-tools-2.12", success, 200),
-        ("lttng-ust-2.10", "lttng-tools-2.7",  success, 100),
-        ("lttng-ust-2.10", "lttng-tools-2.8",  success, 200),
-        ("lttng-ust-2.10", "lttng-tools-2.9",  success, 200),
-        ("lttng-ust-2.10", "lttng-tools-2.10", success, 200),
-        ("lttng-ust-2.10", "lttng-tools-2.11", success, 200),
-        ("lttng-ust-2.10", "lttng-tools-2.11", success, 200),
-        ("lttng-ust-2.10", "lttng-tools-2.12", success, 200),
-        ("lttng-ust-2.11", "lttng-tools-2.7",  success, 100),
-        ("lttng-ust-2.11", "lttng-tools-2.8",  success, 200),
-        ("lttng-ust-2.11", "lttng-tools-2.9",  success, 200),
-        ("lttng-ust-2.11", "lttng-tools-2.10", success, 200),
-        ("lttng-ust-2.11", "lttng-tools-2.11", success, 200),
-        ("lttng-ust-2.11", "lttng-tools-2.12", success, 200),
-        ("lttng-ust-2.12", "lttng-tools-2.7",  success, 100),
-        ("lttng-ust-2.12", "lttng-tools-2.8",  success, 200),
-        ("lttng-ust-2.12", "lttng-tools-2.9",  success, 200),
-        ("lttng-ust-2.12", "lttng-tools-2.10", success, 200),
-        ("lttng-ust-2.12", "lttng-tools-2.11", success, 200),
-        ("lttng-ust-2.12", "lttng-tools-2.12", success, 200),
-
+    ("lttng-ust-2.7", "lttng-tools-2.7", fail_provider, 0),
+    ("lttng-ust-2.7", "lttng-tools-2.8", fail_provider, 0),
+    ("lttng-ust-2.7", "lttng-tools-2.9", fail_provider, 0),
+    ("lttng-ust-2.7", "lttng-tools-2.10", fail_provider, 0),
+    ("lttng-ust-2.7", "lttng-tools-2.11", fail_provider, 0),
+    ("lttng-ust-2.7", "lttng-tools-2.12", fail_provider, 0),
+    ("lttng-ust-2.8", "lttng-tools-2.7", success, 100),
+    ("lttng-ust-2.8", "lttng-tools-2.8", success, 200),
+    ("lttng-ust-2.8", "lttng-tools-2.9", success, 200),
+    ("lttng-ust-2.8", "lttng-tools-2.10", success, 200),
+    ("lttng-ust-2.8", "lttng-tools-2.11", success, 200),
+    ("lttng-ust-2.8", "lttng-tools-2.12", success, 200),
+    ("lttng-ust-2.9", "lttng-tools-2.7", success, 100),
+    ("lttng-ust-2.9", "lttng-tools-2.8", success, 200),
+    ("lttng-ust-2.9", "lttng-tools-2.9", success, 200),
+    ("lttng-ust-2.9", "lttng-tools-2.10", success, 200),
+    ("lttng-ust-2.9", "lttng-tools-2.11", success, 200),
+    ("lttng-ust-2.9", "lttng-tools-2.12", success, 200),
+    ("lttng-ust-2.10", "lttng-tools-2.7", success, 100),
+    ("lttng-ust-2.10", "lttng-tools-2.8", success, 200),
+    ("lttng-ust-2.10", "lttng-tools-2.9", success, 200),
+    ("lttng-ust-2.10", "lttng-tools-2.10", success, 200),
+    ("lttng-ust-2.10", "lttng-tools-2.11", success, 200),
+    ("lttng-ust-2.10", "lttng-tools-2.11", success, 200),
+    ("lttng-ust-2.10", "lttng-tools-2.12", success, 200),
+    ("lttng-ust-2.11", "lttng-tools-2.7", success, 100),
+    ("lttng-ust-2.11", "lttng-tools-2.8", success, 200),
+    ("lttng-ust-2.11", "lttng-tools-2.9", success, 200),
+    ("lttng-ust-2.11", "lttng-tools-2.10", success, 200),
+    ("lttng-ust-2.11", "lttng-tools-2.11", success, 200),
+    ("lttng-ust-2.11", "lttng-tools-2.12", success, 200),
+    ("lttng-ust-2.12", "lttng-tools-2.7", success, 100),
+    ("lttng-ust-2.12", "lttng-tools-2.8", success, 200),
+    ("lttng-ust-2.12", "lttng-tools-2.9", success, 200),
+    ("lttng-ust-2.12", "lttng-tools-2.10", success, 200),
+    ("lttng-ust-2.12", "lttng-tools-2.11", success, 200),
+    ("lttng-ust-2.12", "lttng-tools-2.12", success, 200),
 ]
 
 test_matrix_base = [
-        ("lttng-ust-2.7",  "lttng-tools-2.7",  success),
-        ("lttng-ust-2.7",  "lttng-tools-2.8",  success),
-        ("lttng-ust-2.7",  "lttng-tools-2.9",  success),
-        ("lttng-ust-2.7",  "lttng-tools-2.10", success),
-        ("lttng-ust-2.7",  "lttng-tools-2.11", success),
-        ("lttng-ust-2.7",  "lttng-tools-2.12", success),
-        ("lttng-ust-2.8",  "lttng-tools-2.7",  success),
-        ("lttng-ust-2.8",  "lttng-tools-2.8",  success),
-        ("lttng-ust-2.8",  "lttng-tools-2.9",  success),
-        ("lttng-ust-2.8",  "lttng-tools-2.10", success),
-        ("lttng-ust-2.8",  "lttng-tools-2.11", success),
-        ("lttng-ust-2.8",  "lttng-tools-2.12", success),
-        ("lttng-ust-2.9",  "lttng-tools-2.7",  success),
-        ("lttng-ust-2.9",  "lttng-tools-2.8",  success),
-        ("lttng-ust-2.9",  "lttng-tools-2.9",  success),
-        ("lttng-ust-2.9",  "lttng-tools-2.10", success),
-        ("lttng-ust-2.9",  "lttng-tools-2.11", success),
-        ("lttng-ust-2.9",  "lttng-tools-2.12", success),
-        ("lttng-ust-2.10", "lttng-tools-2.7",  success),
-        ("lttng-ust-2.10", "lttng-tools-2.8",  success),
-        ("lttng-ust-2.10", "lttng-tools-2.9",  success),
-        ("lttng-ust-2.10", "lttng-tools-2.10", success),
-        ("lttng-ust-2.10", "lttng-tools-2.11", success),
-        ("lttng-ust-2.10", "lttng-tools-2.12", success),
-        ("lttng-ust-2.11", "lttng-tools-2.7",  success),
-        ("lttng-ust-2.11", "lttng-tools-2.8",  success),
-        ("lttng-ust-2.11", "lttng-tools-2.9",  success),
-        ("lttng-ust-2.11", "lttng-tools-2.10", success),
-        ("lttng-ust-2.11", "lttng-tools-2.11", success),
-        ("lttng-ust-2.11", "lttng-tools-2.12", success),
-        ("lttng-ust-2.12", "lttng-tools-2.7",  success),
-        ("lttng-ust-2.12", "lttng-tools-2.8",  success),
-        ("lttng-ust-2.12", "lttng-tools-2.9",  success),
-        ("lttng-ust-2.12", "lttng-tools-2.10", success),
-        ("lttng-ust-2.12", "lttng-tools-2.11", success),
-        ("lttng-ust-2.12", "lttng-tools-2.12", success),
-
+    ("lttng-ust-2.7", "lttng-tools-2.7", success),
+    ("lttng-ust-2.7", "lttng-tools-2.8", success),
+    ("lttng-ust-2.7", "lttng-tools-2.9", success),
+    ("lttng-ust-2.7", "lttng-tools-2.10", success),
+    ("lttng-ust-2.7", "lttng-tools-2.11", success),
+    ("lttng-ust-2.7", "lttng-tools-2.12", success),
+    ("lttng-ust-2.8", "lttng-tools-2.7", success),
+    ("lttng-ust-2.8", "lttng-tools-2.8", success),
+    ("lttng-ust-2.8", "lttng-tools-2.9", success),
+    ("lttng-ust-2.8", "lttng-tools-2.10", success),
+    ("lttng-ust-2.8", "lttng-tools-2.11", success),
+    ("lttng-ust-2.8", "lttng-tools-2.12", success),
+    ("lttng-ust-2.9", "lttng-tools-2.7", success),
+    ("lttng-ust-2.9", "lttng-tools-2.8", success),
+    ("lttng-ust-2.9", "lttng-tools-2.9", success),
+    ("lttng-ust-2.9", "lttng-tools-2.10", success),
+    ("lttng-ust-2.9", "lttng-tools-2.11", success),
+    ("lttng-ust-2.9", "lttng-tools-2.12", success),
+    ("lttng-ust-2.10", "lttng-tools-2.7", success),
+    ("lttng-ust-2.10", "lttng-tools-2.8", success),
+    ("lttng-ust-2.10", "lttng-tools-2.9", success),
+    ("lttng-ust-2.10", "lttng-tools-2.10", success),
+    ("lttng-ust-2.10", "lttng-tools-2.11", success),
+    ("lttng-ust-2.10", "lttng-tools-2.12", success),
+    ("lttng-ust-2.11", "lttng-tools-2.7", success),
+    ("lttng-ust-2.11", "lttng-tools-2.8", success),
+    ("lttng-ust-2.11", "lttng-tools-2.9", success),
+    ("lttng-ust-2.11", "lttng-tools-2.10", success),
+    ("lttng-ust-2.11", "lttng-tools-2.11", success),
+    ("lttng-ust-2.11", "lttng-tools-2.12", success),
+    ("lttng-ust-2.12", "lttng-tools-2.7", success),
+    ("lttng-ust-2.12", "lttng-tools-2.8", success),
+    ("lttng-ust-2.12", "lttng-tools-2.9", success),
+    ("lttng-ust-2.12", "lttng-tools-2.10", success),
+    ("lttng-ust-2.12", "lttng-tools-2.11", success),
+    ("lttng-ust-2.12", "lttng-tools-2.12", success),
 ]
 
 runtime_matrix_enum = Settings.generate_runtime_test_matrix(test_matrix_enum, [0, 1])
 runtime_matrix_base = Settings.generate_runtime_test_matrix(test_matrix_base, [0, 1])
 
-@pytest.mark.parametrize("ust_label,tools_label,scenario, expected_event", runtime_matrix_enum)
-def test_ust_tracepoint_abi_api_vs_ust_enum(tmpdir, ust_label, tools_label, scenario, expected_event):
+
+@pytest.mark.parametrize(
+    "ust_label,tools_label,scenario, expected_event", runtime_matrix_enum
+)
+def test_ust_tracepoint_abi_api_vs_ust_enum(
+    tmpdir, ust_label, tools_label, scenario, expected_event
+):
 
     nb_loop = 100
     nb_expected_events = expected_event
@@ -172,14 +175,16 @@ def test_ust_tracepoint_abi_api_vs_ust_enum(tmpdir, ust_label, tools_label, scen
     ust_runtime_path = os.path.join(str(tmpdir), "ust")
     app_path = os.path.join(str(tmpdir), "app")
 
-    with Run.get_runtime(ust_runtime_path) as runtime_ust, Run.get_runtime(tools_runtime_path) as runtime_tools:
+    with Run.get_runtime(ust_runtime_path) as runtime_ust, Run.get_runtime(
+        tools_runtime_path
+    ) as runtime_tools:
         runtime_tools.add_project(tools)
         runtime_tools.add_project(babeltrace)
 
         runtime_ust.add_project(ust)
         runtime_ust.lttng_home = runtime_tools.lttng_home
 
-        trace_path = os.path.join(runtime_tools.lttng_home, 'trace')
+        trace_path = os.path.join(runtime_tools.lttng_home, "trace")
 
         # Make application using the ust runtime
         shutil.copytree(Settings.apps_preload_provider_folder, app_path)
@@ -204,28 +209,30 @@ def test_ust_tracepoint_abi_api_vs_ust_enum(tmpdir, ust_label, tools_label, scen
         sessiond = utils.sessiond_spawn(runtime_tools)
 
         # Create session using mi to get path and session name
-        runtime_tools.run('lttng create trace --output={}'.format(trace_path))
+        runtime_tools.run("lttng create trace --output={}".format(trace_path))
 
-        runtime_tools.run('lttng enable-event -u tp:tptest,tp:tpenum')
-        runtime_tools.run('lttng start')
+        runtime_tools.run("lttng enable-event -u tp:tptest,tp:tpenum")
+        runtime_tools.run("lttng start")
 
         # Run application
-        cmd = './app-enum {}'.format(nb_loop)
+        cmd = "./app-enum {}".format(nb_loop)
         runtime_tools.run(cmd, cwd=app_path, ld_preload="./libtp-enum.so")
 
         # Stop tracing
-        runtime_tools.run('lttng stop')
-        runtime_tools.run('lttng destroy -a')
+        runtime_tools.run("lttng stop")
+        runtime_tools.run("lttng destroy -a")
         runtime_tools.subprocess_terminate(sessiond)
 
-
         # Read trace with babeltrace and check for event count via number of line
-        cmd = 'babeltrace {}'.format(trace_path)
+        cmd = "babeltrace {}".format(trace_path)
         cp_process, cp_out, cp_err = runtime_tools.run(cmd)
-        assert(utils.line_count(cp_out) == nb_expected_events)
+        assert utils.line_count(cp_out) == nb_expected_events
+
 
 @pytest.mark.parametrize("ust_label,tools_label,scenario", runtime_matrix_base)
-def test_ust_tracepoint_probe_abi_api_vs_ust_base(tmpdir, ust_label, tools_label, scenario):
+def test_ust_tracepoint_probe_abi_api_vs_ust_base(
+    tmpdir, ust_label, tools_label, scenario
+):
 
     nb_loop = 100
     nb_expected_events = 200
@@ -239,14 +246,16 @@ def test_ust_tracepoint_probe_abi_api_vs_ust_base(tmpdir, ust_label, tools_label
     ust_runtime_path = os.path.join(str(tmpdir), "ust")
     app_path = os.path.join(str(tmpdir), "app")
 
-    with Run.get_runtime(ust_runtime_path) as runtime_ust, Run.get_runtime(tools_runtime_path) as runtime_tools:
+    with Run.get_runtime(ust_runtime_path) as runtime_ust, Run.get_runtime(
+        tools_runtime_path
+    ) as runtime_tools:
         runtime_tools.add_project(tools)
         runtime_tools.add_project(babeltrace)
 
         runtime_ust.add_project(ust)
         runtime_ust.lttng_home = runtime_tools.lttng_home
 
-        trace_path = os.path.join(runtime_tools.lttng_home, 'trace')
+        trace_path = os.path.join(runtime_tools.lttng_home, "trace")
 
         # Make application using the ust runtime
         shutil.copytree(Settings.apps_preload_provider_folder, app_path)
@@ -261,22 +270,21 @@ def test_ust_tracepoint_probe_abi_api_vs_ust_base(tmpdir, ust_label, tools_label
         sessiond = utils.sessiond_spawn(runtime_tools)
 
         # Create session using mi to get path and session name
-        runtime_tools.run('lttng create trace --output={}'.format(trace_path))
+        runtime_tools.run("lttng create trace --output={}".format(trace_path))
 
-        runtime_tools.run('lttng enable-event -u tp:tptest,tp:tpenum')
-        runtime_tools.run('lttng start')
+        runtime_tools.run("lttng enable-event -u tp:tptest,tp:tpenum")
+        runtime_tools.run("lttng start")
 
         # Run application
-        cmd = './app {}'.format(nb_loop)
+        cmd = "./app {}".format(nb_loop)
         runtime_tools.run(cmd, cwd=app_path, ld_preload="./libtp.so")
 
         # Stop tracing
-        runtime_tools.run('lttng stop')
-        runtime_tools.run('lttng destroy -a')
+        runtime_tools.run("lttng stop")
+        runtime_tools.run("lttng destroy -a")
         runtime_tools.subprocess_terminate(sessiond)
 
-
         # Read trace with babeltrace and check for event count via number of line
-        cmd = 'babeltrace {}'.format(trace_path)
+        cmd = "babeltrace {}".format(trace_path)
         cp_process, cp_out, cp_err = runtime_tools.run(cmd)
-        assert(utils.line_count(cp_out) == nb_expected_events)
+        assert utils.line_count(cp_out) == nb_expected_events
