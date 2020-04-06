@@ -33,8 +33,17 @@ import settings as Settings
 logging.basicConfig(level=logging.INFO)
 _logger = logging.getLogger('project.cache_builder')
 
+projects_under_test = {}
+
+# Fetch the project under test
+# We start with the complete set and substract deprecated projects
+with open(Settings.run_configuration_file, 'r') as stream:
+    projects_under_test = set(yaml.load(stream, Loader=yaml.FullLoader))
+
+projects_under_test = projects_under_test.difference(Settings.projects_deprecated)
+
 # Prebuild all projects
-for key in Settings.projects_under_test:
+for key in projects_under_test:
     _logger.info('Preparing and building %s', key)
     ProjectFactory.get_precook(key)
     _logger.info('Done: %s', key)

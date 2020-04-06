@@ -9,7 +9,6 @@ test_only = {}
 projects_deprecated = {"lttng-ust-2.7", "lttng-modules-2.7", "lttng-tools-2.7",
                        "lttng-ust-2.8", "lttng-modules-2.8", "lttng-tools-2.8",
                        "lttng-ust-2.9", "lttng-modules-2.9", "lttng-tools-2.9"}
-projects_under_test = {}
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -36,19 +35,11 @@ tmp_object_prefix = "lttng-ivc-"
 
 default_babeltrace = "babeltrace-1.5"
 
-
 lttng_test_procfile = "/proc/lttng-test-filter-event"
 
 save_ext = ".lttng"
 
 mi_xsd_file_name = ['mi_lttng.xsd', 'mi-lttng-3.0.xsd', 'mi-lttng-4.0.xsd']
-
-# Fetch the project under test
-# We start with the complete set and substract deprecated projects
-with open(run_configuration_file, 'r') as stream:
-    projects_under_test = set(yaml.load(stream, Loader=yaml.FullLoader))
-
-projects_under_test = projects_under_test.difference(projects_deprecated)
 
 def generate_runtime_test_matrix(base_matrix, indexes_of_criteria_list):
     result_matrix = []
