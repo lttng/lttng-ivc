@@ -152,6 +152,7 @@ class Runtime(object):
         tmp_id = os.path.basename(args[0]) + '-' + str(uuid.uuid1())
         out_path = os.path.join(self.__runtime_log_sub, str(tmp_id) + ".out")
         err_path = os.path.join(self.__runtime_log_sub, str(tmp_id) + ".err")
+        command_path = os.path.join(self.__runtime_log_sub, str(tmp_id) + ".cmdline")
 
         stdout = open(out_path, 'w')
         stderr = open(err_path, 'w')
@@ -159,6 +160,8 @@ class Runtime(object):
         env_path = os.path.join(self.__runtime_log_sub, str(tmp_id) + ".env")
         with open(env_path, 'w') as env_out:
             pprint.pprint(env, stream=env_out)
+        with open(command_path, 'w') as cmdline_out:
+            pprint.pprint(args, stream=cmdline_out)
 
         p = subprocess.Popen(args, stdout=stdout, stderr=stderr, env=env, cwd=cwd, preexec_fn=os.setsid)
         self.__subprocess[tmp_id] = p
