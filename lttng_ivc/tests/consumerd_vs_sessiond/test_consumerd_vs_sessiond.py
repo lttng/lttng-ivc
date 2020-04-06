@@ -78,7 +78,7 @@ test_matrix_consumerd = [
     ("lttng-tools-2.11", "lttng-tools-2.9", False),
     ("lttng-tools-2.11", "lttng-tools-2.10", False),
     ("lttng-tools-2.11", "lttng-tools-2.11", True),
-    ("lttng-tools-2.11", "lttng-tools-2.12", False),
+    ("lttng-tools-2.11", "lttng-tools-2.12", True),
     ("lttng-tools-2.12", "lttng-tools-2.7", False),
     ("lttng-tools-2.12", "lttng-tools-2.8", False),
     ("lttng-tools-2.12", "lttng-tools-2.9", False),
