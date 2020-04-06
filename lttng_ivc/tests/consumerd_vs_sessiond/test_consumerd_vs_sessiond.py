@@ -98,7 +98,7 @@ def test_consumerd_vs_sessiond(tmpdir, consumerd_l, tools_l, should_work):
     Scenario:
         Point a lttng-tools to a consumerd of another version and see what
         happen. We do not expect anything good to come out of this since for
-        now lttng-tools(2.10) no versioning exist between sessiond and
+        now lttng-tools(2.10) no versionning exist between sessiond and
         consumerd.
     """
 

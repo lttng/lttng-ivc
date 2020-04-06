@@ -116,7 +116,7 @@ class Runtime(object):
 
     def subprocess_kill(self, subprocess_uuid):
         process = self.__subprocess[subprocess_uuid]
-        process.kill()
+        os.killpg(os.getpgid(process.pid), signal.SIGKILL);
         process.wait()
         stdout, stderr = self.__stdout_stderr[subprocess_uuid]
         stdout.close()
@@ -160,7 +160,7 @@ class Runtime(object):
         with open(env_path, 'w') as env_out:
             pprint.pprint(env, stream=env_out)
 
-        p = subprocess.Popen(args, stdout=stdout, stderr=stderr, env=env, cwd=cwd)
+        p = subprocess.Popen(args, stdout=stdout, stderr=stderr, env=env, cwd=cwd, preexec_fn=os.setsid)
         self.__subprocess[tmp_id] = p
         self.__stdout_stderr[tmp_id] = (stdout, stderr)
         _logger.debug("Spawned sub pid: {} args: {} stdout: {} stderr{}".format(p.pid, p.args, out_path, err_path))
@@ -300,7 +300,7 @@ class Runtime(object):
 
     def close(self):
         for key, subp in self.__subprocess.items():
-            self.subprocess_kill(key)
+            self.subprocess_terminate(key)
 
         # Always try to remove test module but do not perform check on return
         # value.
