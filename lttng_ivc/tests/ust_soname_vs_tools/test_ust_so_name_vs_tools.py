@@ -65,105 +65,96 @@ Third tuple member: Success.
 """
 
 test_matrix_label = [
-    ("lttng-ust-2.7", "lttng-tools-2.7", "lttng-ust-2.7", True),
-    ("lttng-ust-2.7", "lttng-tools-2.8", "lttng-ust-2.8", False),
-    ("lttng-ust-2.7", "lttng-tools-2.9", "lttng-ust-2.9", False),
-    ("lttng-ust-2.7", "lttng-tools-2.10", "lttng-ust-2.10", False),
-    ("lttng-ust-2.7", "lttng-tools-2.11", "lttng-ust-2.11", False),
-    ("lttng-ust-2.7", "lttng-tools-2.12", "lttng-ust-2.12", False),
-    ("lttng-ust-2.8", "lttng-tools-2.7", "lttng-ust-2.7", True),
-    ("lttng-ust-2.8", "lttng-tools-2.8", "lttng-ust-2.8", True),
-    ("lttng-ust-2.8", "lttng-tools-2.9", "lttng-ust-2.9", False),
-    ("lttng-ust-2.8", "lttng-tools-2.10", "lttng-ust-2.10", False),
-    ("lttng-ust-2.8", "lttng-tools-2.11", "lttng-ust-2.11", False),
-    ("lttng-ust-2.8", "lttng-tools-2.12", "lttng-ust-2.12", False),
-    ("lttng-ust-2.9", "lttng-tools-2.7", "lttng-ust-2.7", True),
-    ("lttng-ust-2.9", "lttng-tools-2.8", "lttng-ust-2.8", True),
-    ("lttng-ust-2.9", "lttng-tools-2.9", "lttng-ust-2.9", True),
-    ("lttng-ust-2.9", "lttng-tools-2.10", "lttng-ust-2.10", False),
-    ("lttng-ust-2.9", "lttng-tools-2.11", "lttng-ust-2.11", False),
-    ("lttng-ust-2.9", "lttng-tools-2.12", "lttng-ust-2.12", False),
+    ("lttng-ust-2.7", "lttng-tools-2.7", True),
+    ("lttng-ust-2.7", "lttng-tools-2.8", False),
+    ("lttng-ust-2.7", "lttng-tools-2.9", False),
+    ("lttng-ust-2.7", "lttng-tools-2.10", False),
+    ("lttng-ust-2.7", "lttng-tools-2.11", False),
+    ("lttng-ust-2.7", "lttng-tools-2.12", False),
+    ("lttng-ust-2.8", "lttng-tools-2.7", True),
+    ("lttng-ust-2.8", "lttng-tools-2.8", True),
+    ("lttng-ust-2.8", "lttng-tools-2.9", False),
+    ("lttng-ust-2.8", "lttng-tools-2.10", False),
+    ("lttng-ust-2.8", "lttng-tools-2.11", False),
+    ("lttng-ust-2.8", "lttng-tools-2.12", False),
+    ("lttng-ust-2.9", "lttng-tools-2.7", True),
+    ("lttng-ust-2.9", "lttng-tools-2.8", True),
+    ("lttng-ust-2.9", "lttng-tools-2.9", True),
+    ("lttng-ust-2.9", "lttng-tools-2.10", False),
+    ("lttng-ust-2.9", "lttng-tools-2.11", False),
+    ("lttng-ust-2.9", "lttng-tools-2.12", False),
     pytest.param(
         "lttng-ust-2.10",
         "lttng-tools-2.7",
-        "lttng-ust-2.7",
         False,
         marks=pytest.mark.xfail(reason="Should fail but does not ...."),
     ),
     pytest.param(
         "lttng-ust-2.10",
         "lttng-tools-2.8",
-        "lttng-ust-2.8",
         False,
         marks=pytest.mark.xfail(reason="Should fail but does not ...."),
     ),
     pytest.param(
         "lttng-ust-2.10",
         "lttng-tools-2.9",
-        "lttng-ust-2.9",
         False,
         marks=pytest.mark.xfail(reason="Should fail but does not ...."),
     ),
-    ("lttng-ust-2.10", "lttng-tools-2.10", "lttng-ust-2.10", True),
-    ("lttng-ust-2.10", "lttng-tools-2.11", "lttng-ust-2.11", True),
+    ("lttng-ust-2.10", "lttng-tools-2.10", True),
+    ("lttng-ust-2.10", "lttng-tools-2.11", True),
     pytest.param(
         "lttng-ust-2.11",
         "lttng-tools-2.7",
-        "lttng-ust-2.7",
         False,
         marks=pytest.mark.xfail(reason="Should fail but does not ...."),
     ),
     pytest.param(
         "lttng-ust-2.11",
         "lttng-tools-2.8",
-        "lttng-ust-2.8",
         False,
         marks=pytest.mark.xfail(reason="Should fail but does not ...."),
     ),
     pytest.param(
         "lttng-ust-2.11",
         "lttng-tools-2.9",
-        "lttng-ust-2.9",
         False,
         marks=pytest.mark.xfail(reason="Should fail but does not ...."),
     ),
-    ("lttng-ust-2.11", "lttng-tools-2.10", "lttng-ust-2.10", True),
-    ("lttng-ust-2.11", "lttng-tools-2.11", "lttng-ust-2.11", True),
-    ("lttng-ust-2.11", "lttng-tools-2.12", "lttng-ust-2.12", True),
+    ("lttng-ust-2.11", "lttng-tools-2.10", True),
+    ("lttng-ust-2.11", "lttng-tools-2.11", True),
+    ("lttng-ust-2.11", "lttng-tools-2.12", True),
     pytest.param(
         "lttng-ust-2.12",
         "lttng-tools-2.7",
-        "lttng-ust-2.7",
         False,
         marks=pytest.mark.xfail(reason="Should fail but does not ...."),
     ),
     pytest.param(
         "lttng-ust-2.12",
         "lttng-tools-2.8",
-        "lttng-ust-2.8",
         False,
         marks=pytest.mark.xfail(reason="Should fail but does not ...."),
     ),
     pytest.param(
         "lttng-ust-2.12",
         "lttng-tools-2.9",
-        "lttng-ust-2.9",
         False,
         marks=pytest.mark.xfail(reason="Should fail but does not ...."),
     ),
-    ("lttng-ust-2.12", "lttng-tools-2.10", "lttng-ust-2.10", True),
-    ("lttng-ust-2.12", "lttng-tools-2.11", "lttng-ust-2.11", True),
-    ("lttng-ust-2.12", "lttng-tools-2.12", "lttng-ust-2.12", True),
+    ("lttng-ust-2.12", "lttng-tools-2.10", True),
+    ("lttng-ust-2.12", "lttng-tools-2.11", True),
+    ("lttng-ust-2.12", "lttng-tools-2.12", True),
 ]
 
 runtime_matrix_label = Settings.generate_runtime_test_matrix(test_matrix_label, [0, 1])
 
 
 @pytest.mark.parametrize(
-    "ust_label,tools_label,base_tools_ust_dep,should_pass", runtime_matrix_label
+    "ust_label,tools_label,should_pass", runtime_matrix_label
 )
 def test_soname_configure(
-    tmpdir, ust_label, tools_label, base_tools_ust_dep, should_pass
+    tmpdir, ust_label, tools_label, should_pass
 ):
     ust = ProjectFactory.get_fresh(ust_label, str(tmpdir.mkdir("lttng-ust")))
     tools = ProjectFactory.get_fresh(tools_label, str(tmpdir.mkdir("lttng-tools")))
@@ -184,42 +175,3 @@ def test_soname_configure(
         # stdout stderr etc. Or move all this handling inside the function and
         # reraise the error (bubble up)
         tools.configure()
-
-
-@pytest.mark.parametrize(
-    "ust_label,tools_label,base_tools_ust_dep,should_pass", runtime_matrix_label
-)
-def test_soname_build(tmpdir, ust_label, tools_label, base_tools_ust_dep, should_pass):
-    ust = ProjectFactory.get_fresh(ust_label, str(tmpdir.mkdir("lttng-ust")))
-    tools = ProjectFactory.get_fresh(tools_label, str(tmpdir.mkdir("lttng-tools")))
-    ust_configure_mockup = ProjectFactory.get_fresh(
-        ust_label, str(tmpdir.mkdir("lttng-ust-base"))
-    )
-
-    ust.autobuild()
-    ust_configure_mockup.autobuild()
-
-    tools.dependencies["custom-ust"] = ust_configure_mockup
-    # Fool configure
-    if not should_pass:
-        # It's okai if we get an error here
-        try:
-            tools.configure()
-        except subprocess.CalledProcessError as error:
-            print(error)
-    else:
-        tools.configure()
-
-    # Use ust under test
-    tools.special_env_variables["CPPFLAGS"] = ust.get_cppflags()
-    tools.special_env_variables["LDFLAGS"] = ust.get_ldflags()
-    tools.special_env_variables["LD_LIBRARY_PATH"] = ust.get_ld_library_path()
-
-    if not should_pass:
-        # Making sure we get a error here
-        with pytest.raises(subprocess.CalledProcessError) as error:
-            tools.build()
-        print(error)
-    else:
-        # An exception is thrown on errors
-        tools.build()
