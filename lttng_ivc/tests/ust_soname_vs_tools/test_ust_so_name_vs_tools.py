@@ -102,7 +102,7 @@ test_matrix_label = [
         marks=pytest.mark.xfail(reason="Should fail but does not ...."),
     ),
     ("lttng-ust-2.10", "lttng-tools-2.10", True),
-    ("lttng-ust-2.10", "lttng-tools-2.11", True),
+    ("lttng-ust-2.10", "lttng-tools-2.11", False),
     pytest.param(
         "lttng-ust-2.11",
         "lttng-tools-2.7",
@@ -123,7 +123,7 @@ test_matrix_label = [
     ),
     ("lttng-ust-2.11", "lttng-tools-2.10", True),
     ("lttng-ust-2.11", "lttng-tools-2.11", True),
-    ("lttng-ust-2.11", "lttng-tools-2.12", True),
+    ("lttng-ust-2.11", "lttng-tools-2.12", False),
     pytest.param(
         "lttng-ust-2.12",
         "lttng-tools-2.7",
