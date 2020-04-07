@@ -28,6 +28,7 @@ import shutil
 import contextlib
 import pprint
 import signal
+import textwrap
 
 from pprint import pformat
 
@@ -216,16 +217,14 @@ class Runtime(object):
         # Add to the global log file. This can help a little. Leave the other
         # file available for per-run analysis
         with open(self._runtime_log_aggregation, "a") as log:
+            log.write("Command #{}\nReturn value: {}\nCommand: {}\n".format(tmp_id, cp.returncode, command_line))
             with open(out_path, "r") as out:
-                log.write("Output for command #{} {}\n".format(tmp_id, command_line))
-                log.write("Start >>>>>>>>>>>>>>>>\n")
-                log.write(out.read())
-                log.write("End <<<<<<<<<<<<<<<<\n")
+                log.write("STDOUT:\n".format(tmp_id, cp.returncode, command_line))
+                log.write(textwrap.indent(out.read(), '    '))
             with open(err_path, "r") as out:
-                log.write("Error for command #{} {}\n".format(tmp_id, command_line))
-                log.write("Start >>>>>>>>>>>>>>>>\n")
-                log.write(out.read())
-                log.write("End <<<<<<<<<<<<<<<<\n")
+                log.write("STDERR:\n".format(tmp_id, cp.returncode, command_line))
+                log.write(textwrap.indent(out.read(), '    '))
+            log.write("\n")
 
         if check_return:
             cp.check_returncode()
