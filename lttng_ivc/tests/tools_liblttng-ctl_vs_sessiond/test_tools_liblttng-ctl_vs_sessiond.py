@@ -38,6 +38,9 @@ Third tuple member: expected scenario
 2.11 deprecate multiple lttng_ctl function and this is observed by the return
 of "ENOSYS 38 Function not implemented" by the command line client. This also
 result in a "Kernel create channel" msg that is simply wrong.
+
+2.12 uses symbols introduced in 2.12 hence using anything than 2.12 results in
+missing symbol.
 """
 
 test_matrix_basic_listing = [
@@ -75,7 +78,7 @@ test_matrix_basic_listing = [
     ("lttng-tools-2.12", "lttng-tools-2.8", "Missing symbol"),
     ("lttng-tools-2.12", "lttng-tools-2.9", "Missing symbol"),
     ("lttng-tools-2.12", "lttng-tools-2.10", "Missing symbol"),
-    ("lttng-tools-2.12", "lttng-tools-2.11", "Success"),
+    ("lttng-tools-2.12", "lttng-tools-2.11", "Missing symbol"),
     ("lttng-tools-2.12", "lttng-tools-2.12", "Success"),
 ]
 
