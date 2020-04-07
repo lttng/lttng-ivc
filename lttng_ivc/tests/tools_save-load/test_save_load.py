@@ -60,8 +60,9 @@ test_matrix_blocking_timeout = [
     ("lttng-tools-2.12", "lttng-tools-2.7", False),
     ("lttng-tools-2.12", "lttng-tools-2.8", False),
     ("lttng-tools-2.12", "lttng-tools-2.9", False),
-    ("lttng-tools-2.12", "lttng-tools-2.10", True),
-    ("lttng-tools-2.12", "lttng-tools-2.11", True),
+    # Save change is different and trackers also.
+    ("lttng-tools-2.12", "lttng-tools-2.10", False),
+    ("lttng-tools-2.12", "lttng-tools-2.11", False),
     ("lttng-tools-2.12", "lttng-tools-2.12", True),
 ]
 
@@ -81,8 +82,9 @@ test_matrix_monitor_timer_interval = [
     ("lttng-tools-2.12", "lttng-tools-2.7", False),
     ("lttng-tools-2.12", "lttng-tools-2.8", False),
     ("lttng-tools-2.12", "lttng-tools-2.9", False),
-    ("lttng-tools-2.12", "lttng-tools-2.10", True),
-    ("lttng-tools-2.12", "lttng-tools-2.11", True),
+    # Save change is different and trackers also.
+    ("lttng-tools-2.12", "lttng-tools-2.10", False),
+    ("lttng-tools-2.12", "lttng-tools-2.11", False),
     ("lttng-tools-2.12", "lttng-tools-2.12", True),
 ]
 
