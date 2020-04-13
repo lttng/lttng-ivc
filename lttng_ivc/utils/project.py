@@ -64,7 +64,6 @@ class Project(object):
         self.log_path = os.path.join(tmpdir, "log")
         self.source_path = os.path.join(tmpdir, "source")
         self.installation_path = os.path.join(tmpdir, "install")
-        self.pkgconfig_path = os.path.join(self.installation_path, "lib", "pkgconfig")
 
         if os.path.isdir(self.basedir):
             # Perform cleanup since it should not happen
@@ -108,6 +107,12 @@ class Project(object):
             library_path.append(dep.get_ld_library_path())
         return ":".join(library_path)
 
+    def get_pkg_config_path(self):
+        pkgconfig_paths = ["{}/lib/pkgconfig".format(self.installation_path)]
+        for key, dep in self.dependencies.items():
+            pkgconfig_paths.append(dep.get_pkg_config_path())
+        return ":".join(pkgconfig_paths)
+
     def get_bin_path(self):
         bin_path = ["{}/bin".format(self.installation_path)]
         for key, dep in self.dependencies.items():
@@ -119,6 +124,7 @@ class Project(object):
         env_var = {"CPPFLAGS": (self.get_cppflags(), " "),
                    "LDFLAGS": (self.get_ldflags(), " "),
                    "LD_LIBRARY_PATH": (self.get_ld_library_path(), ":"),
+                   "PKG_CONFIG_PATH": (self.get_pkg_config_path(), ":"),
                    }
 
         env = os.environ.copy()
@@ -234,14 +240,11 @@ class Project(object):
         if self._immutable:
             raise Exception("Object is immutable. Illegal configure")
 
-        # Check that all our dependencies were actually installed and gather
-        # pkgconfig paths
-        pkgconfig_paths = list()
+        # Check that all our dependencies were actually installed
         for key, dep in self.dependencies.items():
             if not dep.isInstalled:
                 # TODO: Custom exception here Dependency Error
                 raise Exception("Dependency project flagged as not installed")
-            pkgconfig_paths.append(dep.pkgconfig_path)
 
 
         out = os.path.join(self.log_path, "configure.out")
@@ -249,7 +252,6 @@ class Project(object):
         env_file = os.path.join(self.log_path, "configure.env")
 
         env = self.get_env()
-        env['PKG_CONFIG_PATH'] = ":".join(pkgconfig_paths)
 
         with open(env_file, 'w') as tmp:
             pprint.pprint(env, stream=tmp)
