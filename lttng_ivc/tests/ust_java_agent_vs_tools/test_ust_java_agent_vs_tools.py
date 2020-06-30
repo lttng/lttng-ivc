@@ -276,7 +276,7 @@ def test_ust_java_agent_interface(tmpdir, ust_label, tools_label, app_version, o
         if outcome == "Success":
             assert utils.file_contains(
                 runtime_tools.get_subprocess_stderr_path(sessiond),
-                ["New registration for pid"],
+                ["New registration for pid", "New registration for agent application: pid"],
             )
             cp_process, cp_out, cp_err = runtime_tools.run(cmd)
             assert utils.line_count(cp_out) == nb_events
@@ -285,7 +285,7 @@ def test_ust_java_agent_interface(tmpdir, ust_label, tools_label, app_version, o
                 assert not (
                     utils.file_contains(
                         runtime_tools.get_subprocess_stderr_path(sessiond),
-                        ["New registration for pid"],
+                        ["New registration for pid", "New registration for agent application: pid"],
                     )
                 )
                 cp_process, cp_out, cp_err = runtime_tools.run(cmd)
