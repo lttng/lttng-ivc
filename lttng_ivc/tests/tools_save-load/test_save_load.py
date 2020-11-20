@@ -51,12 +51,14 @@ test_matrix_blocking_timeout = [
     ("lttng-tools-2.10", "lttng-tools-2.10", True),
     ("lttng-tools-2.10", "lttng-tools-2.11", True),
     ("lttng-tools-2.10", "lttng-tools-2.12", True),
+    ("lttng-tools-2.10", "lttng-tools-2.13", True),
     ("lttng-tools-2.11", "lttng-tools-2.7", False),
     ("lttng-tools-2.11", "lttng-tools-2.8", False),
     ("lttng-tools-2.11", "lttng-tools-2.9", False),
     ("lttng-tools-2.11", "lttng-tools-2.10", True),
     ("lttng-tools-2.11", "lttng-tools-2.11", True),
     ("lttng-tools-2.11", "lttng-tools-2.12", True),
+    ("lttng-tools-2.11", "lttng-tools-2.13", True),
     ("lttng-tools-2.12", "lttng-tools-2.7", False),
     ("lttng-tools-2.12", "lttng-tools-2.8", False),
     ("lttng-tools-2.12", "lttng-tools-2.9", False),
@@ -64,6 +66,15 @@ test_matrix_blocking_timeout = [
     ("lttng-tools-2.12", "lttng-tools-2.10", False),
     ("lttng-tools-2.12", "lttng-tools-2.11", False),
     ("lttng-tools-2.12", "lttng-tools-2.12", True),
+    ("lttng-tools-2.12", "lttng-tools-2.13", True),
+    ("lttng-tools-2.13", "lttng-tools-2.7", False),
+    ("lttng-tools-2.13", "lttng-tools-2.8", False),
+    ("lttng-tools-2.13", "lttng-tools-2.9", False),
+    ("lttng-tools-2.13", "lttng-tools-2.10", False),
+    ("lttng-tools-2.13", "lttng-tools-2.11", False),
+    ("lttng-tools-2.13", "lttng-tools-2.12", True),
+    ("lttng-tools-2.13", "lttng-tools-2.13", True),
+
 ]
 
 test_matrix_monitor_timer_interval = [
@@ -73,12 +84,14 @@ test_matrix_monitor_timer_interval = [
     ("lttng-tools-2.10", "lttng-tools-2.10", True),
     ("lttng-tools-2.10", "lttng-tools-2.11", True),
     ("lttng-tools-2.10", "lttng-tools-2.12", True),
+    ("lttng-tools-2.10", "lttng-tools-2.13", True),
     ("lttng-tools-2.11", "lttng-tools-2.7", False),
     ("lttng-tools-2.11", "lttng-tools-2.8", False),
     ("lttng-tools-2.11", "lttng-tools-2.9", False),
     ("lttng-tools-2.11", "lttng-tools-2.10", True),
     ("lttng-tools-2.11", "lttng-tools-2.11", True),
     ("lttng-tools-2.11", "lttng-tools-2.12", True),
+    ("lttng-tools-2.11", "lttng-tools-2.13", True),
     ("lttng-tools-2.12", "lttng-tools-2.7", False),
     ("lttng-tools-2.12", "lttng-tools-2.8", False),
     ("lttng-tools-2.12", "lttng-tools-2.9", False),
@@ -86,6 +99,16 @@ test_matrix_monitor_timer_interval = [
     ("lttng-tools-2.12", "lttng-tools-2.10", False),
     ("lttng-tools-2.12", "lttng-tools-2.11", False),
     ("lttng-tools-2.12", "lttng-tools-2.12", True),
+    ("lttng-tools-2.12", "lttng-tools-2.13", True),
+    ("lttng-tools-2.13", "lttng-tools-2.7", False),
+    ("lttng-tools-2.13", "lttng-tools-2.8", False),
+    ("lttng-tools-2.13", "lttng-tools-2.9", False),
+    # Save change is different and trackers also.
+    ("lttng-tools-2.13", "lttng-tools-2.10", False),
+    ("lttng-tools-2.13", "lttng-tools-2.11", False),
+    ("lttng-tools-2.13", "lttng-tools-2.12", True),
+    ("lttng-tools-2.13", "lttng-tools-2.13", True),
+
 ]
 
 runtime_matrix_app_contexts = Settings.generate_runtime_test_matrix(

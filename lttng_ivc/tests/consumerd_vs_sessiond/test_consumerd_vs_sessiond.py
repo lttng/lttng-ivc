@@ -33,18 +33,19 @@ import lttng_ivc.settings as Settings
 FC: Fully Compatible
 I: Incompatible
 
-+------------------------------------------------------------------------+
-|                 LTTng consumer daemon vs LTTng session daemon          |
-+--------------------------+------------+------------+------------+------+-----+-----+
-| Consumerd/Sessiond       | 2.7        | 2.8        | 2.9        | 2.10 | 2.11| 2.12|
-+--------------------------+------------+------------+------------+------+-----+-----+
-| 2.7                      | FC         | I          | I          | I    | I   | I   |
-| 2.8                      | I          | FC         | I          | I    | I   | I   |
-| 2.9                      | I          | I          | FC         | I    | I   | I   |
-| 2.10                     | I          | I          | I          | FC   | I   | I   |
-| 2.11                     | I          | I          | I          | I    | FC  | I   |
-| 2.12                     | I          | I          | I          | I    | I   | FC  |
-+--------------------------+------------+------------+------------+------+-----+-----+
++--------------------------------------------------------------------+
+|                 LTTng consumer daemon vs LTTng session daemon      |
++--------------------------+------------+------------+------------+--+
+| Consumerd/Sessiond       | 2.7 | 2.8| 2.9 | 2.10 | 2.11| 2.12| 2.13|
++--------------------------+-----+----+-----+------+-----+-----+-----+
+| 2.7                      | FC  | I  | I   | I    | I   | I   | I   |
+| 2.8                      | I   | FC | I   | I    | I   | I   | I   |
+| 2.9                      | I   | I  | FC  | I    | I   | I   | I   |
+| 2.10                     | I   | I  | I   | FC   | I   | I   | I   |
+| 2.11                     | I   | I  | I   | I    | FC  | I   | I   |
+| 2.12                     | I   | I  | I   | I    | I   | FC  | I   |
+| 2.13                     | I   | I  | I   | I    | I   | I   | FC  |
++--------------------------+------------+------------+------------+--+
 
 """
 
@@ -55,36 +56,50 @@ test_matrix_consumerd = [
     ("lttng-tools-2.7", "lttng-tools-2.10", False),
     ("lttng-tools-2.7", "lttng-tools-2.11", False),
     ("lttng-tools-2.7", "lttng-tools-2.12", False),
+    ("lttng-tools-2.7", "lttng-tools-2.13", False),
     ("lttng-tools-2.8", "lttng-tools-2.7", False),
     ("lttng-tools-2.8", "lttng-tools-2.8", True),
     ("lttng-tools-2.8", "lttng-tools-2.9", True),
     ("lttng-tools-2.8", "lttng-tools-2.10", False),
     ("lttng-tools-2.8", "lttng-tools-2.11", False),
     ("lttng-tools-2.8", "lttng-tools-2.12", False),
+    ("lttng-tools-2.8", "lttng-tools-2.13", False),
     ("lttng-tools-2.9", "lttng-tools-2.7", False),
     ("lttng-tools-2.9", "lttng-tools-2.8", True),
     ("lttng-tools-2.9", "lttng-tools-2.9", True),
     ("lttng-tools-2.9", "lttng-tools-2.10", False),
     ("lttng-tools-2.9", "lttng-tools-2.11", False),
     ("lttng-tools-2.9", "lttng-tools-2.12", False),
+    ("lttng-tools-2.9", "lttng-tools-2.13", False),
     ("lttng-tools-2.10", "lttng-tools-2.7", False),
     ("lttng-tools-2.10", "lttng-tools-2.8", False),
     ("lttng-tools-2.10", "lttng-tools-2.9", False),
     ("lttng-tools-2.10", "lttng-tools-2.10", True),
     ("lttng-tools-2.10", "lttng-tools-2.11", False),
     ("lttng-tools-2.10", "lttng-tools-2.12", False),
+    ("lttng-tools-2.10", "lttng-tools-2.13", False),
     ("lttng-tools-2.11", "lttng-tools-2.7", False),
     ("lttng-tools-2.11", "lttng-tools-2.8", False),
     ("lttng-tools-2.11", "lttng-tools-2.9", False),
     ("lttng-tools-2.11", "lttng-tools-2.10", False),
     ("lttng-tools-2.11", "lttng-tools-2.11", True),
     ("lttng-tools-2.11", "lttng-tools-2.12", True),
+    ("lttng-tools-2.11", "lttng-tools-2.13", False),
     ("lttng-tools-2.12", "lttng-tools-2.7", False),
     ("lttng-tools-2.12", "lttng-tools-2.8", False),
     ("lttng-tools-2.12", "lttng-tools-2.9", False),
     ("lttng-tools-2.12", "lttng-tools-2.10", False),
     ("lttng-tools-2.12", "lttng-tools-2.11", False),
     ("lttng-tools-2.12", "lttng-tools-2.12", True),
+    ("lttng-tools-2.12", "lttng-tools-2.13", False),
+    ("lttng-tools-2.13", "lttng-tools-2.7", False),
+    ("lttng-tools-2.13", "lttng-tools-2.8", False),
+    ("lttng-tools-2.13", "lttng-tools-2.9", False),
+    ("lttng-tools-2.13", "lttng-tools-2.10", False),
+    ("lttng-tools-2.13", "lttng-tools-2.11", False),
+    ("lttng-tools-2.13", "lttng-tools-2.12", False),
+    ("lttng-tools-2.13", "lttng-tools-2.13", True),
+
 ]
 
 runtime_matrix_consumerd = Settings.generate_runtime_test_matrix(

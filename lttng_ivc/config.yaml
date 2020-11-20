@@ -23,6 +23,10 @@ lttng-tools:
           url: https://github.com/lttng/lttng-tools
           ref: stable-2.12
           precook_deps: [lttng-ust-2.12, urcu-latest]
+        - marker: lttng-tools-2.13
+          url: https://github.com/lttng/lttng-tools
+          ref: stable-2.13
+          precook_deps: [lttng-ust-2.13, urcu-latest]
 
 lttng-ust:
         - marker: lttng-ust-2.7
@@ -49,6 +53,10 @@ lttng-ust:
           url: https://github.com/lttng/lttng-ust
           ref: stable-2.12
           precook_deps: [urcu-latest]
+        - marker: lttng-ust-2.13
+          url: https://github.com/lttng/lttng-ust
+          ref: stable-2.13
+          precook_deps: [urcu-latest]
 
 
 lttng-modules:
@@ -70,6 +78,9 @@ lttng-modules:
         - marker: lttng-modules-2.12
           url: https://github.com/lttng/lttng-modules
           ref: stable-2.12
+        - marker: lttng-modules-2.13
+          url: https://github.com/lttng/lttng-modules
+          ref: stable-2.13
 
 babeltrace:
         - marker: babeltrace-1.3

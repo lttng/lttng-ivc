@@ -33,20 +33,22 @@ import lttng_ivc.settings as Settings
 
 FC: Fully Compatible
 BC: Feature of the smallest version number will works.
+SO: No tracing due to lttng-ust.so bump of liblttng-ust-tracepoint.s
 
 +-----------------------------------------+-----+------+------+-------+
 |             LTTng UST tracepoint instrumentation API/ABI:           |
 |                    Application vs LTTng UST library                 |
-+-----------------------------------------+-----+------+------+-------+-------+-------+
-| Application Instrumentation / LTTng UST | 2.7 |  2.8 |  2.9 | 2.10  | 2.11  | 2.12  |
-+-----------------------------------------+-----+------+------+-------+-------+-------+
-| 2.7                                     | FC  | BC   | BC   | BC    | BC    | BC    |
-| 2.8                                     | BC  | FC   | BC   | BC    | BC    | BC    |
-| 2.9                                     | BC  | BC   | FC   | BC    | BC    | BC    |
-| 2.10                                    | BC  | BC   | BC   | FC    | BC    | BC    |
-| 2.11                                    | BC  | BC   | BC   | BC    | FC    | BC    |
-| 2.12                                    | BC  | BC   | BC   | BC    | BC    | FC    |
-+-----------------------------------------+-----+------+------+-------+-------+-------+
++-----------------------------------------+-----+------+------+-------+-------+-------+-------+
+| Application Instrumentation / LTTng UST | 2.7 |  2.8 |  2.9 | 2.10  | 2.11  | 2.12  | 2.13  |
++-----------------------------------------+-----+------+------+-------+-------+-------+-------+
+| 2.7                                     | FC  | BC   | BC   | BC    | BC    | BC    | BC    |
+| 2.8                                     | BC  | FC   | BC   | BC    | BC    | BC    | BC    |
+| 2.9                                     | BC  | BC   | FC   | BC    | BC    | BC    | BC    |
+| 2.10                                    | BC  | BC   | BC   | FC    | BC    | BC    | BC    |
+| 2.11                                    | BC  | BC   | BC   | BC    | FC    | BC    | BC    |
+| 2.12                                    | BC  | BC   | BC   | BC    | BC    | FC    | BC    |
+| 2.13                                    | SO  | SO   | SO   | SO    | SO    | SO    | FC    |
++-----------------------------------------+-----+------+------+-------+-------+-------+-------+
 
 Using tracepoint.h as a reference for change between version.
 
@@ -72,6 +74,13 @@ that we use pre_cooked one.
 fail_provider = "fail_on_provider"
 fail_app = "fail_on_app"
 success = "success"
+tracing_unavailable = "tracing_unavailable"
+
+# The end behavior is the same
+# Tracing is unavailable in those cases since the app albeit having no direct
+# dependency to liblttng-ust.so.0 do have a dlopen that tries to dlopen
+# liblttng-ust-tracepoint.so.[0/1]
+tracing_unavailable_so = tracing_unavailable
 
 test_matrix_enum = [
     ("lttng-ust-2.7", "lttng-tools-2.7", fail_provider),
@@ -80,36 +89,50 @@ test_matrix_enum = [
     ("lttng-ust-2.7", "lttng-tools-2.10", fail_app),
     ("lttng-ust-2.7", "lttng-tools-2.11", fail_app),
     ("lttng-ust-2.7", "lttng-tools-2.12", fail_app),
+    ("lttng-ust-2.7", "lttng-tools-2.13", fail_app),
     ("lttng-ust-2.8", "lttng-tools-2.7", fail_provider),
     ("lttng-ust-2.8", "lttng-tools-2.8", success),
     ("lttng-ust-2.8", "lttng-tools-2.9", success),
     ("lttng-ust-2.8", "lttng-tools-2.10", success),
     ("lttng-ust-2.8", "lttng-tools-2.11", success),
     ("lttng-ust-2.8", "lttng-tools-2.12", success),
+    ("lttng-ust-2.8", "lttng-tools-2.13", tracing_unavailable_so),
     ("lttng-ust-2.9", "lttng-tools-2.7", fail_provider),
     ("lttng-ust-2.9", "lttng-tools-2.8", success),
     ("lttng-ust-2.9", "lttng-tools-2.9", success),
     ("lttng-ust-2.9", "lttng-tools-2.10", success),
     ("lttng-ust-2.9", "lttng-tools-2.11", success),
     ("lttng-ust-2.9", "lttng-tools-2.12", success),
+    ("lttng-ust-2.9", "lttng-tools-2.13", tracing_unavailable_so),
     ("lttng-ust-2.10", "lttng-tools-2.7", fail_provider),
     ("lttng-ust-2.10", "lttng-tools-2.8", success),
     ("lttng-ust-2.10", "lttng-tools-2.9", success),
     ("lttng-ust-2.10", "lttng-tools-2.10", success),
     ("lttng-ust-2.10", "lttng-tools-2.11", success),
     ("lttng-ust-2.10", "lttng-tools-2.12", success),
+    ("lttng-ust-2.10", "lttng-tools-2.13", tracing_unavailable_so),
     ("lttng-ust-2.11", "lttng-tools-2.7", fail_provider),
     ("lttng-ust-2.11", "lttng-tools-2.8", success),
     ("lttng-ust-2.11", "lttng-tools-2.9", success),
     ("lttng-ust-2.11", "lttng-tools-2.10", success),
     ("lttng-ust-2.11", "lttng-tools-2.11", success),
     ("lttng-ust-2.11", "lttng-tools-2.12", success),
+    ("lttng-ust-2.11", "lttng-tools-2.13", tracing_unavailable_so),
     ("lttng-ust-2.12", "lttng-tools-2.7", fail_provider),
     ("lttng-ust-2.12", "lttng-tools-2.8", success),
     ("lttng-ust-2.12", "lttng-tools-2.9", success),
     ("lttng-ust-2.12", "lttng-tools-2.10", success),
     ("lttng-ust-2.12", "lttng-tools-2.11", success),
     ("lttng-ust-2.12", "lttng-tools-2.12", success),
+    ("lttng-ust-2.12", "lttng-tools-2.13", tracing_unavailable_so),
+    ("lttng-ust-2.13", "lttng-tools-2.7", fail_provider),
+    ("lttng-ust-2.13", "lttng-tools-2.8", tracing_unavailable_so),
+    ("lttng-ust-2.13", "lttng-tools-2.9", tracing_unavailable_so),
+    ("lttng-ust-2.13", "lttng-tools-2.10", tracing_unavailable_so),
+    ("lttng-ust-2.13", "lttng-tools-2.11", tracing_unavailable_so),
+    ("lttng-ust-2.13", "lttng-tools-2.12", tracing_unavailable_so),
+    ("lttng-ust-2.13", "lttng-tools-2.13", success),
+
 ]
 
 test_matrix_base = [
@@ -119,6 +142,7 @@ test_matrix_base = [
     ("lttng-ust-2.7", "lttng-tools-2.10", success),
     ("lttng-ust-2.7", "lttng-tools-2.11", success),
     ("lttng-ust-2.7", "lttng-tools-2.12", success),
+    ("lttng-ust-2.7", "lttng-tools-2.13", success),
     ("lttng-ust-2.8", "lttng-tools-2.7", success),
     ("lttng-ust-2.8", "lttng-tools-2.8", success),
     ("lttng-ust-2.8", "lttng-tools-2.9", success),
@@ -131,24 +155,37 @@ test_matrix_base = [
     ("lttng-ust-2.9", "lttng-tools-2.10", success),
     ("lttng-ust-2.9", "lttng-tools-2.11", success),
     ("lttng-ust-2.9", "lttng-tools-2.12", success),
+    ("lttng-ust-2.9", "lttng-tools-2.13", tracing_unavailable_so),
     ("lttng-ust-2.10", "lttng-tools-2.7", success),
     ("lttng-ust-2.10", "lttng-tools-2.8", success),
     ("lttng-ust-2.10", "lttng-tools-2.9", success),
     ("lttng-ust-2.10", "lttng-tools-2.10", success),
     ("lttng-ust-2.10", "lttng-tools-2.11", success),
     ("lttng-ust-2.10", "lttng-tools-2.12", success),
+    ("lttng-ust-2.10", "lttng-tools-2.13", tracing_unavailable_so),
     ("lttng-ust-2.11", "lttng-tools-2.7", success),
     ("lttng-ust-2.11", "lttng-tools-2.8", success),
     ("lttng-ust-2.11", "lttng-tools-2.9", success),
     ("lttng-ust-2.11", "lttng-tools-2.10", success),
     ("lttng-ust-2.11", "lttng-tools-2.11", success),
     ("lttng-ust-2.11", "lttng-tools-2.12", success),
+    ("lttng-ust-2.11", "lttng-tools-2.13", tracing_unavailable_so),
     ("lttng-ust-2.12", "lttng-tools-2.7", success),
     ("lttng-ust-2.12", "lttng-tools-2.8", success),
     ("lttng-ust-2.12", "lttng-tools-2.9", success),
     ("lttng-ust-2.12", "lttng-tools-2.10", success),
     ("lttng-ust-2.12", "lttng-tools-2.11", success),
     ("lttng-ust-2.12", "lttng-tools-2.12", success),
+    ("lttng-ust-2.12", "lttng-tools-2.13", tracing_unavailable_so),
+    ("lttng-ust-2.12", "lttng-tools-2.13", success),
+    ("lttng-ust-2.13", "lttng-tools-2.7", tracing_unavailable_so),
+    ("lttng-ust-2.13", "lttng-tools-2.8", tracing_unavailable_so),
+    ("lttng-ust-2.13", "lttng-tools-2.9", tracing_unavailable_so),
+    ("lttng-ust-2.13", "lttng-tools-2.10", tracing_unavailable_so),
+    ("lttng-ust-2.13", "lttng-tools-2.11", tracing_unavailable_so),
+    ("lttng-ust-2.13", "lttng-tools-2.12", tracing_unavailable_so),
+    ("lttng-ust-2.13", "lttng-tools-2.13", success),
+
 ]
 
 runtime_matrix_enum = Settings.generate_runtime_test_matrix(test_matrix_enum, [0, 1])
@@ -159,7 +196,11 @@ runtime_matrix_base = Settings.generate_runtime_test_matrix(test_matrix_base, [0
 def test_ust_tracepoint_abi_api_vs_ust_enum(tmpdir, ust_label, tools_label, scenario):
 
     nb_loop = 100
-    nb_expected_events = 200
+
+    if scenario != tracing_unavailable:
+        nb_expected_events = 200
+    else:
+        nb_expected_events = 0
 
     # Prepare environment
     ust = ProjectFactory.get_precook(ust_label)
@@ -181,10 +222,10 @@ def test_ust_tracepoint_abi_api_vs_ust_enum(tmpdir, ust_label, tools_label, scen
 
         trace_path = os.path.join(runtime_tools.lttng_home, "trace")
 
-        # Make application using the ust runtime
+        # Copy app source files
         shutil.copytree(Settings.apps_preload_provider_folder, app_path)
 
-        # Use the testing env to make the probe
+        # Use the testing tool runtime to make the probe
         if scenario == fail_provider:
             with pytest.raises(subprocess.CalledProcessError):
                 runtime_tools.run("make provider-enum", cwd=app_path)
@@ -211,7 +252,10 @@ def test_ust_tracepoint_abi_api_vs_ust_enum(tmpdir, ust_label, tools_label, scen
 
         # Run application
         cmd = "./app-enum {}".format(nb_loop)
-        runtime_tools.run(cmd, cwd=app_path, ld_preload="./libtp-enum.so")
+        runtime_tools.run("ldd ./libtp-enum.so", cwd=app_path)
+        runtime_tools.run("ldd ./app-enum", cwd=app_path)
+        runtime_tools.run(cmd, cwd=app_path, ld_preload="./libtp-enum.so",
+                ld_debug=True)
 
         # Stop tracing
         runtime_tools.run("lttng stop")
@@ -228,7 +272,11 @@ def test_ust_tracepoint_abi_api_vs_ust_enum(tmpdir, ust_label, tools_label, scen
 def test_ust_tracepoint_abi_api_vs_ust_base(tmpdir, ust_label, tools_label, scenario):
 
     nb_loop = 100
-    nb_expected_events = 200
+    if scenario != tracing_unavailable:
+        nb_expected_events = 200
+    else:
+        nb_expected_events = 0
+
 
     # Prepare environment
     ust = ProjectFactory.get_precook(ust_label)
@@ -253,7 +301,7 @@ def test_ust_tracepoint_abi_api_vs_ust_base(tmpdir, ust_label, tools_label, scen
         # Make application using the ust runtime
         shutil.copytree(Settings.apps_preload_provider_folder, app_path)
 
-        # Use the testing env to make the probe
+        # Make the probe provider in the tools runtime
         runtime_tools.run("make provider", cwd=app_path)
 
         # Use the ust env to test tracepoint instrumentation
@@ -268,7 +316,7 @@ def test_ust_tracepoint_abi_api_vs_ust_base(tmpdir, ust_label, tools_label, scen
         runtime_tools.run("lttng enable-event -u tp:tptest,tp:tpenum")
         runtime_tools.run("lttng start")
 
-        # Run application
+        # Run application in the tools runtime
         cmd = "./app {}".format(nb_loop)
         runtime_tools.run(cmd, cwd=app_path, ld_preload="./libtp.so")
 

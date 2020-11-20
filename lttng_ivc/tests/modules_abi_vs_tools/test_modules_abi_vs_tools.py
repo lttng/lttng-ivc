@@ -52,16 +52,17 @@ BC: Feature of the smallest version number will works.
 
 +-------------------------------------------------------+
 | LTTng Modules ABI vs LTTng Tools compatibility matrix |
-+-------------------------------------------------------+--------------
-| Modules / Tools  | 2.7  | 2.8  | 2.9  | 2.10          | 2.11 | 2.12 |
-+------------------+------+------+------+---------------+------+------+
-| 2.7              | FC   | BC   | BC   | BC            | BC   | BC   |
-| 2.8              | BC   | FC   | BC   | BC            | BC   | BC   |
-| 2.9              | BC   | BC   | FC   | BC            | BC   | BC   |
-| 2.10             | BC   | BC   | BC   | FC            | BC   | BC   |
-| 2.11             | BC   | BC   | BC   | BC            | FC   | BC   |
-| 2.12             | BC   | BC   | BC   | BC            | BC   | FC   |
-+------------------+------+------+------+---------------+------+------+
++-----------------------------------------------------+-+----+------+
++ Modules / Tools  | 2.7  | 2.8  | 2.9  | 2.10 | 2.11 | 2.12 | 2.13 |
++------------------+------+------+------+------+------+------+------+
+| 2.7              | FC   | BC   | BC   | BC   | BC   | BC   | BC   |
+| 2.8              | BC   | FC   | BC   | BC   | BC   | BC   | BC   |
+| 2.9              | BC   | BC   | FC   | BC   | BC   | BC   | BC   |
+| 2.10             | BC   | BC   | BC   | FC   | BC   | BC   | BC   |
+| 2.11             | BC   | BC   | BC   | BC   | FC   | BC   | BC   |
+| 2.12             | BC   | BC   | BC   | BC   | BC   | FC   | BC   |
+| 2.13             | BC   | BC   | BC   | BC   | BC   | BC   | FC   |
++------------------+------+------+------+------+------+------+------+
 
 """
 
@@ -77,36 +78,49 @@ test_matrix_base_tracing = [
     ("lttng-modules-2.7", "lttng-tools-2.10"),
     ("lttng-modules-2.7", "lttng-tools-2.11"),
     ("lttng-modules-2.7", "lttng-tools-2.12"),
+    ("lttng-modules-2.7", "lttng-tools-2.13"),
     ("lttng-modules-2.8", "lttng-tools-2.7"),
     ("lttng-modules-2.8", "lttng-tools-2.8"),
     ("lttng-modules-2.8", "lttng-tools-2.9"),
     ("lttng-modules-2.8", "lttng-tools-2.10"),
     ("lttng-modules-2.8", "lttng-tools-2.11"),
     ("lttng-modules-2.8", "lttng-tools-2.12"),
+    ("lttng-modules-2.8", "lttng-tools-2.13"),
     ("lttng-modules-2.9", "lttng-tools-2.7"),
     ("lttng-modules-2.9", "lttng-tools-2.8"),
     ("lttng-modules-2.9", "lttng-tools-2.9"),
     ("lttng-modules-2.9", "lttng-tools-2.10"),
     ("lttng-modules-2.9", "lttng-tools-2.11"),
     ("lttng-modules-2.9", "lttng-tools-2.12"),
+    ("lttng-modules-2.9", "lttng-tools-2.13"),
     ("lttng-modules-2.10", "lttng-tools-2.7"),
     ("lttng-modules-2.10", "lttng-tools-2.8"),
     ("lttng-modules-2.10", "lttng-tools-2.9"),
     ("lttng-modules-2.10", "lttng-tools-2.10"),
     ("lttng-modules-2.10", "lttng-tools-2.11"),
     ("lttng-modules-2.10", "lttng-tools-2.12"),
+    ("lttng-modules-2.10", "lttng-tools-2.13"),
     ("lttng-modules-2.11", "lttng-tools-2.7"),
     ("lttng-modules-2.11", "lttng-tools-2.8"),
     ("lttng-modules-2.11", "lttng-tools-2.9"),
     ("lttng-modules-2.11", "lttng-tools-2.10"),
     ("lttng-modules-2.11", "lttng-tools-2.11"),
     ("lttng-modules-2.11", "lttng-tools-2.12"),
+    ("lttng-modules-2.11", "lttng-tools-2.13"),
     ("lttng-modules-2.12", "lttng-tools-2.7"),
     ("lttng-modules-2.12", "lttng-tools-2.8"),
     ("lttng-modules-2.12", "lttng-tools-2.9"),
     ("lttng-modules-2.12", "lttng-tools-2.10"),
     ("lttng-modules-2.12", "lttng-tools-2.11"),
     ("lttng-modules-2.12", "lttng-tools-2.12"),
+    ("lttng-modules-2.12", "lttng-tools-2.13"),
+    ("lttng-modules-2.13", "lttng-tools-2.7"),
+    ("lttng-modules-2.13", "lttng-tools-2.8"),
+    ("lttng-modules-2.13", "lttng-tools-2.9"),
+    ("lttng-modules-2.13", "lttng-tools-2.10"),
+    ("lttng-modules-2.13", "lttng-tools-2.11"),
+    ("lttng-modules-2.13", "lttng-tools-2.12"),
+    ("lttng-modules-2.13", "lttng-tools-2.13"),
 ]
 
 test_matrix_regen_metadata = [
@@ -147,6 +161,12 @@ test_matrix_regen_metadata = [
         "Unsupported by modules",
     ),
     (
+        "lttng-modules-2.7",
+        "lttng-tools-2.13",
+        "regenerate metadata",
+        "Unsupported by modules",
+    ),
+    (
         "lttng-modules-2.8",
         "lttng-tools-2.7",
         "metadata regenerate",
@@ -157,6 +177,7 @@ test_matrix_regen_metadata = [
     ("lttng-modules-2.8", "lttng-tools-2.10", "regenerate metadata", "Supported"),
     ("lttng-modules-2.8", "lttng-tools-2.11", "regenerate metadata", "Supported"),
     ("lttng-modules-2.8", "lttng-tools-2.12", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.8", "lttng-tools-2.13", "regenerate metadata", "Supported"),
     (
         "lttng-modules-2.9",
         "lttng-tools-2.7",
@@ -168,6 +189,7 @@ test_matrix_regen_metadata = [
     ("lttng-modules-2.9", "lttng-tools-2.10", "regenerate metadata", "Supported"),
     ("lttng-modules-2.9", "lttng-tools-2.11", "regenerate metadata", "Supported"),
     ("lttng-modules-2.9", "lttng-tools-2.12", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.9", "lttng-tools-2.13", "regenerate metadata", "Supported"),
     (
         "lttng-modules-2.10",
         "lttng-tools-2.7",
@@ -179,6 +201,7 @@ test_matrix_regen_metadata = [
     ("lttng-modules-2.10", "lttng-tools-2.10", "regenerate metadata", "Supported"),
     ("lttng-modules-2.10", "lttng-tools-2.11", "regenerate metadata", "Supported"),
     ("lttng-modules-2.10", "lttng-tools-2.12", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.10", "lttng-tools-2.13", "regenerate metadata", "Supported"),
     (
         "lttng-modules-2.11",
         "lttng-tools-2.7",
@@ -190,6 +213,7 @@ test_matrix_regen_metadata = [
     ("lttng-modules-2.11", "lttng-tools-2.10", "regenerate metadata", "Supported"),
     ("lttng-modules-2.11", "lttng-tools-2.11", "regenerate metadata", "Supported"),
     ("lttng-modules-2.11", "lttng-tools-2.12", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.11", "lttng-tools-2.13", "regenerate metadata", "Supported"),
     (
         "lttng-modules-2.12",
         "lttng-tools-2.7",
@@ -201,6 +225,20 @@ test_matrix_regen_metadata = [
     ("lttng-modules-2.12", "lttng-tools-2.10", "regenerate metadata", "Supported"),
     ("lttng-modules-2.12", "lttng-tools-2.11", "regenerate metadata", "Supported"),
     ("lttng-modules-2.12", "lttng-tools-2.12", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.12", "lttng-tools-2.13", "regenerate metadata", "Supported"),
+    (
+        "lttng-modules-2.13",
+        "lttng-tools-2.7",
+        "metadata regenerate",
+        "Unsupported by tools",
+    ),
+    ("lttng-modules-2.13", "lttng-tools-2.8", "metadata regenerate", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.9", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.10", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.11", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.12", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.13", "regenerate metadata", "Supported"),
+
 ]
 
 test_matrix_statedump = [
@@ -210,36 +248,50 @@ test_matrix_statedump = [
     ("lttng-modules-2.7", "lttng-tools-2.10", "Unsupported by modules"),
     ("lttng-modules-2.7", "lttng-tools-2.11", "Unsupported by modules"),
     ("lttng-modules-2.7", "lttng-tools-2.12", "Unsupported by modules"),
+    ("lttng-modules-2.7", "lttng-tools-2.13", "Unsupported by modules"),
     ("lttng-modules-2.8", "lttng-tools-2.7", "Unsupported by tools"),
     ("lttng-modules-2.8", "lttng-tools-2.8", "Unsupported by tools"),
     ("lttng-modules-2.8", "lttng-tools-2.9", "Unsupported by modules"),
     ("lttng-modules-2.8", "lttng-tools-2.10", "Unsupported by modules"),
     ("lttng-modules-2.8", "lttng-tools-2.11", "Unsupported by modules"),
     ("lttng-modules-2.8", "lttng-tools-2.12", "Unsupported by modules"),
+    ("lttng-modules-2.8", "lttng-tools-2.13", "Unsupported by modules"),
     ("lttng-modules-2.9", "lttng-tools-2.7", "Unsupported by tools"),
     ("lttng-modules-2.9", "lttng-tools-2.8", "Unsupported by tools"),
     ("lttng-modules-2.9", "lttng-tools-2.9", "Supported"),
     ("lttng-modules-2.9", "lttng-tools-2.10", "Supported"),
     ("lttng-modules-2.9", "lttng-tools-2.11", "Supported"),
     ("lttng-modules-2.9", "lttng-tools-2.12", "Supported"),
+    ("lttng-modules-2.9", "lttng-tools-2.13", "Supported"),
     ("lttng-modules-2.10", "lttng-tools-2.7", "Unsupported by tools"),
     ("lttng-modules-2.10", "lttng-tools-2.8", "Unsupported by tools"),
     ("lttng-modules-2.10", "lttng-tools-2.9", "Supported"),
     ("lttng-modules-2.10", "lttng-tools-2.10", "Supported"),
     ("lttng-modules-2.10", "lttng-tools-2.11", "Supported"),
     ("lttng-modules-2.10", "lttng-tools-2.12", "Supported"),
+    ("lttng-modules-2.10", "lttng-tools-2.13", "Supported"),
     ("lttng-modules-2.11", "lttng-tools-2.7", "Unsupported by tools"),
     ("lttng-modules-2.11", "lttng-tools-2.8", "Unsupported by tools"),
     ("lttng-modules-2.11", "lttng-tools-2.9", "Supported"),
     ("lttng-modules-2.11", "lttng-tools-2.10", "Supported"),
     ("lttng-modules-2.11", "lttng-tools-2.11", "Supported"),
     ("lttng-modules-2.11", "lttng-tools-2.12", "Supported"),
+    ("lttng-modules-2.11", "lttng-tools-2.13", "Supported"),
     ("lttng-modules-2.12", "lttng-tools-2.7", "Unsupported by tools"),
     ("lttng-modules-2.12", "lttng-tools-2.8", "Unsupported by tools"),
     ("lttng-modules-2.12", "lttng-tools-2.9", "Supported"),
     ("lttng-modules-2.12", "lttng-tools-2.10", "Supported"),
     ("lttng-modules-2.12", "lttng-tools-2.11", "Supported"),
     ("lttng-modules-2.12", "lttng-tools-2.12", "Supported"),
+    ("lttng-modules-2.12", "lttng-tools-2.13", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.7", "Unsupported by tools"),
+    ("lttng-modules-2.13", "lttng-tools-2.8", "Unsupported by tools"),
+    ("lttng-modules-2.13", "lttng-tools-2.9", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.10", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.11", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.12", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.13", "Supported"),
+
 ]
 
 test_matrix_starglobing_enabler = [
@@ -249,6 +301,7 @@ test_matrix_starglobing_enabler = [
     ("lttng-modules-2.7", "lttng-tools-2.10", "Unsupported by modules"),
     ("lttng-modules-2.7", "lttng-tools-2.11", "Unsupported by modules"),
     ("lttng-modules-2.7", "lttng-tools-2.12", "Unsupported by modules"),
+    ("lttng-modules-2.7", "lttng-tools-2.13", "Unsupported by modules"),
     ("lttng-modules-2.8", "lttng-tools-2.7", "Unsupported by tools"),
     ("lttng-modules-2.8", "lttng-tools-2.8", "Unsupported by tools"),
     ("lttng-modules-2.8", "lttng-tools-2.9", "Unsupported by tools"),
@@ -261,24 +314,36 @@ test_matrix_starglobing_enabler = [
     ("lttng-modules-2.9", "lttng-tools-2.10", "Unsupported by modules"),
     ("lttng-modules-2.9", "lttng-tools-2.11", "Unsupported by modules"),
     ("lttng-modules-2.9", "lttng-tools-2.12", "Unsupported by modules"),
+    ("lttng-modules-2.9", "lttng-tools-2.13", "Unsupported by modules"),
     ("lttng-modules-2.10", "lttng-tools-2.7", "Unsupported by tools"),
     ("lttng-modules-2.10", "lttng-tools-2.8", "Unsupported by tools"),
     ("lttng-modules-2.10", "lttng-tools-2.9", "Unsupported by tools"),
     ("lttng-modules-2.10", "lttng-tools-2.10", "Supported"),
     ("lttng-modules-2.10", "lttng-tools-2.11", "Supported"),
     ("lttng-modules-2.10", "lttng-tools-2.12", "Supported"),
+    ("lttng-modules-2.10", "lttng-tools-2.12", "Supported"),
+    ("lttng-modules-2.10", "lttng-tools-2.13", "Supported"),
     ("lttng-modules-2.11", "lttng-tools-2.7", "Unsupported by tools"),
     ("lttng-modules-2.11", "lttng-tools-2.8", "Unsupported by tools"),
     ("lttng-modules-2.11", "lttng-tools-2.9", "Unsupported by tools"),
     ("lttng-modules-2.11", "lttng-tools-2.10", "Supported"),
     ("lttng-modules-2.11", "lttng-tools-2.11", "Supported"),
     ("lttng-modules-2.11", "lttng-tools-2.12", "Supported"),
+    ("lttng-modules-2.11", "lttng-tools-2.13", "Supported"),
     ("lttng-modules-2.12", "lttng-tools-2.7", "Unsupported by tools"),
     ("lttng-modules-2.12", "lttng-tools-2.8", "Unsupported by tools"),
     ("lttng-modules-2.12", "lttng-tools-2.9", "Unsupported by tools"),
     ("lttng-modules-2.12", "lttng-tools-2.10", "Supported"),
     ("lttng-modules-2.12", "lttng-tools-2.11", "Supported"),
     ("lttng-modules-2.12", "lttng-tools-2.12", "Supported"),
+    ("lttng-modules-2.12", "lttng-tools-2.13", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.7", "Unsupported by tools"),
+    ("lttng-modules-2.13", "lttng-tools-2.8", "Unsupported by tools"),
+    ("lttng-modules-2.13", "lttng-tools-2.9", "Unsupported by tools"),
+    ("lttng-modules-2.13", "lttng-tools-2.10", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.11", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.12", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.13", "Supported"),
 ]
 
 
