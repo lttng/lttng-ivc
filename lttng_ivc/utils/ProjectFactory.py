@@ -34,6 +34,7 @@ _project_constructor = {
         'lttng-modules': Project.Lttng_modules,
         'lttng-tools': Project.Lttng_tools,
         'lttng-ust': Project.Lttng_ust,
+        'urcu': Project.Urcu,
 }
 
 __projects_cache = {}

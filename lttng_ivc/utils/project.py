@@ -433,3 +433,6 @@ class Lttng_tools(Project):
 
 class Babeltrace(Project):
     pass
+
+class Urcu(Project):
+    pass

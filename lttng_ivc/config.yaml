@@ -2,47 +2,53 @@ lttng-tools:
         - marker: lttng-tools-2.7
           url: https://github.com/lttng/lttng-tools
           ref: stable-2.7
-          precook_deps: [lttng-ust-2.7]
+          precook_deps: [lttng-ust-2.7, urcu-latest]
         - marker: lttng-tools-2.8
           url: https://github.com/lttng/lttng-tools
           ref: stable-2.8
-          precook_deps: [lttng-ust-2.8]
+          precook_deps: [lttng-ust-2.8, urcu-latest]
         - marker: lttng-tools-2.9
           url: https://github.com/lttng/lttng-tools
           ref: stable-2.9
-          precook_deps: [lttng-ust-2.9]
+          precook_deps: [lttng-ust-2.9, urcu-latest]
         - marker: lttng-tools-2.10
           url: https://github.com/lttng/lttng-tools
           ref: stable-2.10
-          precook_deps: [lttng-ust-2.10]
+          precook_deps: [lttng-ust-2.10, urcu-latest]
         - marker: lttng-tools-2.11
           url: https://github.com/lttng/lttng-tools
           ref: stable-2.11
-          precook_deps: [lttng-ust-2.11]
+          precook_deps: [lttng-ust-2.11, urcu-latest]
         - marker: lttng-tools-2.12
           url: https://github.com/lttng/lttng-tools
           ref: stable-2.12
-          precook_deps: [lttng-ust-2.12]
+          precook_deps: [lttng-ust-2.12, urcu-latest]
 
 lttng-ust:
         - marker: lttng-ust-2.7
           url: https://github.com/lttng/lttng-ust
           ref: stable-2.7
+          precook_deps: [urcu-latest]
         - marker: lttng-ust-2.8
           url: https://github.com/lttng/lttng-ust
           ref: stable-2.8
+          precook_deps: [urcu-latest]
         - marker: lttng-ust-2.9
           url: https://github.com/lttng/lttng-ust
           ref: stable-2.9
+          precook_deps: [urcu-latest]
         - marker: lttng-ust-2.10
           url: https://github.com/lttng/lttng-ust
           ref: stable-2.10
+          precook_deps: [urcu-latest]
         - marker: lttng-ust-2.11
           url: https://github.com/lttng/lttng-ust
           ref: stable-2.11
+          precook_deps: [urcu-latest]
         - marker: lttng-ust-2.12
           url: https://github.com/lttng/lttng-ust
           ref: stable-2.12
+          precook_deps: [urcu-latest]
 
 
 lttng-modules:
@@ -77,4 +83,21 @@ babeltrace:
           ref: stable-1.5
         - marker: babeltrace-master
           url: https://github.com/efficios/babeltrace
+          ref: master
+
+urcu:
+        - marker: urcu-0.10
+          url: https://github.com/urcu/userspace-rcu
+          ref: stable-0.10
+        - marker: urcu-0.11
+          url: https://github.com/urcu/userspace-rcu
+          ref: stable-0.11
+        - marker: urcu-0.12
+          url: https://github.com/urcu/userspace-rcu
+          ref: stable-0.12
+        - marker: urcu-0.13
+          url: https://github.com/urcu/userspace-rcu
+          ref: master
+        - marker: urcu-latest
+          url: https://github.com/urcu/userspace-rcu
           ref: master
