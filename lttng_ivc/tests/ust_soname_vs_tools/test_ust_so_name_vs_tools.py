@@ -161,7 +161,9 @@ def test_soname_configure(
 
     ust.autobuild()
 
-    tools.dependencies["custom-ust"] = ust
+    # Replace the default lttng-ust for lttng-tools
+    tools.dependencies["lttng-ust"] = ust
+
     # TODO: Propose fixes to upstream regarding the check
     if not should_pass:
         # Making sure we get a error here

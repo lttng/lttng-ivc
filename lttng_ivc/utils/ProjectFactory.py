@@ -57,11 +57,20 @@ def get_fresh(label, tmpdir):
     constructor = _project_constructor[marker['project']]
     path = marker['path']
     sha1 = marker['sha1']
-    return constructor(label, path, sha1, tmpdir)
+    deps = marker['deps']
 
+    project = constructor(label, path, sha1, tmpdir)
+
+    for dep in deps:
+        obj_dep = get_precook(dep)
+        project_name = _markers[dep]['project']
+        project.dependencies[project_name] = obj_dep
+        _logger.info("Added dep project {}, label {} to project labeled {}".format(project_name, dep, label))
+
+    return project
 
 def _validate_pickle(pickle, label):
-    _logger.debug("Checking validate for {} {}".format(pickle,
+    _logger.info("Checking validate for {} {}".format(pickle,
                                                        label))
     if pickle._py_file_checksum != _project_py_checksum:
         _logger.warn("Project py file changed".format(pickle.label,
@@ -83,14 +92,14 @@ def _validate_pickle(pickle, label):
             len(pickle.dependencies)))
         return False
     for dep in deps:
-        if dep not in pickle.dependencies:
-            _logger.warn("Dep {} is not in {}".format(dep,
-                pickle.dependencies))
+        project_name = _markers[dep]['project']
+        if project_name not in pickle.dependencies:
+            _logger.warn("Dep project {} with label {} is not in {}".format(project_name,dep, pickle.dependencies))
             return False
         else:
-            _logger.debug("Calling validate {} {}".format(pickle.dependencies[dep],
+            _logger.info("Calling validate {} {}".format(pickle.dependencies[project_name],
                 dep))
-            valid = _validate_pickle(pickle.dependencies[dep], dep)
+            valid = _validate_pickle(pickle.dependencies[project_name], dep)
             if not valid:
                 return False
     return True
@@ -129,7 +138,9 @@ def get_precook(label):
 
     for dep in deps:
         obj_dep = get_precook(dep)
-        project.dependencies[dep] = obj_dep
+        project_name = _markers[dep]['project']
+        project.dependencies[project_name] = obj_dep
+        _logger.info("Added dep project {}, label {} to project labeled {}".format(project_name, dep, label))
 
     project.autobuild()
     project._immutable = True

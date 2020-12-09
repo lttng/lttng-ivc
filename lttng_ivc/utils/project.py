@@ -147,8 +147,7 @@ class Project(object):
             for var, value in dep.special_env_variables.items():
                 if var in env:
                     # Raise for now since no special cases is known
-                    _logger.warning("{} Special var {} is already defined".format(
-                                self.label, var))
+                    _logger.warning("{} Special var {} is already defined. Dependancy {} value: {} . Current env value: {}".format(self.label, var, key, value, env[var]))
                     raise Exception("Multiple definition of a special environment variable")
                 else:
                     env[var] = value
