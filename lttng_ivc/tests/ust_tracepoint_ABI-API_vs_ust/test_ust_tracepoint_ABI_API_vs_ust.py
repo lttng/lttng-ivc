@@ -177,7 +177,6 @@ test_matrix_base = [
     ("lttng-ust-2.12", "lttng-tools-2.11", success),
     ("lttng-ust-2.12", "lttng-tools-2.12", success),
     ("lttng-ust-2.12", "lttng-tools-2.13", tracing_unavailable_so),
-    ("lttng-ust-2.12", "lttng-tools-2.13", success),
     ("lttng-ust-2.13", "lttng-tools-2.7", tracing_unavailable_so),
     ("lttng-ust-2.13", "lttng-tools-2.8", tracing_unavailable_so),
     ("lttng-ust-2.13", "lttng-tools-2.9", tracing_unavailable_so),
