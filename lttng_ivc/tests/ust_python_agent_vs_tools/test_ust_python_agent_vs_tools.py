@@ -163,7 +163,7 @@ test_matrix_agent_interface = [
     ("lttng-ust-2.10", "lttng-tools-2.10", "Success"),
     ("lttng-ust-2.10", "lttng-tools-2.11", "Success"),
     ("lttng-ust-2.10", "lttng-tools-2.12", "Success"),
-    ("lttng-ust-2.10", "lttng-tools-2.13", "error_ust_so_0"),
+    ("lttng-ust-2.10", "lttng-tools-2.13", error_ust_so_0),
     ("lttng-ust-2.11", "lttng-tools-2.7", "Unsupported protocol"),
     ("lttng-ust-2.11", "lttng-tools-2.8", "Success"),
     ("lttng-ust-2.11", "lttng-tools-2.9", "Success"),
