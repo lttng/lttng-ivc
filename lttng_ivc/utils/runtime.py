@@ -301,8 +301,15 @@ class Runtime(object):
             self.run("modprobe -r lttng-test", check_return=check_return)
 
     def close(self):
+        throw = False
+        keys = []
         for key, subp in self.__subprocess.items():
-            self.subprocess_terminate(key)
+            process = self.subprocess_terminate(key, check_return=False)
+            if process.returncode != 0:
+                _logger.error("Subprocess terminated with an error")
+                throw = True;
+                keys.append(str(key))
+
 
         # Always try to remove test module but do not perform check on return
         # value.
@@ -312,3 +319,5 @@ class Runtime(object):
         # a tmpdir on another device. Let's consider we have unlimited space.
         shutil.copytree(self.lttng_home, self.__post_runtime_lttng_home_path,
                 ignore=shutil.ignore_patterns(".lttng"))
+        if throw:
+            raise Exception("The following subprocess exited with error: %", keys)
