@@ -39,7 +39,7 @@ lttng_test_procfile = "/proc/lttng-test-filter-event"
 
 save_ext = ".lttng"
 
-mi_xsd_file_name = ['mi_lttng.xsd', 'mi-lttng-3.0.xsd', 'mi-lttng-4.0.xsd']
+mi_xsd_file_name = ['mi_lttng.xsd', 'mi-lttng-3.0.xsd', 'mi-lttng-4.0.xsd', 'mi-lttng-4.1.xsd']
 
 def generate_runtime_test_matrix(base_matrix, indexes_of_criteria_list):
     result_matrix = []
