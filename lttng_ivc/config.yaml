@@ -14,7 +14,7 @@ lttng-tools:
         - marker: lttng-tools-2.10
           url: https://github.com/lttng/lttng-tools
           ref: stable-2.10
-          precook_deps: [lttng-ust-2.10, urcu-0.9]
+          precook_deps: [lttng-ust-2.10, urcu-0.10]
         - marker: lttng-tools-2.11
           url: https://github.com/lttng/lttng-tools
           ref: stable-2.11
@@ -44,7 +44,7 @@ lttng-ust:
         - marker: lttng-ust-2.10
           url: https://github.com/lttng/lttng-ust
           ref: stable-2.10
-          precook_deps: [urcu-0.9]
+          precook_deps: [urcu-0.10]
         - marker: lttng-ust-2.11
           url: https://github.com/lttng/lttng-ust
           ref: stable-2.11
