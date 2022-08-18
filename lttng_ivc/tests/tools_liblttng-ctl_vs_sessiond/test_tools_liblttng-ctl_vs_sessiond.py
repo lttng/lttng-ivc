@@ -118,6 +118,9 @@ def test_tools_liblttng_ctl_vs_sessiond_basic_listing(
 
     with Run.get_runtime(tools_runtime_path) as runtime_tools:
         runtime_tools.add_project(tools)
+        if 'urcu' in client.dependencies:
+            runtime_tools.add_project(client.dependencies['urcu'])
+
 
         sessiond = utils.sessiond_spawn(runtime_tools)
 

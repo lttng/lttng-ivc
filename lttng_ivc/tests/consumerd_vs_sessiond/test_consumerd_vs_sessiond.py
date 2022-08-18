@@ -135,34 +135,44 @@ def test_consumerd_vs_sessiond(tmpdir, consumerd_l, tools_l, should_work):
 
     sessiond_opt_args = "{}={}".format(c_dict[platform_type], replacement_consumerd)
 
-    with Run.get_runtime(str(tmpdir)) as runtime:
-        runtime.add_project(tools)
-        runtime.add_project(babeltrace)
+    try: 
+        with Run.get_runtime(str(tmpdir)) as runtime:
+            runtime.add_project(tools)
+            runtime.add_project(babeltrace)
+            if 'urcu' in consumerd.dependencies:
+                runtime.add_project(consumerd.dependencies['urcu'])
 
-        shutil.copytree(Settings.apps_gen_events_folder, app_path)
-        runtime.run("make V=1", cwd=app_path)
+            shutil.copytree(Settings.apps_gen_events_folder, app_path)
+            runtime.run("make V=1", cwd=app_path)
 
-        utils.sessiond_spawn(runtime, sessiond_opt_args)
+            utils.sessiond_spawn(runtime, sessiond_opt_args)
 
-        # Consumer is only called on channel creation
-        runtime.run("lttng create")
-        try:
-            runtime.run("lttng enable-event -u tp:tptest", timeout=5)
-            runtime.run("lttng start", timeout=5)
+            # Consumer is only called on channel creation
+            runtime.run("lttng create")
+            try:
+                runtime.run("lttng enable-event -u tp:tptest", timeout=5)
+                runtime.run("lttng start", timeout=5)
 
-            # Run application
-            cmd = "./app {}".format(100)
-            runtime.run(cmd, cwd=app_path)
+                # Run application
+                cmd = "./app {}".format(100)
+                runtime.run(cmd, cwd=app_path)
 
-            runtime.run("lttng stop", timeout=5)
-            runtime.run("lttng destroy -a", timeout=5)
-            cp, cp_out, cp_err = runtime.run("babeltrace {}".format(runtime.lttng_home))
-            assert utils.line_count(cp_out) == nb_event
-        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
-            if should_work:
-                raise e
-            else:
-                # Expecting some error
-                return
-        if not should_work:
-            raise Exception("Supposed to fail")
+                runtime.run("lttng stop", timeout=5)
+                runtime.run("lttng destroy -a", timeout=5)
+                cp, cp_out, cp_err = runtime.run("babeltrace {}".format(runtime.lttng_home))
+                assert utils.line_count(cp_out) == nb_event
+            except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
+                if should_work:
+                    raise e
+                else:
+                    # Expecting some error
+                    return
+    except (Run.SubProcessError) as e:
+        if should_work:
+            raise e
+        else:
+            # Expecting some error
+            return
+
+    if not should_work:
+        raise Exception("Supposed to fail")

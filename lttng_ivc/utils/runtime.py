@@ -38,6 +38,9 @@ import lttng_ivc.settings as Settings
 import lttng_ivc.utils.utils as utils
 _logger = logging.getLogger("Runtime")
 
+class SubProcessError(Exception):
+    pass
+
 
 @contextlib.contextmanager
 def get_runtime(runtime_dir):
@@ -302,13 +305,13 @@ class Runtime(object):
 
     def close(self):
         throw = False
-        keys = []
+        subprocess_execeptions = [];
         for key, subp in self.__subprocess.items():
             process = self.subprocess_terminate(key, check_return=False)
             if process.returncode != 0:
                 _logger.error("Subprocess terminated with an error")
                 throw = True;
-                keys.append(str(key))
+                subprocess_execeptions.append(subprocess.CalledProcessError(process.returncode, process.args))
 
 
         # Always try to remove test module but do not perform check on return
@@ -320,4 +323,4 @@ class Runtime(object):
         shutil.copytree(self.lttng_home, self.__post_runtime_lttng_home_path,
                 ignore=shutil.ignore_patterns(".lttng"))
         if throw:
-            raise Exception("The following subprocess exited with error: %", keys)
+            raise SubProcessError(subprocess_execeptions)
