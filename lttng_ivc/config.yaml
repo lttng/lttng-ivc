@@ -47,6 +47,9 @@ babeltrace:
         - marker: babeltrace-1.5
           url: https://github.com/efficios/babeltrace
           ref: stable-1.5
+        - marker: babeltrace-2.0
+          url: https://github.com/efficios/babeltrace
+          ref: stable-2.0
 
 urcu:
         - marker: urcu-0.13
