@@ -22,6 +22,7 @@ import pytest
 import os
 import shutil
 import filecmp
+import sys
 
 import lttng_ivc.utils.ProjectFactory as ProjectFactory
 import lttng_ivc.utils.utils as utils
@@ -45,6 +46,7 @@ BC: Feature of the smallest version number will works.
 | 1.3                      | FC | BC | BC | BC  | BC   | BC  | BC  |
 | 1.4                      | FC | FC | FC | FC  | FC   | FC  | FC  |
 | 1.5                      | FC | FC | FC | FC  | FC   | FC  | FC  |
+| 2.0                      | FC | FC | FC | FC  | FC   | FC  | FC  |
 +--------------------------+----+----+----+-----+------+-----+-----+
 
 """
@@ -67,6 +69,13 @@ test_matrix_base_ust = [
     ("babeltrace-1.5", "lttng-tools-2.11"),
     ("babeltrace-1.5", "lttng-tools-2.12"),
     ("babeltrace-1.5", "lttng-tools-2.13"),
+
+    ("babeltrace-2.0", "lttng-tools-2.7"),
+    ("babeltrace-2.0", "lttng-tools-2.8"),
+    ("babeltrace-2.0", "lttng-tools-2.9"),
+    ("babeltrace-2.0", "lttng-tools-2.11"),
+    ("babeltrace-2.0", "lttng-tools-2.12"),
+    ("babeltrace-2.0", "lttng-tools-2.13"),
 ]
 
 test_matrix_base_modules = [
@@ -88,45 +97,54 @@ test_matrix_base_modules = [
     ("babeltrace-1.5", "lttng-modules-2.11", "lttng-tools-2.11"),
     ("babeltrace-1.5", "lttng-modules-2.12", "lttng-tools-2.12"),
     ("babeltrace-1.5", "lttng-modules-2.13", "lttng-tools-2.13"),
+
+    ("babeltrace-2.0", "lttng-modules-2.7", "lttng-tools-2.7"),
+    ("babeltrace-2.0", "lttng-modules-2.8", "lttng-tools-2.8"),
+    ("babeltrace-2.0", "lttng-modules-2.9", "lttng-tools-2.9"),
+    ("babeltrace-2.0", "lttng-modules-2.10", "lttng-tools-2.10"),
+    ("babeltrace-2.0", "lttng-modules-2.11", "lttng-tools-2.11"),
+    ("babeltrace-2.0", "lttng-modules-2.12", "lttng-tools-2.12"),
+    ("babeltrace-2.0", "lttng-modules-2.13", "lttng-tools-2.13"),
 ]
 
 test_matrix_lost_packet = [
     ("babeltrace-1.5", True),
+    ("babeltrace-2.0", True),
 ]
 
 test_matrix_same_trace_modules = [
     (
-        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"],
+        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5", "babeltrace-2.0"],
         "lttng-modules-2.7",
         "lttng-tools-2.7",
     ),
     (
-        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"],
+        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5", "babeltrace-2.0"],
         "lttng-modules-2.8",
         "lttng-tools-2.8",
     ),
     (
-        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"],
+        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5", "babeltrace-2.0"],
         "lttng-modules-2.9",
         "lttng-tools-2.9",
     ),
     (
-        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"],
+        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5", "babeltrace-2.0"],
         "lttng-modules-2.10",
         "lttng-tools-2.10",
     ),
     (
-        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"],
+        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5", "babeltrace-2.0"],
         "lttng-modules-2.11",
         "lttng-tools-2.11",
     ),
     (
-        ["babeltrace-1.5"],
+        ["babeltrace-1.5", "babeltrace-2.0"],
         "lttng-modules-2.12",
         "lttng-tools-2.12",
     ),
     (
-        ["babeltrace-1.5"],
+        ["babeltrace-1.5", "babeltrace-2.0"],
         "lttng-modules-2.13",
         "lttng-tools-2.13",
     ),
@@ -134,13 +152,13 @@ test_matrix_same_trace_modules = [
 ]
 
 test_matrix_same_trace_ust = [
-    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.7"),
-    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.8"),
-    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.9"),
-    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.10"),
-    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.11"),
-    (["babeltrace-1.5"], "lttng-tools-2.12"),
-    (["babeltrace-1.5"], "lttng-tools-2.13"),
+    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5", "babeltrace-2.0"], "lttng-tools-2.7"),
+    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5", "babeltrace-2.0"], "lttng-tools-2.8"),
+    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5", "babeltrace-2.0"], "lttng-tools-2.9"),
+    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5", "babeltrace-2.0"], "lttng-tools-2.10"),
+    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5", "babeltrace-2.0"], "lttng-tools-2.11"),
+    (["babeltrace-1.5", "babeltrace-2.0"], "lttng-tools-2.12"),
+    (["babeltrace-1.5", "babeltrace-2.0"], "lttng-tools-2.13"),
 ]
 
 
@@ -176,6 +194,7 @@ def test_babeltrace_base_ust(tmpdir, babeltrace_l, tools_l):
 
     runtime_path = os.path.join(str(tmpdir), "runtime")
     app_path = os.path.join(str(tmpdir), "app")
+    trace_path = os.path.join(str(tmpdir), "trace")
 
     with Run.get_runtime(runtime_path) as runtime:
         runtime.add_project(tools)
@@ -189,7 +208,7 @@ def test_babeltrace_base_ust(tmpdir, babeltrace_l, tools_l):
         sessiond = utils.sessiond_spawn(runtime)
 
         # Create session using mi to get path and session name
-        runtime.run("lttng create trace")
+        runtime.run("lttng create trace -o '{}'".format(trace_path))
         runtime.run("lttng enable-event -u tp:tptest")
         runtime.run("lttng start")
 
@@ -204,11 +223,17 @@ def test_babeltrace_base_ust(tmpdir, babeltrace_l, tools_l):
         if cp.returncode != 0:
             pytest.fail("Sessiond return code")
 
+        # Assume the bitness of the interpreter is the same as the test app
+        if sys.maxsize > 2**32:
+            trace_bits = "64-bit"
+        else:
+            trace_bits = "32-bit"
+
         # Do not validate the metadata only the return code of babeltrace
-        cmd = "babeltrace -o ctf-metadata {}".format(runtime.lttng_home)
+        cmd = "babeltrace -o ctf-metadata {}".format(os.path.join(trace_path, "ust/uid", str(os.getuid()), trace_bits))
         runtime.run(cmd)
 
-        cmd = "babeltrace {}".format(runtime.lttng_home)
+        cmd = "babeltrace {}".format(trace_path)
         cp_process, cp_out, cp_err = runtime.run(cmd)
         assert utils.line_count(cp_out) == nb_events
 

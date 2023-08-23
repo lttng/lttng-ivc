@@ -35,7 +35,7 @@ project_py_file_location = os.path.join(base_dir, "utils/project.py")
 
 tmp_object_prefix = "lttng-ivc-"
 
-default_babeltrace = "babeltrace-1.5"
+default_babeltrace = "babeltrace-2.0"
 
 lttng_test_procfile = "/proc/lttng-test-filter-event"
 

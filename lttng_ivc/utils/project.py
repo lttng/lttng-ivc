@@ -318,6 +318,13 @@ class Project(object):
             p = subprocess.run(args, env=self.get_env(), stdout=stdout,
                                stderr=stderr)
         p.check_returncode()
+
+        # For babeltrace2, create a symlink to babeltrace for backward compat
+        bt1_path = os.path.join(self.installation_path, "bin/babeltrace");
+        bt2_path = os.path.join(self.installation_path, "bin/babeltrace2");
+        if os.path.exists(bt2_path):
+            os.symlink(bt2_path, bt1_path)
+
         self.isInstalled = True
         return p
 
