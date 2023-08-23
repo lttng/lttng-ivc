@@ -75,27 +75,13 @@ test_matrix_live = [
             reason="Flaky test or Flaky babeltrace. Is under investigation"
         ),
     ),
-    pytest.param(
-        "babeltrace-1.3",
-        "lttng-tools-2.12",
-        marks=pytest.mark.xfail(
-            reason="Flaky test or Flaky babeltrace. Is under investigation"
-        ),
-    ),
-    pytest.param(
-        "babeltrace-1.3",
-        "lttng-tools-2.13",
-        marks=pytest.mark.xfail(
-            reason="Flaky test or Flaky babeltrace. Is under investigation"
-        ),
-    ),
+
     ("babeltrace-1.4", "lttng-tools-2.7"),
     ("babeltrace-1.4", "lttng-tools-2.8"),
     ("babeltrace-1.4", "lttng-tools-2.9"),
     ("babeltrace-1.4", "lttng-tools-2.10"),
     ("babeltrace-1.4", "lttng-tools-2.11"),
-    ("babeltrace-1.4", "lttng-tools-2.12"),
-    ("babeltrace-1.4", "lttng-tools-2.13"),
+
     ("babeltrace-1.5", "lttng-tools-2.7"),
     ("babeltrace-1.5", "lttng-tools-2.8"),
     ("babeltrace-1.5", "lttng-tools-2.9"),

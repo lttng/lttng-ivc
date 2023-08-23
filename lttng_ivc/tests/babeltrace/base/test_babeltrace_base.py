@@ -54,15 +54,13 @@ test_matrix_base_ust = [
     ("babeltrace-1.3", "lttng-tools-2.9"),
     ("babeltrace-1.3", "lttng-tools-2.10"),
     ("babeltrace-1.3", "lttng-tools-2.11"),
-    ("babeltrace-1.3", "lttng-tools-2.12"),
-    ("babeltrace-1.3", "lttng-tools-2.13"),
+
     ("babeltrace-1.4", "lttng-tools-2.7"),
     ("babeltrace-1.4", "lttng-tools-2.8"),
     ("babeltrace-1.4", "lttng-tools-2.9"),
     ("babeltrace-1.4", "lttng-tools-2.10"),
     ("babeltrace-1.4", "lttng-tools-2.11"),
-    ("babeltrace-1.4", "lttng-tools-2.12"),
-    ("babeltrace-1.4", "lttng-tools-2.13"),
+
     ("babeltrace-1.5", "lttng-tools-2.7"),
     ("babeltrace-1.5", "lttng-tools-2.8"),
     ("babeltrace-1.5", "lttng-tools-2.9"),
@@ -77,25 +75,22 @@ test_matrix_base_modules = [
     ("babeltrace-1.3", "lttng-modules-2.9", "lttng-tools-2.9"),
     ("babeltrace-1.3", "lttng-modules-2.10", "lttng-tools-2.10"),
     ("babeltrace-1.3", "lttng-modules-2.11", "lttng-tools-2.11"),
-    ("babeltrace-1.3", "lttng-modules-2.12", "lttng-tools-2.12"),
-    ("babeltrace-1.3", "lttng-modules-2.13", "lttng-tools-2.13"),
+
     ("babeltrace-1.4", "lttng-modules-2.7", "lttng-tools-2.7"),
     ("babeltrace-1.4", "lttng-modules-2.8", "lttng-tools-2.8"),
     ("babeltrace-1.4", "lttng-modules-2.9", "lttng-tools-2.9"),
     ("babeltrace-1.4", "lttng-modules-2.10", "lttng-tools-2.10"),
-    ("babeltrace-1.4", "lttng-modules-2.11", "lttng-tools-2.11"),
-    ("babeltrace-1.4", "lttng-modules-2.13", "lttng-tools-2.13"),
+
     ("babeltrace-1.5", "lttng-modules-2.7", "lttng-tools-2.7"),
     ("babeltrace-1.5", "lttng-modules-2.8", "lttng-tools-2.8"),
     ("babeltrace-1.5", "lttng-modules-2.9", "lttng-tools-2.9"),
     ("babeltrace-1.5", "lttng-modules-2.10", "lttng-tools-2.10"),
     ("babeltrace-1.5", "lttng-modules-2.11", "lttng-tools-2.11"),
+    ("babeltrace-1.5", "lttng-modules-2.12", "lttng-tools-2.12"),
     ("babeltrace-1.5", "lttng-modules-2.13", "lttng-tools-2.13"),
 ]
 
 test_matrix_lost_packet = [
-    ("babeltrace-1.3", False),
-    ("babeltrace-1.4", True),
     ("babeltrace-1.5", True),
 ]
 
@@ -126,12 +121,12 @@ test_matrix_same_trace_modules = [
         "lttng-tools-2.11",
     ),
     (
-        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"],
+        ["babeltrace-1.5"],
         "lttng-modules-2.12",
         "lttng-tools-2.12",
     ),
     (
-        ["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"],
+        ["babeltrace-1.5"],
         "lttng-modules-2.13",
         "lttng-tools-2.13",
     ),
@@ -144,8 +139,8 @@ test_matrix_same_trace_ust = [
     (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.9"),
     (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.10"),
     (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.11"),
-    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.12"),
-    (["babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5"], "lttng-tools-2.13"),
+    (["babeltrace-1.5"], "lttng-tools-2.12"),
+    (["babeltrace-1.5"], "lttng-tools-2.13"),
 ]
 
 
