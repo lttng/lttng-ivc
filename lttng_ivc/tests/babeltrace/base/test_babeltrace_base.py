@@ -359,7 +359,7 @@ def test_babeltrace_same_trace_ust(tmpdir, babeltrace_list, tools_l):
 
 
 @pytest.mark.parametrize("babeltrace_l,supported", runtime_matrix_lost_packet)
-def test_babeltrace_lost_patcket(tmpdir, babeltrace_l, supported):
+def test_babeltrace_lost_packet(tmpdir, babeltrace_l, supported):
     babeltrace = ProjectFactory.get_precook(babeltrace_l)
 
     trace_path = Settings.trace_lost_packet
