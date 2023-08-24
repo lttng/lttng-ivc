@@ -16,3 +16,6 @@ runtime/
 .cache
 .envrc
 
+lttng_ivc.egg-info/
+lttng_ivc/debug.log
+lttng_ivc/run_configuration.yaml
