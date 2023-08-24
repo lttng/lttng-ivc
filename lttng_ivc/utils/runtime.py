@@ -301,7 +301,7 @@ class Runtime(object):
     def unload_test_module(self, check_return=True):
         # Base directory is provided by env
         if self._is_test_modules_loaded:
-            self.run("modprobe -r lttng-test", check_return=check_return)
+            self.run("modprobe -r --remove-dependencies lttng-test lttng-statedump lttng_wrapper lttng_kprobes lttng_clock lttng_uprobes lttng_lib_ring_buffer lttng_kretprobes", check_return=check_return)
 
     def close(self):
         throw = False
