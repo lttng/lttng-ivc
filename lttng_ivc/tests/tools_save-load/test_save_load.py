@@ -48,6 +48,7 @@ test_matrix_app_contexts = [
     ("lttng-tools-2.13", "lttng-tools-2.12", True),
     ("lttng-tools-2.13", "lttng-tools-2.13", True),
     ("lttng-tools-2.13", "lttng-tools-2.14", True),
+    ("lttng-tools-2.13", "lttng-tools-master", True),
     # Allocation policy and LOG4J2
     ("lttng-tools-2.14", "lttng-tools-2.12", False),
     pytest.param(
@@ -57,6 +58,21 @@ test_matrix_app_contexts = [
         marks=pytest.mark.xfail(reason="Should fail to load but does not"),
     ),
     ("lttng-tools-2.14", "lttng-tools-2.14", True),
+    ("lttng-tools-2.14", "lttng-tools-master", True),
+    # watchdog timer
+    pytest.param(
+        "lttng-tools-master",
+        "lttng-tools-2.13",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail to load but does not"),
+    ),
+    pytest.param(
+        "lttng-tools-master",
+        "lttng-tools-2.14",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail to load but does not"),
+    ),
+    ("lttng-tools-master", "lttng-tools-master", True),
 ]
 
 test_matrix_blocking_timeout = [
@@ -90,6 +106,7 @@ test_matrix_blocking_timeout = [
     ("lttng-tools-2.13", "lttng-tools-2.12", True),
     ("lttng-tools-2.13", "lttng-tools-2.13", True),
     ("lttng-tools-2.13", "lttng-tools-2.14", True),
+    ("lttng-tools-2.13", "lttng-tools-master", True),
     # Allocation policy and LOG4J2
     ("lttng-tools-2.14", "lttng-tools-2.12", False),
     pytest.param(
@@ -99,6 +116,21 @@ test_matrix_blocking_timeout = [
         marks=pytest.mark.xfail(reason="Should fail to load but does not"),
     ),
     ("lttng-tools-2.14", "lttng-tools-2.14", True),
+    ("lttng-tools-2.14", "lttng-tools-master", True),
+    # watchdog timer
+    pytest.param(
+        "lttng-tools-master",
+        "lttng-tools-2.13",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail to load but does not"),
+    ),
+    pytest.param(
+        "lttng-tools-master",
+        "lttng-tools-2.14",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail to load but does not"),
+    ),
+    ("lttng-tools-master", "lttng-tools-master", True),
 ]
 
 test_matrix_monitor_timer_interval = [
@@ -133,6 +165,7 @@ test_matrix_monitor_timer_interval = [
     ("lttng-tools-2.13", "lttng-tools-2.12", True),
     ("lttng-tools-2.13", "lttng-tools-2.13", True),
     ("lttng-tools-2.13", "lttng-tools-2.14", True),
+    ("lttng-tools-2.13", "lttng-tools-master", True),
     # Allocation policy and LOG4J2 changed
     ("lttng-tools-2.14", "lttng-tools-2.12", False),
     pytest.param(
@@ -142,6 +175,21 @@ test_matrix_monitor_timer_interval = [
         marks=pytest.mark.xfail(reason="Should fail to load but does not"),
     ),
     ("lttng-tools-2.14", "lttng-tools-2.14", True),
+    ("lttng-tools-2.14", "lttng-tools-master", True),
+    # watchdog timer
+    pytest.param(
+        "lttng-tools-master",
+        "lttng-tools-2.13",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail to load but does not"),
+    ),
+    pytest.param(
+        "lttng-tools-master",
+        "lttng-tools-2.14",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail to load but does not"),
+    ),
+    ("lttng-tools-master", "lttng-tools-master", True),
 ]
 
 runtime_matrix_app_contexts = Settings.generate_runtime_test_matrix(

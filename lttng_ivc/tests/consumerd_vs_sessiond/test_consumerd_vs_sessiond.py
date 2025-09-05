@@ -103,9 +103,14 @@ test_matrix_consumerd = [
     ("lttng-tools-2.13", "lttng-tools-2.12", False),
     ("lttng-tools-2.13", "lttng-tools-2.13", True),
     ("lttng-tools-2.13", "lttng-tools-2.14", False),
+    ("lttng-tools-2.13", "lttng-tools-master", False),
     ("lttng-tools-2.14", "lttng-tools-2.12", False),
     ("lttng-tools-2.14", "lttng-tools-2.13", False),
     ("lttng-tools-2.14", "lttng-tools-2.14", True),
+    ("lttng-tools-2.14", "lttng-tools-master", False),
+    ("lttng-tools-master", "lttng-tools-2.13", False),
+    ("lttng-tools-master", "lttng-tools-2.14", False),
+    ("lttng-tools-master", "lttng-tools-master", True),
 ]
 
 runtime_matrix_consumerd = Settings.generate_runtime_test_matrix(

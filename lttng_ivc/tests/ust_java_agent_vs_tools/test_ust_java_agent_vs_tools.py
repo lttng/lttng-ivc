@@ -118,9 +118,15 @@ test_matrix_tracing_available = [
     ("lttng-ust-2.13", "lttng-tools-2.12", 2, False),
     ("lttng-ust-2.13", "lttng-tools-2.13", 2, True),
     ("lttng-ust-2.13", "lttng-tools-2.14", 2, True),
+    ("lttng-ust-2.13", "lttng-tools-master", 2, False),
     ("lttng-ust-2.14", "lttng-tools-2.12", 2, False),
     ("lttng-ust-2.14", "lttng-tools-2.13", 2, False),
     ("lttng-ust-2.14", "lttng-tools-2.14", 2, True),
+    ("lttng-ust-2.14", "lttng-tools-master", 2, False),
+    # Protocol changed to version 11
+    ("lttng-ust-master", "lttng-tools-2.13", 2, False),
+    ("lttng-ust-master", "lttng-tools-2.14", 2, False),
+    ("lttng-ust-master", "lttng-tools-master", 2, True),
 ]
 
 test_matrix_agent_interface = [
@@ -176,9 +182,15 @@ test_matrix_agent_interface = [
     ("lttng-ust-2.13", "lttng-tools-2.12", 2, "Success"),
     ("lttng-ust-2.13", "lttng-tools-2.13", 2, "Success"),
     ("lttng-ust-2.13", "lttng-tools-2.14", 2, "Success"),
+    ("lttng-ust-2.13", "lttng-tools-master", 2, "Success"),
     ("lttng-ust-2.14", "lttng-tools-2.12", 2, "Success"),
     ("lttng-ust-2.14", "lttng-tools-2.13", 2, "Success"),
     ("lttng-ust-2.14", "lttng-tools-2.14", 2, "Success"),
+    ("lttng-ust-2.14", "lttng-tools-master", 2, "Success"),
+    # Protocol changed to version 11
+    ("lttng-ust-master", "lttng-tools-2.13", 2, "Success"),
+    ("lttng-ust-master", "lttng-tools-2.14", 2, "Success"),
+    ("lttng-ust-master", "lttng-tools-master", 2, "Success"),
 ]
 
 runtime_matrix_tracing_available = Settings.generate_runtime_test_matrix(

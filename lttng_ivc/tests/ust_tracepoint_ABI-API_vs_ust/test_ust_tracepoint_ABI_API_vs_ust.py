@@ -135,9 +135,14 @@ test_matrix_enum = [
     ("lttng-ust-2.13", "lttng-tools-2.12", tracing_unavailable_so),
     ("lttng-ust-2.13", "lttng-tools-2.13", success),
     ("lttng-ust-2.13", "lttng-tools-2.14", success),
+    ("lttng-ust-2.13", "lttng-tools-master", success),
     ("lttng-ust-2.14", "lttng-tools-2.12", tracing_unavailable_so),
     ("lttng-ust-2.14", "lttng-tools-2.13", success),
     ("lttng-ust-2.14", "lttng-tools-2.14", success),
+    ("lttng-ust-2.14", "lttng-tools-master", success),
+    ("lttng-ust-master", "lttng-tools-2.13", success),
+    ("lttng-ust-master", "lttng-tools-2.14", success),
+    ("lttng-ust-master", "lttng-tools-master", success),
 ]
 
 test_matrix_base = [
@@ -190,9 +195,14 @@ test_matrix_base = [
     ("lttng-ust-2.13", "lttng-tools-2.12", tracing_unavailable_so),
     ("lttng-ust-2.13", "lttng-tools-2.13", success),
     ("lttng-ust-2.13", "lttng-tools-2.14", success),
+    ("lttng-ust-2.13", "lttng-tools-master", success),
     ("lttng-ust-2.14", "lttng-tools-2.12", tracing_unavailable_so),
     ("lttng-ust-2.14", "lttng-tools-2.13", success),
     ("lttng-ust-2.14", "lttng-tools-2.14", success),
+    ("lttng-ust-2.14", "lttng-tools-master", success),
+    ("lttng-ust-master", "lttng-tools-2.13", success),
+    ("lttng-ust-master", "lttng-tools-2.14", success),
+    ("lttng-ust-master", "lttng-tools-master", success),
 ]
 
 runtime_matrix_enum = Settings.generate_runtime_test_matrix(test_matrix_enum, [0, 1])

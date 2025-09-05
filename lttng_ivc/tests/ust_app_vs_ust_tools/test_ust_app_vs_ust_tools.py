@@ -126,9 +126,15 @@ test_matrix_tracing_available = [
     ("lttng-ust-2.13", "lttng-tools-2.12", "Unsupported"),
     ("lttng-ust-2.13", "lttng-tools-2.13", "Success"),
     ("lttng-ust-2.13", "lttng-tools-2.14", "Success"),
+    ("lttng-ust-2.13", "lttng-tools-master", "Unsupported"),
     ("lttng-ust-2.14", "lttng-tools-2.12", "Unsupported"),
     ("lttng-ust-2.14", "lttng-tools-2.13", "Unsupported"),
     ("lttng-ust-2.14", "lttng-tools-2.14", "Success"),
+    ("lttng-ust-2.14", "lttng-tools-master", "Unsupported"),
+    # Tracing protocol version 11
+    ("lttng-ust-master", "lttng-tools-2.13", "Unsupported"),
+    ("lttng-ust-master", "lttng-tools-2.14", "Unsupported"),
+    ("lttng-ust-master", "lttng-tools-master", "Success"),
 ]
 
 
@@ -152,7 +158,9 @@ test_matrix_regen_statedump = [
     ("lttng-ust-2.12", "lttng-tools-2.12", True),
     ("lttng-ust-2.12", "lttng-tools-2.13", True),
     ("lttng-ust-2.13", "lttng-tools-2.13", True),
+    ("lttng-ust-2.13", "lttng-tools-2.14", True),
     ("lttng-ust-2.14", "lttng-tools-2.14", True),
+    ("lttng-ust-master", "lttng-tools-master", True),
 ]
 
 """
@@ -174,6 +182,7 @@ test_matrix_starglobing_enabler = [
     ("lttng-ust-2.13", "lttng-tools-2.13", "Supported"),
     ("lttng-ust-2.13", "lttng-tools-2.14", "Supported"),
     ("lttng-ust-2.14", "lttng-tools-2.14", "Supported"),
+    ("lttng-ust-master", "lttng-tools-master", "Supported"),
 ]
 
 runtime_matrix_tracing_available = Settings.generate_runtime_test_matrix(

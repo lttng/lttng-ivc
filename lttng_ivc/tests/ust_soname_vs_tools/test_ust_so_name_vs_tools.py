@@ -183,9 +183,14 @@ test_matrix_label = [
     ),
     ("lttng-ust-2.13", "lttng-tools-2.13", True),
     ("lttng-ust-2.13", "lttng-tools-2.14", False),
+    ("lttng-ust-2.13", "lttng-tools-master", False),
     ("lttng-ust-2.14", "lttng-tools-2.12", False),
     ("lttng-ust-2.14", "lttng-tools-2.13", True),
     ("lttng-ust-2.14", "lttng-tools-2.14", True),
+    ("lttng-ust-2.14", "lttng-tools-master", False),
+    ("lttng-ust-master", "lttng-tools-2.13", True),
+    ("lttng-ust-master", "lttng-tools-2.14", True),
+    ("lttng-ust-master", "lttng-tools-master", True),
 ]
 
 runtime_matrix_label = Settings.generate_runtime_test_matrix(test_matrix_label, [0, 1])

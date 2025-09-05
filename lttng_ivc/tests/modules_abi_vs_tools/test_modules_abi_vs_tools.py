@@ -125,9 +125,14 @@ test_matrix_base_tracing = [
     ("lttng-modules-2.13", "lttng-tools-2.12"),
     ("lttng-modules-2.13", "lttng-tools-2.13"),
     ("lttng-modules-2.13", "lttng-tools-2.14"),
+    ("lttng-modules-2.13", "lttng-tools-master"),
     ("lttng-modules-2.14", "lttng-tools-2.12"),
     ("lttng-modules-2.14", "lttng-tools-2.13"),
     ("lttng-modules-2.14", "lttng-tools-2.14"),
+    ("lttng-modules-2.14", "lttng-tools-master"),
+    ("lttng-modules-master", "lttng-tools-2.13"),
+    ("lttng-modules-master", "lttng-tools-2.14"),
+    ("lttng-modules-master", "lttng-tools-master"),
 ]
 
 test_matrix_regen_metadata = [
@@ -246,9 +251,14 @@ test_matrix_regen_metadata = [
     ("lttng-modules-2.13", "lttng-tools-2.12", "regenerate metadata", "Supported"),
     ("lttng-modules-2.13", "lttng-tools-2.13", "regenerate metadata", "Supported"),
     ("lttng-modules-2.13", "lttng-tools-2.14", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-master", "regenerate metadata", "Supported"),
     ("lttng-modules-2.14", "lttng-tools-2.12", "regenerate metadata", "Supported"),
     ("lttng-modules-2.14", "lttng-tools-2.13", "regenerate metadata", "Supported"),
     ("lttng-modules-2.14", "lttng-tools-2.14", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.14", "lttng-tools-master", "regenerate metadata", "Supported"),
+    ("lttng-modules-master", "lttng-tools-2.13", "regenerate metadata", "Supported"),
+    ("lttng-modules-master", "lttng-tools-2.14", "regenerate metadata", "Supported"),
+    ("lttng-modules-master", "lttng-tools-master", "regenerate metadata", "Supported"),
 ]
 
 test_matrix_statedump = [
@@ -302,9 +312,14 @@ test_matrix_statedump = [
     ("lttng-modules-2.13", "lttng-tools-2.12", "Supported"),
     ("lttng-modules-2.13", "lttng-tools-2.13", "Supported"),
     ("lttng-modules-2.13", "lttng-tools-2.14", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-master", "Supported"),
     ("lttng-modules-2.14", "lttng-tools-2.12", "Supported"),
     ("lttng-modules-2.14", "lttng-tools-2.13", "Supported"),
     ("lttng-modules-2.14", "lttng-tools-2.14", "Supported"),
+    ("lttng-modules-2.14", "lttng-tools-master", "Supported"),
+    ("lttng-modules-master", "lttng-tools-2.13", "Supported"),
+    ("lttng-modules-master", "lttng-tools-2.14", "Supported"),
+    ("lttng-modules-master", "lttng-tools-master", "Supported"),
 ]
 
 test_matrix_starglobing_enabler = [
@@ -358,9 +373,14 @@ test_matrix_starglobing_enabler = [
     ("lttng-modules-2.13", "lttng-tools-2.12", "Supported"),
     ("lttng-modules-2.13", "lttng-tools-2.13", "Supported"),
     ("lttng-modules-2.13", "lttng-tools-2.14", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-master", "Supported"),
     ("lttng-modules-2.14", "lttng-tools-2.12", "Supported"),
     ("lttng-modules-2.14", "lttng-tools-2.13", "Supported"),
     ("lttng-modules-2.14", "lttng-tools-2.14", "Supported"),
+    ("lttng-modules-2.14", "lttng-tools-master", "Supported"),
+    ("lttng-modules-master", "lttng-tools-2.13", "Supported"),
+    ("lttng-modules-master", "lttng-tools-2.14", "Supported"),
+    ("lttng-modules-master", "lttng-tools-master", "Supported"),
 ]
 
 

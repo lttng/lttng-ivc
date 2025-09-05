@@ -143,9 +143,15 @@ test_matrix_tracing_available = [
     ("lttng-ust-2.13", "lttng-tools-2.12", False),
     ("lttng-ust-2.13", "lttng-tools-2.13", True),
     ("lttng-ust-2.13", "lttng-tools-2.14", True),
+    ("lttng-ust-2.13", "lttng-tools-master", False),
     ("lttng-ust-2.14", "lttng-tools-2.12", False),
     ("lttng-ust-2.14", "lttng-tools-2.13", False),
     ("lttng-ust-2.14", "lttng-tools-2.14", True),
+    ("lttng-ust-2.14", "lttng-tools-master", False),
+    # Protocol changed to version 11
+    ("lttng-ust-master", "lttng-tools-2.13", False),
+    ("lttng-ust-master", "lttng-tools-2.14", False),
+    ("lttng-ust-master", "lttng-tools-master", True),
 ]
 
 error_ust_so_0 = "ust so.0 missing"
@@ -206,9 +212,15 @@ test_matrix_agent_interface = [
     ("lttng-ust-2.13", "lttng-tools-2.12", error_ust_so_1),
     ("lttng-ust-2.13", "lttng-tools-2.13", "Success"),
     ("lttng-ust-2.13", "lttng-tools-2.14", "Success"),
+    ("lttng-ust-2.13", "lttng-tools-master", "Success"),
     ("lttng-ust-2.14", "lttng-tools-2.12", error_ust_so_1),
     ("lttng-ust-2.14", "lttng-tools-2.13", "Success"),
     ("lttng-ust-2.14", "lttng-tools-2.14", "Success"),
+    ("lttng-ust-2.14", "lttng-tools-master", "Success"),
+    # Protocol changed to 11
+    ("lttng-ust-master", "lttng-tools-2.13", "Success"),
+    ("lttng-ust-master", "lttng-tools-2.14", "Success"),
+    ("lttng-ust-master", "lttng-tools-master", "Success"),
 ]
 
 # Mark some test as xfail as necessary based on current python version.

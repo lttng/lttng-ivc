@@ -109,9 +109,14 @@ test_matrix_base_app_tracing_available = [
     ("lttng-ust-2.13", "lttng-tools-2.12", False),
     ("lttng-ust-2.13", "lttng-tools-2.13", True),
     ("lttng-ust-2.13", "lttng-tools-2.14", True),
+    ("lttng-ust-2.13", "lttng-tools-master", True),
     ("lttng-ust-2.14", "lttng-tools-2.12", False),
     ("lttng-ust-2.14", "lttng-tools-2.13", True),
     ("lttng-ust-2.14", "lttng-tools-2.14", True),
+    ("lttng-ust-2.14", "lttng-tools-master", True),
+    ("lttng-ust-master", "lttng-tools-2.13", True),
+    ("lttng-ust-master", "lttng-tools-2.14", True),
+    ("lttng-ust-master", "lttng-tools-master", True),
 ]
 
 event_registration_error = "Error: UST app recv reg unsupported version"
