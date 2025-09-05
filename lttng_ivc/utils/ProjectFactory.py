@@ -28,13 +28,13 @@ import lttng_ivc.settings as Settings
 
 from lttng_ivc.utils.utils import sha256_checksum
 
-_logger = logging.getLogger('project.factory')
+_logger = logging.getLogger("project.factory")
 _project_constructor = {
-        'babeltrace': Project.Babeltrace,
-        'lttng-modules': Project.Lttng_modules,
-        'lttng-tools': Project.Lttng_tools,
-        'lttng-ust': Project.Lttng_ust,
-        'urcu': Project.Urcu,
+    "babeltrace": Project.Babeltrace,
+    "lttng-modules": Project.Lttng_modules,
+    "lttng-tools": Project.Lttng_tools,
+    "lttng-ust": Project.Lttng_ust,
+    "urcu": Project.Urcu,
 }
 
 __projects_cache = {}
@@ -42,7 +42,7 @@ __projects_cache = {}
 _project_py_checksum = sha256_checksum(Settings.project_py_file_location)
 
 _markers = None
-with open(Settings.run_configuration_file, 'r') as stream:
+with open(Settings.run_configuration_file, "r") as stream:
     # This is voluntary static across calls, no need to perform this
     # every time.
     _markers = yaml.load(stream, Loader=yaml.FullLoader)
@@ -52,53 +52,64 @@ def get_fresh(label, tmpdir):
     if label not in _markers:
         # TODO: specialized exception, handle it caller-side so the caller
         # can decide to skip or fail test.
-        raise Exception('Label is no present')
+        raise Exception("Label is no present")
     marker = _markers[label]
-    constructor = _project_constructor[marker['project']]
-    path = marker['path']
-    sha1 = marker['sha1']
-    deps = marker['deps']
+    constructor = _project_constructor[marker["project"]]
+    path = marker["path"]
+    sha1 = marker["sha1"]
+    deps = marker["deps"]
 
     project = constructor(label, path, sha1, tmpdir)
 
     for dep in deps:
         obj_dep = get_precook(dep)
-        project_name = _markers[dep]['project']
+        project_name = _markers[dep]["project"]
         project.dependencies[project_name] = obj_dep
-        _logger.info("Added dep project {}, label {} to project labeled {}".format(project_name, dep, label))
+        _logger.info(
+            "Added dep project {}, label {} to project labeled {}".format(
+                project_name, dep, label
+            )
+        )
 
     return project
 
+
 def _validate_pickle(pickle, label):
-    _logger.info("Checking validate for {} {}".format(pickle,
-                                                       label))
+    _logger.info("Checking validate for {} {}".format(pickle, label))
     if pickle._py_file_checksum != _project_py_checksum:
-        _logger.warn("Project py file changed".format(pickle.label,
-                                                      label))
+        _logger.warn("Project py file changed".format(pickle.label, label))
         return False
 
     if pickle.label != label:
-        _logger.warn("Label  {} and {} are not the same".format(pickle.label,
-                                                                label))
+        _logger.warn("Label  {} and {} are not the same".format(pickle.label, label))
         return False
-    if pickle.sha1 != _markers[label]['sha1']:
-        _logger.warn("Sha1  {} and {} are not the same".format(pickle.sha1,
-            _markers[label]['sha1']))
+    if pickle.sha1 != _markers[label]["sha1"]:
+        _logger.warn(
+            "Sha1  {} and {} are not the same".format(
+                pickle.sha1, _markers[label]["sha1"]
+            )
+        )
         return False
 
-    deps = _markers[label]['deps']
+    deps = _markers[label]["deps"]
     if len(deps) != len(pickle.dependencies):
-        _logger.warn("Len {} and {} are not the same".format(len(deps),
-            len(pickle.dependencies)))
+        _logger.warn(
+            "Len {} and {} are not the same".format(len(deps), len(pickle.dependencies))
+        )
         return False
     for dep in deps:
-        project_name = _markers[dep]['project']
+        project_name = _markers[dep]["project"]
         if project_name not in pickle.dependencies:
-            _logger.warn("Dep project {} with label {} is not in {}".format(project_name,dep, pickle.dependencies))
+            _logger.warn(
+                "Dep project {} with label {} is not in {}".format(
+                    project_name, dep, pickle.dependencies
+                )
+            )
             return False
         else:
-            _logger.info("Calling validate {} {}".format(pickle.dependencies[project_name],
-                dep))
+            _logger.info(
+                "Calling validate {} {}".format(pickle.dependencies[project_name], dep)
+            )
             valid = _validate_pickle(pickle.dependencies[project_name], dep)
             if not valid:
                 return False
@@ -113,20 +124,20 @@ def get_precook(label):
     if label not in _markers:
         # TODO: specialized exception, handle it caller-side so the caller
         # can decide to skip or fail test.
-        raise Exception('Label is no present')
+        raise Exception("Label is no present")
     marker = _markers[label]
-    constructor = _project_constructor[marker['project']]
-    path = marker['path']
-    sha1 = marker['sha1']
-    deps = marker['deps']
+    constructor = _project_constructor[marker["project"]]
+    path = marker["path"]
+    sha1 = marker["sha1"]
+    deps = marker["deps"]
 
     # Cache path for the label
     cache_path = os.path.join(Settings.projects_cache_folder, label)
-    pickle_path = os.path.join(cache_path, label+".pickle")
+    pickle_path = os.path.join(cache_path, label + ".pickle")
 
     # Check if Pickle Rick is present and valid. If so return it asap.
     if os.path.exists(pickle_path):
-        with open(pickle_path, 'rb') as pickle_file:
+        with open(pickle_path, "rb") as pickle_file:
             pickled = pickle.load(pickle_file)
         if _validate_pickle(pickled, label):
             return pickled
@@ -138,13 +149,17 @@ def get_precook(label):
 
     for dep in deps:
         obj_dep = get_precook(dep)
-        project_name = _markers[dep]['project']
+        project_name = _markers[dep]["project"]
         project.dependencies[project_name] = obj_dep
-        _logger.info("Added dep project {}, label {} to project labeled {}".format(project_name, dep, label))
+        _logger.info(
+            "Added dep project {}, label {} to project labeled {}".format(
+                project_name, dep, label
+            )
+        )
 
     project.autobuild()
     project._immutable = True
-    with open(pickle_path, 'wb') as pickle_file:
+    with open(pickle_path, "wb") as pickle_file:
         pickle.dump(project, pickle_file)
 
     return project

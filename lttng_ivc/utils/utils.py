@@ -41,8 +41,8 @@ def line_count(file_path):
 
 def sha256_checksum(filename, block_size=65536):
     sha256 = hashlib.sha256()
-    with open(filename, 'rb') as f:
-        for block in iter(lambda: f.read(block_size), b''):
+    with open(filename, "rb") as f:
+        for block in iter(lambda: f.read(block_size), b""):
             sha256.update(block)
     return sha256.hexdigest()
 
@@ -63,7 +63,7 @@ def wait_for_file(path):
 def create_empty_file(path):
     if os.path.exists(path):
         raise Exception("Path already exist")
-    open(path, 'w').close()
+    open(path, "w").close()
 
 
 def __dummy_sigusr1_handler(signum, frame):
@@ -73,7 +73,9 @@ def __dummy_sigusr1_handler(signum, frame):
 def sessiond_spawn(runtime, opt_args=""):
     agent_port = find_free_port()
     previous_handler = signal.signal(signal.SIGUSR1, __dummy_sigusr1_handler)
-    cmd = "lttng-sessiond -vvv --verbose-consumer -S --agent-tcp-port {}".format(agent_port)
+    cmd = "lttng-sessiond -vvv --verbose-consumer -S --agent-tcp-port {}".format(
+        agent_port
+    )
     cmd = " ".join([cmd, opt_args])
     sessiond = runtime.spawn_subprocess(cmd)
     signal.sigtimedwait({signal.SIGUSR1}, 60)
@@ -124,7 +126,7 @@ def find_free_port():
     # There is no guarantee that the port will be free at runtime but should be
     # good enough
     with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
-        s.bind(('', 0))
+        s.bind(("", 0))
         return s.getsockname()[1]
 
 
@@ -134,7 +136,7 @@ def find_multiple_free_port(number):
     """
     assert number >= 0
     ports = []
-    while(len(ports) != number):
+    while len(ports) != number:
         port = find_free_port()
         if port in ports:
             continue
@@ -173,10 +175,11 @@ def find_file(root, name):
                 abs_path = os.path.abspath(os.path.join(base, tmp))
     return abs_path
 
+
 def path_exists_regex(root, regex):
-    '''
+    """
     Check if a path under root match the given compiled regex.
-    '''
+    """
     if not isinstance(regex, Pattern):
         regex = re.compile(regex)
     for dirpath, dirs, files in os.walk(root):
@@ -188,20 +191,22 @@ def path_exists_regex(root, regex):
                 return True
     return False
 
+
 def tree(root, ioWrapper=None):
-    '''
+    """
     Print the tree from root directory
-    '''
+    """
     if ioWrapper:
         sys.stdout = ioWrapper
-    indent_root = len(root.split('/'))
+    indent_root = len(root.split("/"))
     for dirpath, dirs, files in os.walk(root):
-        indent = len(dirpath.split('/')) - indent_root
-        print("{}{}/".format((indent) * ' ', os.path.basename(dirpath)))
+        indent = len(dirpath.split("/")) - indent_root
+        print("{}{}/".format((indent) * " ", os.path.basename(dirpath)))
         for name in files:
-            print((indent + 1) * ' ', name)
+            print((indent + 1) * " ", name)
     if ioWrapper:
         sys.stdout = sys.__stdout__
+
 
 def validate(xml_path, xsd_path):
 
@@ -213,24 +218,26 @@ def validate(xml_path, xsd_path):
 
     return result
 
+
 def xpath_query(xml_file, xpath):
     """
     Return a list of xml node corresponding to the xpath. The list can be of lenght
     zero.
     """
-    with open(xml_file, 'r') as f:
+    with open(xml_file, "r") as f:
         tree = etree.parse(f)
         root = tree.getroot()
         # Remove all namespace
         # https://stackoverflow.com/questions/18159221/remove-namespace-and-prefix-from-xml-in-python-using-lxml
         for elem in root.getiterator():
-            if not hasattr(elem.tag, 'find'):
+            if not hasattr(elem.tag, "find"):
                 continue
-            i = elem.tag.find('}')
+            i = elem.tag.find("}")
             if i >= 0:
-                elem.tag = elem.tag[i+1:]
+                elem.tag = elem.tag[i + 1 :]
 
         return root.xpath(xpath)
+
 
 def clear_directory(top):
     """

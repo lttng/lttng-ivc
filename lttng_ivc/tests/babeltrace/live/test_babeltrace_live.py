@@ -75,13 +75,11 @@ test_matrix_live = [
             reason="Flaky test or Flaky babeltrace. Is under investigation"
         ),
     ),
-
     ("babeltrace-1.4", "lttng-tools-2.7"),
     ("babeltrace-1.4", "lttng-tools-2.8"),
     ("babeltrace-1.4", "lttng-tools-2.9"),
     ("babeltrace-1.4", "lttng-tools-2.10"),
     ("babeltrace-1.4", "lttng-tools-2.11"),
-
     ("babeltrace-1.5", "lttng-tools-2.7"),
     ("babeltrace-1.5", "lttng-tools-2.8"),
     ("babeltrace-1.5", "lttng-tools-2.9"),
@@ -89,7 +87,6 @@ test_matrix_live = [
     ("babeltrace-1.5", "lttng-tools-2.11"),
     ("babeltrace-1.5", "lttng-tools-2.12"),
     ("babeltrace-1.5", "lttng-tools-2.13"),
-
     ("babeltrace-2.0", "lttng-tools-2.7"),
     ("babeltrace-2.0", "lttng-tools-2.8"),
     ("babeltrace-2.0", "lttng-tools-2.9"),

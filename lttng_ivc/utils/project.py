@@ -30,7 +30,8 @@ import magic
 from lttng_ivc.utils.utils import sha256_checksum
 from lttng_ivc.utils.utils import find_dir, find_file
 
-_logger = logging.getLogger('project')
+_logger = logging.getLogger("project")
+
 
 class Project(object):
 
@@ -85,8 +86,9 @@ class Project(object):
 
     def add_special_env_variable(self, key, value):
         if key in self.special_env_variables:
-            _logger.warning("{} Special var {} is already defined".format(
-                                self.label, key))
+            _logger.warning(
+                "{} Special var {} is already defined".format(self.label, key)
+            )
             raise Exception("Multiple definition of a special environment variable")
         self.special_env_variables[key] = value
 
@@ -123,11 +125,12 @@ class Project(object):
 
     def get_env(self):
         """Modify environment to reflect dependency"""
-        env_var = {"CPPFLAGS": (self.get_cppflags(), " "),
-                   "LDFLAGS": (self.get_ldflags(), " "),
-                   "LD_LIBRARY_PATH": (self.get_ld_library_path(), ":"),
-                   "PKG_CONFIG_PATH": (self.get_pkg_config_path(), ":"),
-                   }
+        env_var = {
+            "CPPFLAGS": (self.get_cppflags(), " "),
+            "LDFLAGS": (self.get_ldflags(), " "),
+            "LD_LIBRARY_PATH": (self.get_ld_library_path(), ":"),
+            "PKG_CONFIG_PATH": (self.get_pkg_config_path(), ":"),
+        }
 
         env = os.environ.copy()
 
@@ -138,9 +141,12 @@ class Project(object):
                 elif var in ["CPPFLAGS", "CFLAGS", "LDFLAGS", "CXXFLAGS"]:
                     env[var] = " ".join([env[var], value])
                 else:
-                    _logger.warning("{} Special var {} is already defined".format(
-                                    self.label, var))
-                    raise Exception("Multiple definition of a special environment variable")
+                    _logger.warning(
+                        "{} Special var {} is already defined".format(self.label, var)
+                    )
+                    raise Exception(
+                        "Multiple definition of a special environment variable"
+                    )
             else:
                 env[var] = value
 
@@ -149,8 +155,14 @@ class Project(object):
             for var, value in dep.special_env_variables.items():
                 if var in env:
                     # Raise for now since no special cases is known
-                    _logger.warning("{} Special var {} is already defined. Dependancy {} value: {} . Current env value: {}".format(self.label, var, key, value, env[var]))
-                    raise Exception("Multiple definition of a special environment variable")
+                    _logger.warning(
+                        "{} Special var {} is already defined. Dependancy {} value: {} . Current env value: {}".format(
+                            self.label, var, key, value, env[var]
+                        )
+                    )
+                    raise Exception(
+                        "Multiple definition of a special environment variable"
+                    )
                 else:
                     env[var] = value
 
@@ -167,7 +179,7 @@ class Project(object):
         Perform the bootstrap, configuration, build and install the
         project. Build dependencies if not already built
         """
-        if (self.isConfigured and self.isBuilt and self.isInstalled):
+        if self.isConfigured and self.isBuilt and self.isInstalled:
             return
 
         if self._immutable:
@@ -182,28 +194,44 @@ class Project(object):
         try:
             self.configure()
         except subprocess.CalledProcessError as e:
-            _logger.error("{} Configure failed. See {} for more details.".format(self.label, self.log_path))
+            _logger.error(
+                "{} Configure failed. See {} for more details.".format(
+                    self.label, self.log_path
+                )
+            )
             raise e
 
         _logger.debug("{} Autobuild build".format(self.label))
         try:
             self.build()
         except subprocess.CalledProcessError as e:
-            _logger.error("{} Build failed. See {} for more details.".format(self.label, self.log_path))
+            _logger.error(
+                "{} Build failed. See {} for more details.".format(
+                    self.label, self.log_path
+                )
+            )
             raise e
 
         _logger.debug("{} Autobuild install".format(self.label))
         try:
             self.install()
         except subprocess.CalledProcessError as e:
-            _logger.error("{} Install failed. See {} for more details.".format(self.label, self.log_path))
+            _logger.error(
+                "{} Install failed. See {} for more details.".format(
+                    self.label, self.log_path
+                )
+            )
             raise e
 
         _logger.debug("{} Autobuild rpath strip".format(self.label))
         try:
             self.rpath_strip()
         except subprocess.CalledProcessError as e:
-            _logger.error("{} Rpath stripping failed. See {} for more details.".format(self.label, self.log_path))
+            _logger.error(
+                "{} Rpath stripping failed. See {} for more details.".format(
+                    self.label, self.log_path
+                )
+            )
             raise e
 
     def checkout(self):
@@ -228,8 +256,8 @@ class Project(object):
         err = os.path.join(self.log_path, "bootstrap.err")
 
         os.chdir(self.source_path)
-        with open(out, 'w') as stdout, open(err, 'w') as stderr:
-            p = subprocess.run(['./bootstrap'], stdout=stdout, stderr=stderr)
+        with open(out, "w") as stdout, open(err, "w") as stderr:
+            p = subprocess.run(["./bootstrap"], stdout=stdout, stderr=stderr)
         p.check_returncode()
         return p
 
@@ -247,26 +275,24 @@ class Project(object):
                 # TODO: Custom exception here Dependency Error
                 raise Exception("Dependency project flagged as not installed")
 
-
         out = os.path.join(self.log_path, "configure.out")
         err = os.path.join(self.log_path, "configure.err")
         env_file = os.path.join(self.log_path, "configure.env")
 
         env = self.get_env()
 
-        with open(env_file, 'w') as tmp:
+        with open(env_file, "w") as tmp:
             pprint.pprint(env, stream=tmp)
 
         os.chdir(self.source_path)
-        args = ['./configure']
-        prefix = '--prefix={}'.format(self.installation_path)
+        args = ["./configure"]
+        prefix = "--prefix={}".format(self.installation_path)
         args.append(prefix)
         args.extend(self.custom_configure_flags)
 
         # TODO: log output and add INFO log point
-        with open(out, 'w') as stdout, open(err, 'w') as stderr:
-            p = subprocess.run(args, env=env, stdout=stdout,
-                               stderr=stderr)
+        with open(out, "w") as stdout, open(err, "w") as stderr:
+            p = subprocess.run(args, env=env, stdout=stdout, stderr=stderr)
         p.check_returncode()
         self.isConfigured = True
         return p
@@ -283,20 +309,19 @@ class Project(object):
         err = os.path.join(self.log_path, "build.err")
 
         os.chdir(self.source_path)
-        args = ['make']
+        args = ["make"]
         env = self.get_env()
 
         # Number of usable cpu
         # https://docs.python.org/3/library/os.html#os.cpu_count
         num_cpu = str(len(os.sched_getaffinity(0)))
-        args.append('-j')
+        args.append("-j")
         args.append(num_cpu)
-        args.append('V=1')
+        args.append("V=1")
 
         # TODO: log output and add INFO log point with args
-        with open(out, 'w') as stdout, open(err, 'w') as stderr:
-            p = subprocess.run(args, env=env, stdout=stdout,
-                               stderr=stderr)
+        with open(out, "w") as stdout, open(err, "w") as stderr:
+            p = subprocess.run(args, env=env, stdout=stdout, stderr=stderr)
         p.check_returncode()
         self.isBuilt = True
         return p
@@ -313,17 +338,16 @@ class Project(object):
         err = os.path.join(self.log_path, "install.err")
 
         os.chdir(self.source_path)
-        args = ['make', 'install']
+        args = ["make", "install"]
 
         # TODO: log output and add INFO log point
-        with open(out, 'w') as stdout, open(err, 'w') as stderr:
-            p = subprocess.run(args, env=self.get_env(), stdout=stdout,
-                               stderr=stderr)
+        with open(out, "w") as stdout, open(err, "w") as stderr:
+            p = subprocess.run(args, env=self.get_env(), stdout=stdout, stderr=stderr)
         p.check_returncode()
 
         # For babeltrace2, create a symlink to babeltrace for backward compat
-        bt1_path = os.path.join(self.installation_path, "bin/babeltrace");
-        bt2_path = os.path.join(self.installation_path, "bin/babeltrace2");
+        bt1_path = os.path.join(self.installation_path, "bin/babeltrace")
+        bt2_path = os.path.join(self.installation_path, "bin/babeltrace2")
         if os.path.exists(bt2_path):
             os.symlink(bt2_path, bt1_path)
 
@@ -331,8 +355,10 @@ class Project(object):
         return p
 
     def rpath_strip(self):
-        to_strip = [os.path.join(self.installation_path, "bin"),
-                    os.path.join(self.installation_path, "lib")]
+        to_strip = [
+            os.path.join(self.installation_path, "bin"),
+            os.path.join(self.installation_path, "lib"),
+        ]
 
         out = os.path.join(self.log_path, "rpath-strip.out")
         err = os.path.join(self.log_path, "rpath-strip.err")
@@ -344,11 +370,15 @@ class Project(object):
                     magic_str = magic.from_file(abs_path)
                     # Skip all non-elf file
                     if "ELF" not in magic_str.split():
-                        with open(err, 'a') as stderr:
-                            stderr.write("{} skip, is not an ELF, file type: {}\n".format(abs_path, magic_str))
+                        with open(err, "a") as stderr:
+                            stderr.write(
+                                "{} skip, is not an ELF, file type: {}\n".format(
+                                    abs_path, magic_str
+                                )
+                            )
                         continue
                     cmd = ["chrpath", "-d", abs_path]
-                    with open(out, 'a') as stdout, open(err, 'a') as stderr:
+                    with open(out, "a") as stdout, open(err, "a") as stderr:
                         stdout.write("Running {}\n".format(cmd))
                         stderr.write("Running {}\n".format(cmd))
                         p = subprocess.run(cmd, stdout=stdout, stderr=stderr)
@@ -363,9 +393,12 @@ class Project(object):
 
 class Lttng_modules(Project):
     def __init__(self, label, git_path, sha1, tmpdir):
-        super(Lttng_modules, self).__init__(label=label, git_path=git_path,
-                                            sha1=sha1, tmpdir=tmpdir)
-        self.add_special_env_variable("MODPROBE_OPTIONS","-v -d {}".format(self.installation_path))
+        super(Lttng_modules, self).__init__(
+            label=label, git_path=git_path, sha1=sha1, tmpdir=tmpdir
+        )
+        self.add_special_env_variable(
+            "MODPROBE_OPTIONS", "-v -d {}".format(self.installation_path)
+        )
 
     def bootstrap(self):
         pass
@@ -377,17 +410,22 @@ class Lttng_modules(Project):
         if self._immutable:
             raise Exception("Object is immutable. Illegal install")
         os.chdir(self.source_path)
-        args = ['make', 'INSTALL_MOD_PATH={}'.format(self.installation_path),
-                'modules_install']
-        p = subprocess.run(args, env=self.get_env(), stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE)
+        args = [
+            "make",
+            "INSTALL_MOD_PATH={}".format(self.installation_path),
+            "modules_install",
+        ]
+        p = subprocess.run(
+            args, env=self.get_env(), stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
         p.check_returncode()
 
         # Perform a local depmod
         if os.getuid() == 0:
-            args = ['depmod', '-b', self.installation_path]
-            p = subprocess.run(args, env=self.get_env(), stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE)
+            args = ["depmod", "-b", self.installation_path]
+            p = subprocess.run(
+                args, env=self.get_env(), stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
             p.check_returncode()
 
         self.isInstalled = True
@@ -404,15 +442,17 @@ class Lttng_modules(Project):
 
 class Lttng_ust(Project):
     def __init__(self, label, git_path, sha1, tmpdir):
-        super(Lttng_ust, self).__init__(label=label, git_path=git_path,
-                                        sha1=sha1, tmpdir=tmpdir)
-        self.custom_configure_flags.extend(['--disable-man-pages'])
-        self.custom_configure_flags.extend(['--enable-python-agent'])
-        self.custom_configure_flags.extend(['--enable-java-agent-jul'])
+        super(Lttng_ust, self).__init__(
+            label=label, git_path=git_path, sha1=sha1, tmpdir=tmpdir
+        )
+        self.custom_configure_flags.extend(["--disable-man-pages"])
+        self.custom_configure_flags.extend(["--enable-python-agent"])
+        self.custom_configure_flags.extend(["--enable-java-agent-jul"])
 
-        jul_path = os.path.join(self.installation_path,
-                "share/java/liblttng-ust-agent.jar")
-        classpath = ":".join([jul_path, '.'])
+        jul_path = os.path.join(
+            self.installation_path, "share/java/liblttng-ust-agent.jar"
+        )
+        classpath = ":".join([jul_path, "."])
         self.add_special_env_variable("CLASSPATH", classpath)
 
     def install(self):
@@ -424,13 +464,15 @@ class Lttng_ust(Project):
             self.add_special_env_variable("PYTHONPATH", python_path)
 
 
-
 class Lttng_tools(Project):
     def __init__(self, label, git_path, sha1, tmpdir):
-        super(Lttng_tools, self).__init__(label=label, git_path=git_path,
-                                        sha1=sha1, tmpdir=tmpdir)
-        self.add_special_env_variable("LTTNG_SESSION_CONFIG_XSD_PATH",
-                os.path.join(self.installation_path, "share/xml/lttng/"))
+        super(Lttng_tools, self).__init__(
+            label=label, git_path=git_path, sha1=sha1, tmpdir=tmpdir
+        )
+        self.add_special_env_variable(
+            "LTTNG_SESSION_CONFIG_XSD_PATH",
+            os.path.join(self.installation_path, "share/xml/lttng/"),
+        )
 
         # Find the mi xsd
         for xsd in Settings.mi_xsd_file_name:
@@ -444,6 +486,7 @@ class Lttng_tools(Project):
 
 class Babeltrace(Project):
     pass
+
 
 class Urcu(Project):
     pass

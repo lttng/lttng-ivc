@@ -6,14 +6,30 @@ import _pytest
 
 test_only = {}
 
-projects_deprecated = {"lttng-ust-2.7", "lttng-modules-2.7", "lttng-tools-2.7",
-                       "lttng-ust-2.8", "lttng-modules-2.8", "lttng-tools-2.8",
-                       "lttng-ust-2.9", "lttng-modules-2.9", "lttng-tools-2.9",
-                       "lttng-ust-2.10", "lttng-modules-2.10", "lttng-tools-2.10",
-                       "lttng-ust-2.11", "lttng-modules-2.11", "lttng-tools-2.11",
-                       "lttng-ust-2.12", "lttng-modules-2.12", "lttng-tools-2.12",
-                       "babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5",
-                       "urcu-0.13"}
+projects_deprecated = {
+    "lttng-ust-2.7",
+    "lttng-modules-2.7",
+    "lttng-tools-2.7",
+    "lttng-ust-2.8",
+    "lttng-modules-2.8",
+    "lttng-tools-2.8",
+    "lttng-ust-2.9",
+    "lttng-modules-2.9",
+    "lttng-tools-2.9",
+    "lttng-ust-2.10",
+    "lttng-modules-2.10",
+    "lttng-tools-2.10",
+    "lttng-ust-2.11",
+    "lttng-modules-2.11",
+    "lttng-tools-2.11",
+    "lttng-ust-2.12",
+    "lttng-modules-2.12",
+    "lttng-tools-2.12",
+    "babeltrace-1.3",
+    "babeltrace-1.4",
+    "babeltrace-1.5",
+    "urcu-0.13",
+}
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -44,7 +60,13 @@ lttng_test_procfile = "/proc/lttng-test-filter-event"
 
 save_ext = ".lttng"
 
-mi_xsd_file_name = ['mi_lttng.xsd', 'mi-lttng-3.0.xsd', 'mi-lttng-4.0.xsd', 'mi-lttng-4.1.xsd']
+mi_xsd_file_name = [
+    "mi_lttng.xsd",
+    "mi-lttng-3.0.xsd",
+    "mi-lttng-4.0.xsd",
+    "mi-lttng-4.1.xsd",
+]
+
 
 def generate_runtime_test_matrix(base_matrix, indexes_of_criteria_list):
     result_matrix = []

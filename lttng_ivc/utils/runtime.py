@@ -36,7 +36,9 @@ from tempfile import TemporaryDirectory
 
 import lttng_ivc.settings as Settings
 import lttng_ivc.utils.utils as utils
+
 _logger = logging.getLogger("Runtime")
+
 
 class SubProcessError(Exception):
     pass
@@ -68,19 +70,20 @@ class Runtime(object):
         Path of the copy of lttng_home folder after Runtime.close() is issued. This is
         to be used for post runtime analysis and mostly debugging on error.
         """
-        self.__post_runtime_lttng_home_path = os.path.join(runtime_dir,
-                "lttng_home")
+        self.__post_runtime_lttng_home_path = os.path.join(runtime_dir, "lttng_home")
 
         self._runtime_log_aggregation = os.path.join(self.__runtime_log, "runtime.log")
 
         self._run_command_count = 0
         self._is_test_modules_loaded = False
 
-        self.special_env_variables = {"LTTNG_UST_DEBUG": "1",
-                                      "LTTNG_APP_SOCKET_TIMEOUT": "-1",
-                                      #"LTTNG_UST_REGISTER_TIMEOUT": "-1",
-                                      "LTTNG_NETWORK_SOCKET_TIMEOUT": "-1",
-                                      "LTTNG_SESSIOND_PATH": "/bin/true"}
+        self.special_env_variables = {
+            "LTTNG_UST_DEBUG": "1",
+            "LTTNG_APP_SOCKET_TIMEOUT": "-1",
+            # "LTTNG_UST_REGISTER_TIMEOUT": "-1",
+            "LTTNG_NETWORK_SOCKET_TIMEOUT": "-1",
+            "LTTNG_SESSIOND_PATH": "/bin/true",
+        }
 
         # Keep a reference on the object to keep it alive. It will close/clean on
         # exit.
@@ -88,7 +91,9 @@ class Runtime(object):
         self.lttng_home = self.__lttng_home_dir.name
 
         if len(self.lttng_home) > 88:
-            raise Exception("TemporaryDirectory for lttng_home is to long. Use a short TMPDIR")
+            raise Exception(
+                "TemporaryDirectory for lttng_home is to long. Use a short TMPDIR"
+            )
 
         os.makedirs(self.__runtime_log)
         os.makedirs(self.__runtime_log_sub)
@@ -120,7 +125,7 @@ class Runtime(object):
 
     def subprocess_kill(self, subprocess_uuid):
         process = self.__subprocess[subprocess_uuid]
-        os.killpg(os.getpgid(process.pid), signal.SIGKILL);
+        os.killpg(os.getpgid(process.pid), signal.SIGKILL)
         process.wait()
         stdout, stderr = self.__stdout_stderr[subprocess_uuid]
         stdout.close()
@@ -165,7 +170,7 @@ class Runtime(object):
         if not os.path.isdir(self.lttng_home):
             raise Exception("lttng home does not exist")
 
-        tmp_id = os.path.basename(args[0]) + '-' + str(uuid.uuid1())
+        tmp_id = os.path.basename(args[0]) + "-" + str(uuid.uuid1())
         out_path = os.path.join(self.__runtime_log_sub, str(tmp_id) + ".out")
         err_path = os.path.join(self.__runtime_log_sub, str(tmp_id) + ".err")
         command_path = os.path.join(self.__runtime_log_sub, str(tmp_id) + ".cmdline")
@@ -179,14 +184,29 @@ class Runtime(object):
         with open(command_path, "w", encoding="utf-8") as cmdline_out:
             pprint.pprint(args, stream=cmdline_out)
 
-        p = subprocess.Popen(args, stdout=stdout, stderr=stderr, env=env, cwd=cwd, preexec_fn=os.setsid)
+        p = subprocess.Popen(
+            args, stdout=stdout, stderr=stderr, env=env, cwd=cwd, preexec_fn=os.setsid
+        )
         self.__subprocess[tmp_id] = p
         self.__stdout_stderr[tmp_id] = (stdout, stderr)
-        _logger.debug("Spawned sub pid: {} args: {} stdout: {} stderr{}".format(p.pid, p.args, out_path, err_path))
+        _logger.debug(
+            "Spawned sub pid: {} args: {} stdout: {} stderr{}".format(
+                p.pid, p.args, out_path, err_path
+            )
+        )
         return tmp_id
 
-    def run(self, command_line, cwd=None, check_return=True, ld_preload="",
-            classpath="", timeout=None, ld_debug=False, gdbserver=False):
+    def run(
+        self,
+        command_line,
+        cwd=None,
+        check_return=True,
+        ld_preload="",
+        classpath="",
+        timeout=None,
+        ld_debug=False,
+        gdbserver=False,
+    ):
         """
         Run the command and return a tuple of a (CompletedProcess, stdout_path,
         stderr_path). The subprocess is already executed and returned. The
@@ -196,9 +216,9 @@ class Runtime(object):
         env = self.get_env()
 
         if ld_preload:
-            env['LD_PRELOAD'] = ld_preload
+            env["LD_PRELOAD"] = ld_preload
         if classpath:
-            env['CLASSPATH'] = classpath
+            env["CLASSPATH"] = classpath
         if ld_debug:
             # ld debugging switch
             env["LD_DEBUG"] = "all"
@@ -223,11 +243,16 @@ class Runtime(object):
         env_path = os.path.join(self.__runtime_log, str(tmp_id) + ".env")
         with open(env_path, "w", encoding="utf-8") as env_out:
             for key, value in env.items():
-                env_out.write('{}={}\n'.format(key, value))
+                env_out.write("{}={}\n".format(key, value))
 
-        cp = subprocess.run(args, stdout=stdout, stderr=stderr, env=env,
-                            cwd=cwd, timeout=timeout)
-        _logger.debug("Command #{} args: {} stdout: {} stderr{}".format(tmp_id, cp.args, out_path, err_path))
+        cp = subprocess.run(
+            args, stdout=stdout, stderr=stderr, env=env, cwd=cwd, timeout=timeout
+        )
+        _logger.debug(
+            "Command #{} args: {} stdout: {} stderr{}".format(
+                tmp_id, cp.args, out_path, err_path
+            )
+        )
 
         # Add to the global log file. This can help a little. Leave the other
         # file available for per-run analysis
@@ -239,10 +264,10 @@ class Runtime(object):
             )
             with open(out_path, "r", encoding="utf-8") as out:
                 log.write("STDOUT:\n".format(tmp_id, cp.returncode, command_line))
-                log.write(textwrap.indent(out.read(), '    '))
-            with open(err_path, "r", encoding='utf-8') as out:
+                log.write(textwrap.indent(out.read(), "    "))
+            with open(err_path, "r", encoding="utf-8") as out:
                 log.write("STDERR:\n".format(tmp_id, cp.returncode, command_line))
-                log.write(textwrap.indent(out.read(), '    '))
+                log.write(textwrap.indent(out.read(), "    "))
             log.write("\n")
 
         if check_return:
@@ -280,11 +305,12 @@ class Runtime(object):
         env["LTTNG_HOME"] = self.lttng_home
         env["LD_BIND_NOW"] = "enabled"
 
-        env_fetch = {"CPPFLAGS": (self.get_cppflags(), " "),
-                     "LDFLAGS": (self.get_ldflags(), " "),
-                     "LD_LIBRARY_PATH": (self.get_ld_library_path(), ":"),
-                     "PATH": (self.get_bin_path(), ":"),
-                     }
+        env_fetch = {
+            "CPPFLAGS": (self.get_cppflags(), " "),
+            "LDFLAGS": (self.get_ldflags(), " "),
+            "LD_LIBRARY_PATH": (self.get_ld_library_path(), ":"),
+            "PATH": (self.get_bin_path(), ":"),
+        }
         for key, (value, delimiter) in env_fetch.items():
             tmp_var = ""
             if key in env:
@@ -304,7 +330,9 @@ class Runtime(object):
                 if var in env:
                     # Raise for now since no special cases is known
                     _logger.warning("Special var % is already defined", var)
-                    raise Exception("Multiple definition of a special environment variable")
+                    raise Exception(
+                        "Multiple definition of a special environment variable"
+                    )
                 else:
                     env[var] = value
         return env
@@ -317,18 +345,22 @@ class Runtime(object):
     def unload_test_module(self, check_return=True):
         # Base directory is provided by env
         if self._is_test_modules_loaded:
-            self.run("modprobe -r --remove-dependencies lttng-test lttng-statedump lttng_wrapper lttng_kprobes lttng_clock lttng_uprobes lttng_lib_ring_buffer lttng_kretprobes", check_return=check_return)
+            self.run(
+                "modprobe -r --remove-dependencies lttng-test lttng-statedump lttng_wrapper lttng_kprobes lttng_clock lttng_uprobes lttng_lib_ring_buffer lttng_kretprobes",
+                check_return=check_return,
+            )
 
     def close(self):
         throw = False
-        subprocess_execeptions = [];
+        subprocess_execeptions = []
         for key, subp in self.__subprocess.items():
             process = self.subprocess_terminate(key, check_return=False)
             if process.returncode != 0:
                 _logger.error("Subprocess terminated with an error")
-                throw = True;
-                subprocess_execeptions.append(subprocess.CalledProcessError(process.returncode, process.args))
-
+                throw = True
+                subprocess_execeptions.append(
+                    subprocess.CalledProcessError(process.returncode, process.args)
+                )
 
         # Always try to remove test module but do not perform check on return
         # value.
@@ -336,7 +368,10 @@ class Runtime(object):
 
         # Hard linking would be nice here but it could be a problem when we use
         # a tmpdir on another device. Let's consider we have unlimited space.
-        shutil.copytree(self.lttng_home, self.__post_runtime_lttng_home_path,
-                ignore=shutil.ignore_patterns(".lttng"))
+        shutil.copytree(
+            self.lttng_home,
+            self.__post_runtime_lttng_home_path,
+            ignore=shutil.ignore_patterns(".lttng"),
+        )
         if throw:
             raise SubProcessError(subprocess_execeptions)
