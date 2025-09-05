@@ -35,20 +35,23 @@ Always include a documentation matrix:
 FC: Fully Compatible
 BC: Backward Compatible
 I: Incompatible
+UN: Untested
 
-+------------------------------------------------------------------+
-| LTTng UST control library vs LTTng Tools                         |
-+-----------------------------------------+-----+-----+-----+------+------+------+------+
-| LTTng UST Control(soname) / LTTng Tools | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 |
-+-----------------------------------------+-----+-----+-----+------+------+------+------+
-| 2.7 (2.0.0)                             | FC  | I   | I   | I    | I    | I    | I    |
-| 2.8 (2.0.0)                             | BC  | FC  | I   | I    | I    | I    | I    |
-| 2.9 (2.0.0)                             | BC  | BC  | FC  | I    | I    | I    | I    |
-| 2.10 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   |
-| 2.11 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   |
-| 2.12 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   |
-| 2.13 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   |
-+-----------------------------------------+-----+-----+-----+------+------+------+------+
++----------------------------------------------------------------------------------------------+
+| LTTng UST control library vs LTTng Tools                                                     |
++-----------------------------------------+-----+-----+-----+------+------+------+------+------+
+|                             LTTng Tools | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 |
+| LTTng-UST (lttng-ust-ctl soname)        |     |     |     |      |      |      |      |      |
++-----------------------------------------+-----+-----+-----+------+------+------+------+------+
+| 2.7 (2.0.0)                             | FC  | I   | I   | I    | I    | I    | I    | I    |
+| 2.8 (2.0.0)                             | BC  | FC  | I   | I    | I    | I    | I    | I    |
+| 2.9 (2.0.0)                             | BC  | BC  | FC  | I    | I    | I    | I    | I    |
+| 2.10 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   | I    |
+| 2.11 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   | I    |
+| 2.12 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   | I    |
+| 2.13 (5.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   | I    |
+| 2.14 (6.0.0)                            | UN  | UN  | UN  | UN   | UN   | UN   | I    | FC   |
++-----------------------------------------+-----+-----+-----+------+------+------+------+------+
 
 In this scenario:
 
@@ -170,7 +173,6 @@ test_matrix_label = [
         False,
         marks=pytest.mark.xfail(reason="Should fail but does not ...."),
     ),
-
     ("lttng-ust-2.13", "lttng-tools-2.10", False),
     ("lttng-ust-2.13", "lttng-tools-2.11", False),
     pytest.param(
@@ -180,18 +182,17 @@ test_matrix_label = [
         marks=pytest.mark.xfail(reason="Should fail but does not ...."),
     ),
     ("lttng-ust-2.13", "lttng-tools-2.13", True),
-
+    ("lttng-ust-2.13", "lttng-tools-2.14", False),
+    ("lttng-ust-2.14", "lttng-tools-2.12", False),
+    ("lttng-ust-2.14", "lttng-tools-2.13", True),
+    ("lttng-ust-2.14", "lttng-tools-2.14", True),
 ]
 
 runtime_matrix_label = Settings.generate_runtime_test_matrix(test_matrix_label, [0, 1])
 
 
-@pytest.mark.parametrize(
-    "ust_label,tools_label,should_pass", runtime_matrix_label
-)
-def test_soname_configure(
-    tmpdir, ust_label, tools_label, should_pass
-):
+@pytest.mark.parametrize("ust_label,tools_label,should_pass", runtime_matrix_label)
+def test_soname_configure(tmpdir, ust_label, tools_label, should_pass):
     ust = ProjectFactory.get_fresh(ust_label, str(tmpdir.mkdir("lttng-ust")))
     tools = ProjectFactory.get_fresh(tools_label, str(tmpdir.mkdir("lttng-tools")))
 

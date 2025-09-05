@@ -49,20 +49,23 @@ TODO:Stream instance id. 5594698f9c8ad13e0964c67946d1867df7757dae
 
 FC: Fully Compatible
 BC: Feature of the smallest version number will works.
+UN: Untested
 
-+-------------------------------------------------------+
-| LTTng Modules ABI vs LTTng Tools compatibility matrix |
-+-----------------------------------------------------+-+----+------+
-+ Modules / Tools  | 2.7  | 2.8  | 2.9  | 2.10 | 2.11 | 2.12 | 2.13 |
-+------------------+------+------+------+------+------+------+------+
-| 2.7              | FC   | BC   | BC   | BC   | BC   | BC   | BC   |
-| 2.8              | BC   | FC   | BC   | BC   | BC   | BC   | BC   |
-| 2.9              | BC   | BC   | FC   | BC   | BC   | BC   | BC   |
-| 2.10             | BC   | BC   | BC   | FC   | BC   | BC   | BC   |
-| 2.11             | BC   | BC   | BC   | BC   | FC   | BC   | BC   |
-| 2.12             | BC   | BC   | BC   | BC   | BC   | FC   | BC   |
-| 2.13             | BC   | BC   | BC   | BC   | BC   | BC   | FC   |
-+------------------+------+------+------+------+------+------+------+
++--------------------------------------------------------------------------+
+| LTTng Modules ABI vs LTTng Tools compatibility matrix                    |
++-----------------------------------------------------+-+----+------+------+
+|            Tools | 2.7  | 2.8  | 2.9  | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 |
+| Modules          |      |      |      |      |      |      |      |      |
++------------------+------+------+------+------+------+------+------+------+
+| 2.7              | FC   | BC   | BC   | BC   | BC   | BC   | BC   | UN   |
+| 2.8              | BC   | FC   | BC   | BC   | BC   | BC   | BC   | UN   |
+| 2.9              | BC   | BC   | FC   | BC   | BC   | BC   | BC   | UN   |
+| 2.10             | BC   | BC   | BC   | FC   | BC   | BC   | BC   | UN   |
+| 2.11             | BC   | BC   | BC   | BC   | FC   | BC   | BC   | UN   |
+| 2.12             | BC   | BC   | BC   | BC   | BC   | FC   | BC   | UN   |
+| 2.13             | BC   | BC   | BC   | BC   | BC   | BC   | FC   | BC   |
+| 2.14             | UN   | UN   | UN   | UN   | UN   | UN   | BC   | FC   |
++------------------+------+------+------+------+------+------+------+------+
 
 """
 
@@ -121,6 +124,10 @@ test_matrix_base_tracing = [
     ("lttng-modules-2.13", "lttng-tools-2.11"),
     ("lttng-modules-2.13", "lttng-tools-2.12"),
     ("lttng-modules-2.13", "lttng-tools-2.13"),
+    ("lttng-modules-2.13", "lttng-tools-2.14"),
+    ("lttng-modules-2.14", "lttng-tools-2.12"),
+    ("lttng-modules-2.14", "lttng-tools-2.13"),
+    ("lttng-modules-2.14", "lttng-tools-2.14"),
 ]
 
 test_matrix_regen_metadata = [
@@ -238,7 +245,10 @@ test_matrix_regen_metadata = [
     ("lttng-modules-2.13", "lttng-tools-2.11", "regenerate metadata", "Supported"),
     ("lttng-modules-2.13", "lttng-tools-2.12", "regenerate metadata", "Supported"),
     ("lttng-modules-2.13", "lttng-tools-2.13", "regenerate metadata", "Supported"),
-
+    ("lttng-modules-2.13", "lttng-tools-2.14", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.14", "lttng-tools-2.12", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.14", "lttng-tools-2.13", "regenerate metadata", "Supported"),
+    ("lttng-modules-2.14", "lttng-tools-2.14", "regenerate metadata", "Supported"),
 ]
 
 test_matrix_statedump = [
@@ -291,7 +301,10 @@ test_matrix_statedump = [
     ("lttng-modules-2.13", "lttng-tools-2.11", "Supported"),
     ("lttng-modules-2.13", "lttng-tools-2.12", "Supported"),
     ("lttng-modules-2.13", "lttng-tools-2.13", "Supported"),
-
+    ("lttng-modules-2.13", "lttng-tools-2.14", "Supported"),
+    ("lttng-modules-2.14", "lttng-tools-2.12", "Supported"),
+    ("lttng-modules-2.14", "lttng-tools-2.13", "Supported"),
+    ("lttng-modules-2.14", "lttng-tools-2.14", "Supported"),
 ]
 
 test_matrix_starglobing_enabler = [
@@ -344,6 +357,10 @@ test_matrix_starglobing_enabler = [
     ("lttng-modules-2.13", "lttng-tools-2.11", "Supported"),
     ("lttng-modules-2.13", "lttng-tools-2.12", "Supported"),
     ("lttng-modules-2.13", "lttng-tools-2.13", "Supported"),
+    ("lttng-modules-2.13", "lttng-tools-2.14", "Supported"),
+    ("lttng-modules-2.14", "lttng-tools-2.12", "Supported"),
+    ("lttng-modules-2.14", "lttng-tools-2.13", "Supported"),
+    ("lttng-modules-2.14", "lttng-tools-2.14", "Supported"),
 ]
 
 

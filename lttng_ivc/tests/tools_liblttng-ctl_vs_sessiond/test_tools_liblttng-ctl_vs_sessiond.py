@@ -93,7 +93,10 @@ test_matrix_basic_listing = [
     ("lttng-tools-2.13", "lttng-tools-2.11", "Missing symbol"),
     ("lttng-tools-2.13", "lttng-tools-2.12", "Missing symbol"),
     ("lttng-tools-2.13", "lttng-tools-2.13", "Success"),
-
+    ("lttng-tools-2.13", "lttng-tools-2.14", "Success"),
+    ("lttng-tools-2.14", "lttng-tools-2.12", "Missing symbol"),
+    ("lttng-tools-2.14", "lttng-tools-2.13", "Missing symbol"),
+    ("lttng-tools-2.14", "lttng-tools-2.14", "Success"),
 ]
 
 runtime_matrix_basic_listing = Settings.generate_runtime_test_matrix(

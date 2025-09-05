@@ -43,6 +43,7 @@ matrix_base = [
     ("lttng-tools-2.11",),
     ("lttng-tools-2.12",),
     ("lttng-tools-2.13",),
+    ("lttng-tools-2.14",),
 ]
 
 """
@@ -106,6 +107,10 @@ matrix_relayd = [
     ("lttng-tools-2.13", "lttng-tools-2.11"),
     ("lttng-tools-2.13", "lttng-tools-2.12"),
     ("lttng-tools-2.13", "lttng-tools-2.13"),
+    ("lttng-tools-2.13", "lttng-tools-2.14"),
+    ("lttng-tools-2.14", "lttng-tools-2.12"),
+    ("lttng-tools-2.14", "lttng-tools-2.13"),
+    ("lttng-tools-2.14", "lttng-tools-2.14"),
 ]
 
 """

@@ -35,20 +35,22 @@ FC: Fully Compatible
 BC: Feature of the smallest version number will works.
 SO: No tracing due to lttng-ust.so bump of liblttng-ust-tracepoint.s
 
-+-----------------------------------------+-----+------+------+-------+
-|             LTTng UST tracepoint instrumentation API/ABI:           |
-|                    Application vs LTTng UST library                 |
-+-----------------------------------------+-----+------+------+-------+-------+-------+-------+
-| Application Instrumentation / LTTng UST | 2.7 |  2.8 |  2.9 | 2.10  | 2.11  | 2.12  | 2.13  |
-+-----------------------------------------+-----+------+------+-------+-------+-------+-------+
-| 2.7                                     | FC  | BC   | BC   | BC    | BC    | BC    | BC    |
-| 2.8                                     | BC  | FC   | BC   | BC    | BC    | BC    | BC    |
-| 2.9                                     | BC  | BC   | FC   | BC    | BC    | BC    | BC    |
-| 2.10                                    | BC  | BC   | BC   | FC    | BC    | BC    | BC    |
-| 2.11                                    | BC  | BC   | BC   | BC    | FC    | BC    | BC    |
-| 2.12                                    | BC  | BC   | BC   | BC    | BC    | FC    | BC    |
-| 2.13                                    | SO  | SO   | SO   | SO    | SO    | SO    | FC    |
-+-----------------------------------------+-----+------+------+-------+-------+-------+-------+
++-----------------------------------------+-----+------+------+--------------------------------+
+|             LTTng UST tracepoint instrumentation API/ABI:                                    |
+|                    Application vs LTTng UST library                                          |
++-----------------------------------------+-----+-----+-----+------+------+------+------+------|
+|                     LTTng-UST (Control) | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 |
+| LTTng-UST (Instrumented application)    |     |     |     |      |      |      |      |      |
++-----------------------------------------+-----+-----+-----+------+------+------+------+------|
+| 2.7                                     | FC  | BC  | BC  | BC   | BC   | BC   | BC   | BC   |
+| 2.8                                     | BC  | FC  | BC  | BC   | BC   | BC   | BC   | BC   |
+| 2.9                                     | BC  | BC  | FC  | BC   | BC   | BC   | BC   | BC   |
+| 2.10                                    | BC  | BC  | BC  | FC   | BC   | BC   | BC   | BC   |
+| 2.11                                    | BC  | BC  | BC  | BC   | FC   | BC   | BC   | BC   |
+| 2.12                                    | BC  | BC  | BC  | BC   | BC   | FC   | BC   | BC   |
+| 2.13                                    | SO  | SO  | SO  | SO   | SO   | SO   | FC   | BC   |
+| 2.14                                    | SO  | SO  | SO  | SO   | SO   | SO   | BC   | FC   |
++-----------------------------------------+-----+-----+-----+------+------+------+------+------+
 
 Using tracepoint.h as a reference for change between version.
 
@@ -132,7 +134,10 @@ test_matrix_enum = [
     ("lttng-ust-2.13", "lttng-tools-2.11", tracing_unavailable_so),
     ("lttng-ust-2.13", "lttng-tools-2.12", tracing_unavailable_so),
     ("lttng-ust-2.13", "lttng-tools-2.13", success),
-
+    ("lttng-ust-2.13", "lttng-tools-2.14", success),
+    ("lttng-ust-2.14", "lttng-tools-2.12", tracing_unavailable_so),
+    ("lttng-ust-2.14", "lttng-tools-2.13", success),
+    ("lttng-ust-2.14", "lttng-tools-2.14", success),
 ]
 
 test_matrix_base = [
@@ -184,7 +189,10 @@ test_matrix_base = [
     ("lttng-ust-2.13", "lttng-tools-2.11", tracing_unavailable_so),
     ("lttng-ust-2.13", "lttng-tools-2.12", tracing_unavailable_so),
     ("lttng-ust-2.13", "lttng-tools-2.13", success),
-
+    ("lttng-ust-2.13", "lttng-tools-2.14", success),
+    ("lttng-ust-2.14", "lttng-tools-2.12", tracing_unavailable_so),
+    ("lttng-ust-2.14", "lttng-tools-2.13", success),
+    ("lttng-ust-2.14", "lttng-tools-2.14", success),
 ]
 
 runtime_matrix_enum = Settings.generate_runtime_test_matrix(test_matrix_enum, [0, 1])
@@ -253,8 +261,9 @@ def test_ust_tracepoint_abi_api_vs_ust_enum(tmpdir, ust_label, tools_label, scen
         cmd = "./app-enum {}".format(nb_loop)
         runtime_tools.run("ldd ./libtp-enum.so", cwd=app_path)
         runtime_tools.run("ldd ./app-enum", cwd=app_path)
-        runtime_tools.run(cmd, cwd=app_path, ld_preload="./libtp-enum.so",
-                ld_debug=True)
+        runtime_tools.run(
+            cmd, cwd=app_path, ld_preload="./libtp-enum.so", ld_debug=True
+        )
 
         # Stop tracing
         runtime_tools.run("lttng stop")
@@ -275,7 +284,6 @@ def test_ust_tracepoint_abi_api_vs_ust_base(tmpdir, ust_label, tools_label, scen
         nb_expected_events = 200
     else:
         nb_expected_events = 0
-
 
     # Prepare environment
     ust = ProjectFactory.get_precook(ust_label)

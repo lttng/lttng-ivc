@@ -93,7 +93,10 @@ test_matrix_streaming_base = [
     ("lttng-tools-2.13", "lttng-tools-2.11", True),
     ("lttng-tools-2.13", "lttng-tools-2.12", True),
     ("lttng-tools-2.13", "lttng-tools-2.13", True),
-
+    ("lttng-tools-2.13", "lttng-tools-2.14", True),
+    ("lttng-tools-2.14", "lttng-tools-2.12", True),
+    ("lttng-tools-2.14", "lttng-tools-2.13", True),
+    ("lttng-tools-2.14", "lttng-tools-2.14", True),
 ]
 
 test_matrix_streaming_regenerate_metadata = [
@@ -211,7 +214,10 @@ test_matrix_streaming_regenerate_metadata = [
     ("lttng-tools-2.13", "lttng-tools-2.11", "regenerate metadata", "Supported"),
     ("lttng-tools-2.13", "lttng-tools-2.12", "regenerate metadata", "Supported"),
     ("lttng-tools-2.13", "lttng-tools-2.13", "regenerate metadata", "Supported"),
-
+    ("lttng-tools-2.13", "lttng-tools-2.14", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.14", "lttng-tools-2.12", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.14", "lttng-tools-2.13", "regenerate metadata", "Supported"),
+    ("lttng-tools-2.14", "lttng-tools-2.14", "regenerate metadata", "Supported"),
 ]
 
 test_matrix_live_base = [
@@ -264,7 +270,10 @@ test_matrix_live_base = [
     ("lttng-tools-2.13", "lttng-tools-2.11", True),
     ("lttng-tools-2.13", "lttng-tools-2.12", True),
     ("lttng-tools-2.13", "lttng-tools-2.13", True),
-
+    ("lttng-tools-2.13", "lttng-tools-2.14", True),
+    ("lttng-tools-2.14", "lttng-tools-2.12", True),
+    ("lttng-tools-2.14", "lttng-tools-2.13", True),
+    ("lttng-tools-2.14", "lttng-tools-2.14", True),
 ]
 
 runtime_matrix_streaming_base = Settings.generate_runtime_test_matrix(

@@ -32,20 +32,23 @@ import lttng_ivc.settings as Settings
 """
 FC: Fully Compatible
 I: Incompatible
+UN: Untested
 
-+--------------------------------------------------------------------+
-|                 LTTng consumer daemon vs LTTng session daemon      |
-+--------------------------+------------+------------+------------+--+
-| Consumerd/Sessiond       | 2.7 | 2.8| 2.9 | 2.10 | 2.11| 2.12| 2.13|
-+--------------------------+-----+----+-----+------+-----+-----+-----+
-| 2.7                      | FC  | I  | I   | I    | I   | I   | I   |
-| 2.8                      | I   | FC | I   | I    | I   | I   | I   |
-| 2.9                      | I   | I  | FC  | I    | I   | I   | I   |
-| 2.10                     | I   | I  | I   | FC   | I   | I   | I   |
-| 2.11                     | I   | I  | I   | I    | FC  | I   | I   |
-| 2.12                     | I   | I  | I   | I    | I   | FC  | I   |
-| 2.13                     | I   | I  | I   | I    | I   | I   | FC  |
-+--------------------------+------------+------------+------------+--+
++-------------------------------------------------------------------------------+
+|                 LTTng consumer daemon vs LTTng session daemon                 |
++--------------------------+-----+-----+-----+------+------+------+------+------+
+|                 Sessiond | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 |
+| Consumerd                |     |     |     |      |      |      |      |      |
++--------------------------+-----+-----+-----+------+------+------+------+------+
+| 2.7                      | FC  | I   | I   | I    | I    | I    | I    | UN   |
+| 2.8                      | I   | FC  | I   | I    | I    | I    | I    | UN   |
+| 2.9                      | I   | I   | FC  | I    | I    | I    | I    | UN   |
+| 2.10                     | I   | I   | I   | FC   | I    | I    | I    | UN   |
+| 2.11                     | I   | I   | I   | I    | FC   | I    | I    | UN   |
+| 2.12                     | I   | I   | I   | I    | I    | FC   | I    | I    |
+| 2.13                     | I   | I   | I   | I    | I    | I    | FC   | I    |
+| 2.14                     | UN  | UN  | UN  | UN   | UN   | I    | I    | FC   |
++--------------------------+-----+-----+-----+------+------+------+------+------+
 
 """
 
@@ -99,7 +102,10 @@ test_matrix_consumerd = [
     ("lttng-tools-2.13", "lttng-tools-2.11", False),
     ("lttng-tools-2.13", "lttng-tools-2.12", False),
     ("lttng-tools-2.13", "lttng-tools-2.13", True),
-
+    ("lttng-tools-2.13", "lttng-tools-2.14", False),
+    ("lttng-tools-2.14", "lttng-tools-2.12", False),
+    ("lttng-tools-2.14", "lttng-tools-2.13", False),
+    ("lttng-tools-2.14", "lttng-tools-2.14", True),
 ]
 
 runtime_matrix_consumerd = Settings.generate_runtime_test_matrix(
@@ -135,12 +141,12 @@ def test_consumerd_vs_sessiond(tmpdir, consumerd_l, tools_l, should_work):
 
     sessiond_opt_args = "{}={}".format(c_dict[platform_type], replacement_consumerd)
 
-    try: 
+    try:
         with Run.get_runtime(str(tmpdir)) as runtime:
             runtime.add_project(tools)
             runtime.add_project(babeltrace)
-            if 'urcu' in consumerd.dependencies:
-                runtime.add_project(consumerd.dependencies['urcu'])
+            if "urcu" in consumerd.dependencies:
+                runtime.add_project(consumerd.dependencies["urcu"])
 
             shutil.copytree(Settings.apps_gen_events_folder, app_path)
             runtime.run("make V=1", cwd=app_path)
@@ -159,7 +165,9 @@ def test_consumerd_vs_sessiond(tmpdir, consumerd_l, tools_l, should_work):
 
                 runtime.run("lttng stop", timeout=5)
                 runtime.run("lttng destroy -a", timeout=5)
-                cp, cp_out, cp_err = runtime.run("babeltrace {}".format(runtime.lttng_home))
+                cp, cp_out, cp_err = runtime.run(
+                    "babeltrace {}".format(runtime.lttng_home)
+                )
                 assert utils.line_count(cp_out) == nb_event
             except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
                 if should_work:
@@ -167,7 +175,7 @@ def test_consumerd_vs_sessiond(tmpdir, consumerd_l, tools_l, should_work):
                 else:
                     # Expecting some error
                     return
-    except (Run.SubProcessError) as e:
+    except Run.SubProcessError as e:
         if should_work:
             raise e
         else:

@@ -30,20 +30,33 @@ import lttng_ivc.utils.runtime as Run
 import lttng_ivc.settings as Settings
 import sys
 
+
 def mark_xfail_broken_python_agent(base_matrix):
     # In python 3.8 time.clock was removed, the fix was backported to 2.11 but
     # all previous lttng-ust will fail on python app launch. Mark them as
     # expected to fail.
-    broken_python_agent_version = {"lttng-ust-2.7", "lttng-ust-2.8",
-            "lttng-ust-2.9", "lttng-ust-2.10"}
+    broken_python_agent_version = {
+        "lttng-ust-2.7",
+        "lttng-ust-2.8",
+        "lttng-ust-2.9",
+        "lttng-ust-2.10",
+    }
     result_matrix = []
     for tup in base_matrix:
         ust_version = tup[0]
         if ust_version in broken_python_agent_version:
-            result_matrix.append(pytest.param(*tup, marks=pytest.mark.xfail(reason="Python agent is broken due to 3.8 removal of time.clock")))
+            result_matrix.append(
+                pytest.param(
+                    *tup,
+                    marks=pytest.mark.xfail(
+                        reason="Python agent is broken due to 3.8 removal of time.clock"
+                    )
+                )
+            )
         else:
             result_matrix.append(tup)
     return result_matrix
+
 
 """
 
@@ -53,19 +66,22 @@ TU: Tracing unavailable
 
 Note: actual testing is limited by lttng-ust and lttng-tools abi/api.
 
-+----------------------------------------------------------------------------------+
-|             LTTng UST Python agent protocol vs LTTng session daemon              |
-+--------------------------+------------+------------+------------+----------------+------------+------------+------------+
-| LTTng UST Java/ LTTng Tools  | 2.7 (1.0)  | 2.8 (2.0)  | 2.9 (2.0)  | 2.10 (2.0) | 2.11 (2.0) | 2.12 (2.0) | 2.13 (2.0) |
-+--------------------------+------------+------------+------------+----------------+------------+------------+------------+
-| 2.7                          | NA         | NA         | NA         | NA         | NA         | NA         | NA         |
-| 2.8 (2.0)                    | TU         | FC         | BC         | BC         | TU         | TU         | TU         |
-| 2.9 (2.0)                    | TU         | BC         | FC         | BC         | TU         | TU         | TU         |
-| 2.10 (2.0)                   | TU         | BC         | BC         | FC         | TU         | TU         | TU         |
-| 2.11 (2.0)                   | TU         | TU         | TU         | TU         | FC         | BC         | TU         |
-| 2.12 (2.0)                   | TU         | TU         | TU         | TU         | BC         | FC         | TU         |
-| 2.13 (2.0)                   | TU         | TU         | TU         | TU         | TU         | TU         | FC         |
-+--------------------------+------------+------------+------------+----------------+------------+------------+------------+
++-----------------------------------------------------------------------------------+
+|             LTTng UST Python agent protocol vs LTTng session daemon               |
++------------------------------+-----+-----+-----+------+------+------+------+------+
+|                  LTTng Tools | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 |
+|                    Agent ABI | 1.0 | 2.0 | 2.0 | 2.0  | 2.0  | 2.0  | 2.0  | 2.0  |
+| LTTng-UST (Agent ABI)        |     |     |     |      |      |      |      |      |
++------------------------------+-----+-----+-----+------+------+------+------+------+
+| 2.7                          | NA  | NA  | NA  | NA   | NA   | NA   | NA   | NA   |
+| 2.8 (2.0)                    | TU  | FC  | BC  | BC   | TU   | TU   | TU   | TU   |
+| 2.9 (2.0)                    | TU  | BC  | FC  | BC   | TU   | TU   | TU   | TU   |
+| 2.10 (2.0)                   | TU  | BC  | BC  | FC   | TU   | TU   | TU   | TU   |
+| 2.11 (2.0)                   | TU  | TU  | TU  | TU   | FC   | BC   | TU   | TU   |
+| 2.12 (2.0)                   | TU  | TU  | TU  | TU   | BC   | FC   | TU   | TU   |
+| 2.13 (2.0)                   | TU  | TU  | TU  | TU   | TU   | TU   | FC   | BC   |
+| 2.14 (2.0)                   | TU  | TU  | TU  | TU   | TU   | TU   | BC   | FC   |
++------------------------------+-----+-----+-----+------+------+------+------+------+
 
 """
 
@@ -118,6 +134,7 @@ test_matrix_tracing_available = [
     ("lttng-ust-2.12", "lttng-tools-2.11", True),
     ("lttng-ust-2.12", "lttng-tools-2.12", True),
     ("lttng-ust-2.12", "lttng-tools-2.13", True),
+    ("lttng-ust-2.12", "lttng-tools-2.14", True),
     ("lttng-ust-2.13", "lttng-tools-2.7", False),
     ("lttng-ust-2.13", "lttng-tools-2.8", False),
     ("lttng-ust-2.13", "lttng-tools-2.9", False),
@@ -125,15 +142,18 @@ test_matrix_tracing_available = [
     ("lttng-ust-2.13", "lttng-tools-2.11", False),
     ("lttng-ust-2.13", "lttng-tools-2.12", False),
     ("lttng-ust-2.13", "lttng-tools-2.13", True),
-
+    ("lttng-ust-2.13", "lttng-tools-2.14", True),
+    ("lttng-ust-2.14", "lttng-tools-2.12", False),
+    ("lttng-ust-2.14", "lttng-tools-2.13", False),
+    ("lttng-ust-2.14", "lttng-tools-2.14", True),
 ]
 
 error_ust_so_0 = "ust so.0 missing"
 error_ust_so_1 = "ust so.1 missing"
 errors_ust_so = {
-        error_ust_so_0 : "liblttng-ust-python-agent.so.0: cannot open shared object file",
-        error_ust_so_1 : "liblttng-ust-python-agent.so.1: cannot open shared object file"
-        }
+    error_ust_so_0: "liblttng-ust-python-agent.so.0: cannot open shared object file",
+    error_ust_so_1: "liblttng-ust-python-agent.so.1: cannot open shared object file",
+}
 
 test_matrix_agent_interface = [
     ("lttng-ust-2.7", "lttng-tools-2.7", "Success"),
@@ -185,13 +205,21 @@ test_matrix_agent_interface = [
     ("lttng-ust-2.13", "lttng-tools-2.11", error_ust_so_1),
     ("lttng-ust-2.13", "lttng-tools-2.12", error_ust_so_1),
     ("lttng-ust-2.13", "lttng-tools-2.13", "Success"),
+    ("lttng-ust-2.13", "lttng-tools-2.14", "Success"),
+    ("lttng-ust-2.14", "lttng-tools-2.12", error_ust_so_1),
+    ("lttng-ust-2.14", "lttng-tools-2.13", "Success"),
+    ("lttng-ust-2.14", "lttng-tools-2.14", "Success"),
 ]
 
 # Mark some test as xfail as necessary based on current python version.
 python_version = sys.version_info
 if python_version.major == 3 and python_version.minor > 7:
-    test_matrix_tracing_available = mark_xfail_broken_python_agent(test_matrix_tracing_available)
-    test_matrix_agent_interface = mark_xfail_broken_python_agent(test_matrix_agent_interface)
+    test_matrix_tracing_available = mark_xfail_broken_python_agent(
+        test_matrix_tracing_available
+    )
+    test_matrix_agent_interface = mark_xfail_broken_python_agent(
+        test_matrix_agent_interface
+    )
 
 runtime_matrix_tracing_available = Settings.generate_runtime_test_matrix(
     test_matrix_tracing_available, [0, 1]
@@ -318,12 +346,10 @@ def test_ust_python_agent_interface(tmpdir, ust_label, tools_label, outcome):
         # agent.
         cp_process, cp_out, cp_err = runtime_tools.run(cmd, cwd=app_path)
         if outcome in errors_ust_so:
-            assert (
-                   utils.file_contains(
-                       cp_err,
-                       [errors_ust_so[outcome]],
-                   )
-               )
+            assert utils.file_contains(
+                cp_err,
+                [errors_ust_so[outcome]],
+            )
             # Nothing else to validate
             return
 
@@ -341,16 +367,22 @@ def test_ust_python_agent_interface(tmpdir, ust_label, tools_label, outcome):
             assert utils.line_count(cp_out) == nb_events
             assert utils.file_contains(
                 runtime_tools.get_subprocess_stderr_path(sessiond),
-                ["New registration for pid", "New registration for agent application: pid"],
+                [
+                    "New registration for pid",
+                    "New registration for agent application: pid",
+                ],
             )
         elif outcome == "Unsupported protocol":
-                assert not (
-                    utils.file_contains(
-                        runtime_tools.get_subprocess_stderr_path(sessiond),
-                        ["New registration for pid", "New registration for agent application: pid"],
-                    )
+            assert not (
+                utils.file_contains(
+                    runtime_tools.get_subprocess_stderr_path(sessiond),
+                    [
+                        "New registration for pid",
+                        "New registration for agent application: pid",
+                    ],
                 )
-                cp_process, cp_out, cp_err = runtime_tools.run(cmd)
-                assert utils.line_count(cp_out) == 0
+            )
+            cp_process, cp_out, cp_err = runtime_tools.run(cmd)
+            assert utils.line_count(cp_out) == 0
         else:
             pytest.fail("Unknown test outcome")

@@ -36,20 +36,22 @@ BC: Feature of the smallest version number will works.
 EU: Event unavailable for tracing
 SO: lttng-ust .so unavailable
 
-+-----------------------------------------+-----+------+------+-------+
-|                      LTTng UST tracepoint API/ABI:                  |
-|                    Probe provider vs LTTng UST library              |
-+-----------------------------------------+-----+------+------+-------+-------+-----+-----+
-| Probe Provider / LTTng UST              | 2.7 |  2.8 |  2.9 |  2.10 |  2.11 | 2.12| 2.13|
-+-----------------------------------------+-----+------+------+-------+-------+-----+-----+
-| 2.7                                     | FC  | BC   | BC   | BC    | BC    | BC  | SO  |
-| 2.8                                     | EU  | FC   | BC   | BC    | BC    | BC  | SO  |
-| 2.9                                     | EU  | EU   | FC   | BC    | BC    | BC  | SO  |
-| 2.10                                    | EU  | EU   | EU   | FC    | BC    | BC  | SO  |
-| 2.11                                    | EU  | EU   | EU   | EU    | FC    | BC  | SO  |
-| 2.12                                    | EU  | EU   | EU   | EU    | EU    | FC  | SO  |
-| 2.13                                    | SO  | SO   | SO   | SO    | SO    | SO  | FC  |
-+-----------------------------------------+-----+------+------+-------+-------+-----+-----+
++-----------------------------------------+-----+------+------+---------------------------------+
+|                      LTTng UST tracepoint API/ABI:                                            |
+|                    Probe provider vs LTTng UST library                                        |
++-----------------------------------------+-----+------+-----+------+------+------+------+------+
+|                     LTTng-UST (control) | 2.7 |  2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 |
+| LTTng-UST (probe)                       |     |      |     |      |      |      |      |      |
++-----------------------------------------+-----+------+-----+------+------+------+------+------+
+| 2.7                                     | FC  | BC   | BC  | BC   | BC   | BC   | SO   | SO   |
+| 2.8                                     | EU  | FC   | BC  | BC   | BC   | BC   | SO   | SO   |
+| 2.9                                     | EU  | EU   | FC  | BC   | BC   | BC   | SO   | SO   |
+| 2.10                                    | EU  | EU   | EU  | FC   | BC   | BC   | SO   | SO   |
+| 2.11                                    | EU  | EU   | EU  | EU   | FC   | BC   | SO   | SO   |
+| 2.12                                    | EU  | EU   | EU  | EU   | EU   | FC   | SO   | SO   |
+| 2.13                                    | SO  | SO   | SO  | SO   | SO   | SO   | FC   | BC   |
+| 2.14                                    | SO  | SO   | SO  | SO   | SO   | SO   | BC   | FC   |
++-----------------------------------------+-----+------+-----+------+------+------+------+------+
 
 Using tracepoint.h as a reference for change between version.
 
@@ -80,9 +82,9 @@ success = "success"
 tracing_unavailable = "tracing_unavailable"
 
 fail_so_errors = {
-        fail_so_0 : "error while loading shared libraries: liblttng-ust.so.0: cannot open shared object file",
-        fail_so_1 : "error while loading shared libraries: liblttng-ust.so.1: cannot open shared object file"
-    }
+    fail_so_0: "error while loading shared libraries: liblttng-ust.so.0: cannot open shared object file",
+    fail_so_1: "error while loading shared libraries: liblttng-ust.so.1: cannot open shared object file",
+}
 
 test_matrix_enum = [
     ("lttng-ust-2.7", "lttng-tools-2.7", fail_provider, 0),
@@ -135,7 +137,10 @@ test_matrix_enum = [
     ("lttng-ust-2.13", "lttng-tools-2.11", fail_so_1, 0),
     ("lttng-ust-2.13", "lttng-tools-2.12", fail_so_1, 0),
     ("lttng-ust-2.13", "lttng-tools-2.13", success, 200),
-
+    ("lttng-ust-2.13", "lttng-tools-2.14", success, 200),
+    ("lttng-ust-2.14", "lttng-tools-2.12", fail_so_1, 0),
+    ("lttng-ust-2.14", "lttng-tools-2.13", success, 200),
+    ("lttng-ust-2.14", "lttng-tools-2.14", success, 200),
 ]
 
 test_matrix_base = [
@@ -188,7 +193,10 @@ test_matrix_base = [
     ("lttng-ust-2.13", "lttng-tools-2.11", fail_so_1),
     ("lttng-ust-2.13", "lttng-tools-2.12", fail_so_1),
     ("lttng-ust-2.13", "lttng-tools-2.13", success),
-
+    ("lttng-ust-2.13", "lttng-tools-2.14", success),
+    ("lttng-ust-2.14", "lttng-tools-2.12", fail_so_1),
+    ("lttng-ust-2.14", "lttng-tools-2.13", success),
+    ("lttng-ust-2.14", "lttng-tools-2.14", success),
 ]
 
 runtime_matrix_enum = Settings.generate_runtime_test_matrix(test_matrix_enum, [0, 1])
@@ -248,18 +256,16 @@ def test_ust_tracepoint_probe_abi_api_vs_ust_enum(
         # Run application under the tools runtime.
         cmd = "./app-enum {}".format(nb_loop)
         if scenario in fail_so_errors:
-            cp_process, cp_out, cp_err = runtime_tools.run(cmd, cwd=app_path, ld_preload="./libtp-enum.so", check_return=False)
+            cp_process, cp_out, cp_err = runtime_tools.run(
+                cmd, cwd=app_path, ld_preload="./libtp-enum.so", check_return=False
+            )
             assert cp_process.returncode == 127
-            assert utils.file_contains(
-                    cp_err,
-                    [fail_so_errors[scenario]]
-                    )
+            assert utils.file_contains(cp_err, [fail_so_errors[scenario]])
 
             # Nothing else to check.
             return
         else:
             runtime_tools.run(cmd, cwd=app_path, ld_preload="./libtp-enum.so")
-
 
         # Stop tracing
         runtime_tools.run("lttng stop")
@@ -283,7 +289,6 @@ def test_ust_tracepoint_probe_abi_api_vs_ust_base(
         nb_expected_events = 200
     else:
         nb_expected_events = 0
-
 
     # Prepare environment
     ust = ProjectFactory.get_precook(ust_label)
@@ -326,12 +331,11 @@ def test_ust_tracepoint_probe_abi_api_vs_ust_base(
         # Run in the tools runtime application
         cmd = "./app {}".format(nb_loop)
         if scenario in fail_so_errors:
-            cp_process, cp_out, cp_err = runtime_tools.run(cmd, cwd=app_path, ld_preload="./libtp.so", check_return=False)
+            cp_process, cp_out, cp_err = runtime_tools.run(
+                cmd, cwd=app_path, ld_preload="./libtp.so", check_return=False
+            )
             assert cp_process.returncode == 127
-            assert utils.file_contains(
-                    cp_err,
-                    [fail_so_errors[scenario]]
-                    )
+            assert utils.file_contains(cp_err, [fail_so_errors[scenario]])
 
             # Nothing else to check.
             return

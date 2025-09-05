@@ -97,6 +97,10 @@ test_matrix_live = [
     ("babeltrace-2.0", "lttng-tools-2.11"),
     ("babeltrace-2.0", "lttng-tools-2.12"),
     ("babeltrace-2.0", "lttng-tools-2.13"),
+    ("babeltrace-2.0", "lttng-tools-2.14"),
+    ("babeltrace-2.1", "lttng-tools-2.12"),
+    ("babeltrace-2.1", "lttng-tools-2.13"),
+    ("babeltrace-2.1", "lttng-tools-2.14"),
 ]
 
 runtime_matrix_live = Settings.generate_runtime_test_matrix(test_matrix_live, [0, 1])
