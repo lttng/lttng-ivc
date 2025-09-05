@@ -10,7 +10,10 @@ projects_deprecated = {"lttng-ust-2.7", "lttng-modules-2.7", "lttng-tools-2.7",
                        "lttng-ust-2.8", "lttng-modules-2.8", "lttng-tools-2.8",
                        "lttng-ust-2.9", "lttng-modules-2.9", "lttng-tools-2.9",
                        "lttng-ust-2.10", "lttng-modules-2.10", "lttng-tools-2.10",
-                       "lttng-ust-2.10", "lttng-modules-2.11", "lttng-tools-2.11"}
+                       "lttng-ust-2.11", "lttng-modules-2.11", "lttng-tools-2.11",
+                       "lttng-ust-2.12", "lttng-modules-2.12", "lttng-tools-2.12",
+                       "babeltrace-1.3", "babeltrace-1.4", "babeltrace-1.5",
+                       "urcu-0.13"}
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -35,7 +38,7 @@ project_py_file_location = os.path.join(base_dir, "utils/project.py")
 
 tmp_object_prefix = "lttng-ivc-"
 
-default_babeltrace = "babeltrace-2.0"
+default_babeltrace = "babeltrace-2.1"
 
 lttng_test_procfile = "/proc/lttng-test-filter-event"
 
