@@ -384,10 +384,12 @@ class Lttng_modules(Project):
         p.check_returncode()
 
         # Perform a local depmod
-        args = ['depmod', '-b', self.installation_path]
-        p = subprocess.run(args, env=self.get_env(), stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE)
-        p.check_returncode()
+        if os.getuid() == 0:
+            args = ['depmod', '-b', self.installation_path]
+            p = subprocess.run(args, env=self.get_env(), stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE)
+            p.check_returncode()
+
         self.isInstalled = True
 
     def autobuild(self):
