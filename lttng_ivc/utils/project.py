@@ -46,7 +46,9 @@ class Project(object):
             self.custom_configure_flags.append("CC={} gcc".format(ccache))
             self.custom_configure_flags.append("CXX={} g++".format(ccache))
 
-        self.custom_configure_flags.append("CFLAGS=-g -O0")
+        self.custom_configure_flags.append(
+            "CFLAGS={}".format("-g -O0 " + os.environ.get("CFLAGS", ""))
+        )
 
         # A collection of Project dependencies
         self.dependencies = {}
