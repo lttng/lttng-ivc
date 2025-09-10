@@ -143,7 +143,7 @@ def find_multiple_free_port(number):
 
 
 def file_contains(file_path, list_of_string):
-    with open(file_path, 'r') as f:
+    with open(file_path, "r", encoding="utf-8") as f:
         for line in f:
             for s in list_of_string:
                 if s in line:

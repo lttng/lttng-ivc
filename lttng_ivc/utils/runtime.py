@@ -170,13 +170,13 @@ class Runtime(object):
         err_path = os.path.join(self.__runtime_log_sub, str(tmp_id) + ".err")
         command_path = os.path.join(self.__runtime_log_sub, str(tmp_id) + ".cmdline")
 
-        stdout = open(out_path, 'w')
-        stderr = open(err_path, 'w')
+        stdout = open(out_path, "w", encoding="utf-8")
+        stderr = open(err_path, "w", encoding="utf-8")
 
         env_path = os.path.join(self.__runtime_log_sub, str(tmp_id) + ".env")
-        with open(env_path, 'w') as env_out:
+        with open(env_path, "w", encoding="utf-8") as env_out:
             pprint.pprint(env, stream=env_out)
-        with open(command_path, 'w') as cmdline_out:
+        with open(command_path, "w", encoding="utf-8") as cmdline_out:
             pprint.pprint(args, stream=cmdline_out)
 
         p = subprocess.Popen(args, stdout=stdout, stderr=stderr, env=env, cwd=cwd, preexec_fn=os.setsid)
@@ -212,16 +212,16 @@ class Runtime(object):
         self._run_command_count += 1
 
         cmd_map = os.path.join(self.__runtime_log, "cmd.map")
-        with open(cmd_map, 'a') as out:
+        with open(cmd_map, "a", encoding="utf-8") as out:
             out.write("{}: {}\n".format(tmp_id, args))
 
         out_path = os.path.join(self.__runtime_log, str(tmp_id) + ".out")
         err_path = os.path.join(self.__runtime_log, str(tmp_id) + ".err")
-        stdout = open(out_path, "w")
-        stderr = open(err_path, "w")
+        stdout = open(out_path, "w", encoding="utf-8")
+        stderr = open(err_path, "w", encoding="utf-8")
 
         env_path = os.path.join(self.__runtime_log, str(tmp_id) + ".env")
-        with open(env_path, 'w') as env_out:
+        with open(env_path, "w", encoding="utf-8") as env_out:
             for key, value in env.items():
                 env_out.write('{}={}\n'.format(key, value))
 
@@ -231,12 +231,16 @@ class Runtime(object):
 
         # Add to the global log file. This can help a little. Leave the other
         # file available for per-run analysis
-        with open(self._runtime_log_aggregation, "a") as log:
-            log.write("Command #{}\nReturn value: {}\nCommand: {}\n".format(tmp_id, cp.returncode, command_line))
-            with open(out_path, "r") as out:
+        with open(self._runtime_log_aggregation, "a", encoding="utf-8") as log:
+            log.write(
+                "Command #{}\nReturn value: {}\nCommand: {}\n".format(
+                    tmp_id, cp.returncode, command_line
+                )
+            )
+            with open(out_path, "r", encoding="utf-8") as out:
                 log.write("STDOUT:\n".format(tmp_id, cp.returncode, command_line))
                 log.write(textwrap.indent(out.read(), '    '))
-            with open(err_path, "r") as out:
+            with open(err_path, "r", encoding='utf-8') as out:
                 log.write("STDERR:\n".format(tmp_id, cp.returncode, command_line))
                 log.write(textwrap.indent(out.read(), '    '))
             log.write("\n")
