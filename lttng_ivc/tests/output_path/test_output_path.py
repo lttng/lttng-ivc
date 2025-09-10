@@ -332,7 +332,7 @@ def test_output_path_snapshot_local_on_create(tmpdir, version, mode):
 
             runtime.run("lttng stop")
             runtime.run("lttng destroy -a")
-            runtime.subprocess_terminate(app_id)
+            runtime.subprocess_wait_else_terminate(app_id)
 
             if not utils.path_exists_regex(base_path, test.path_regex):
                 failed_tests.append(test)
@@ -415,7 +415,7 @@ def test_output_path_snapshot_local_add_output(tmpdir, version, mode):
 
             runtime.run("lttng stop")
             runtime.run("lttng destroy -a")
-            runtime.subprocess_terminate(app_id)
+            runtime.subprocess_wait_else_terminate(app_id)
 
             if not utils.path_exists_regex(base_path, test.path_regex):
                 failed_tests.append(test)
@@ -666,7 +666,7 @@ def test_output_path_snapshot_relayd_on_create(tmpdir, client, server, mode, sta
 
             rt_tools.run("lttng stop")
             rt_tools.run("lttng destroy -a")
-            rt_tools.subprocess_terminate(app_id)
+            rt_tools.subprocess_wait_else_terminate(app_id)
 
             if not utils.path_exists_regex(base_path, test.path_regex):
                 failed_tests.append(test)
@@ -807,7 +807,7 @@ def test_output_path_snapshot_relayd_add_output(tmpdir, client, server, mode, st
 
             rt_tools.run("lttng stop")
             rt_tools.run("lttng destroy -a")
-            rt_tools.subprocess_terminate(app_id)
+            rt_tools.subprocess_wait_else_terminate(app_id)
 
             if not utils.path_exists_regex(base_path, test.path_regex):
                 failed_tests.append(test)

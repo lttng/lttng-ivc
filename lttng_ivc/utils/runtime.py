@@ -127,9 +127,21 @@ class Runtime(object):
         stderr.close()
         return process
 
-    def subprocess_wait(self, subprocess_uuid, check_return=True):
+    def subprocess_wait_else_terminate(
+        self, subprocess_uuid, check_return=True, timeout=60
+    ):
+        try:
+            return self.subprocess_wait(
+                subprocess_uuid, check_return=check_return, timeout=timeout
+            )
+        except subprocess.TimeoutExpired:
+            return self.subprocess_terminate(
+                subprocess_uuid, check_return=check_return, timeout=timeout
+            )
+
+    def subprocess_wait(self, subprocess_uuid, check_return=True, timeout=None):
         process = self.__subprocess[subprocess_uuid]
-        process.wait()
+        process.wait(timeout=timeout)
         stdout, stderr = self.__stdout_stderr[subprocess_uuid]
         stdout.close()
         stderr.close()
