@@ -163,9 +163,15 @@ class Runtime(object):
         stdout, stderr = self.__stdout_stderr[subprocess_uuid]
         return stderr.name
 
-    def spawn_subprocess(self, command_line, cwd=None):
-        args = shlex.split(command_line)
+    def spawn_subprocess(self, command_line, cwd=None, extra_env={}):
         env = self.get_env()
+        env.update(extra_env)
+        if type(command_line) is list:
+            args = command_line
+            # For display
+            command_line = shlex.join(command_line)
+        else:
+            args = shlex.split(command_line)
 
         if not os.path.isdir(self.lttng_home):
             raise Exception("lttng home does not exist")
@@ -206,14 +212,21 @@ class Runtime(object):
         timeout=None,
         ld_debug=False,
         gdbserver=False,
+        extra_env={},
     ):
         """
         Run the command and return a tuple of a (CompletedProcess, stdout_path,
         stderr_path). The subprocess is already executed and returned. The
         callecaller is responsible for checking for errors.
         """
-        args = shlex.split(command_line)
         env = self.get_env()
+        env.update(extra_env)
+        if type(command_line) is list:
+            args = command_line
+            # For display
+            command_line = shlex.join(command_line)
+        else:
+            args = shlex.split(command_line)
 
         if ld_preload:
             env["LD_PRELOAD"] = ld_preload

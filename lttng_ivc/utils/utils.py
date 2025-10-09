@@ -70,20 +70,20 @@ def __dummy_sigusr1_handler(signum, frame):
     pass
 
 
-def sessiond_spawn(runtime, opt_args=""):
+def sessiond_spawn(runtime, opt_args="", extra_env={}):
     agent_port = find_free_port()
     previous_handler = signal.signal(signal.SIGUSR1, __dummy_sigusr1_handler)
     cmd = "lttng-sessiond -vvv --verbose-consumer -S --agent-tcp-port {}".format(
         agent_port
     )
     cmd = " ".join([cmd, opt_args])
-    sessiond = runtime.spawn_subprocess(cmd)
+    sessiond = runtime.spawn_subprocess(cmd, extra_env=extra_env)
     signal.sigtimedwait({signal.SIGUSR1}, 60)
     previous_handler = signal.signal(signal.SIGUSR1, previous_handler)
     return sessiond
 
 
-def relayd_spawn(runtime, url="localhost"):
+def relayd_spawn(runtime, url="localhost", extra_env={}):
     """
     Return a tuple (relayd_uuid, ctrl_port, data_port, live_port)
     """
@@ -98,7 +98,7 @@ def relayd_spawn(runtime, url="localhost"):
     live_string = "-L tcp://{}:{}".format(url, live_port)
 
     cmd = " ".join([base_cmd, data_string, ctrl_string, live_string])
-    relayd = runtime.spawn_subprocess(cmd)
+    relayd = runtime.spawn_subprocess(cmd, extra_env=extra_env)
 
     # Synchronization based on verbosity since no -S is available for
     # lttng-relayd yet.
