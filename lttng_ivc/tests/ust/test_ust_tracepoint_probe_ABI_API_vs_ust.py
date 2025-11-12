@@ -35,23 +35,25 @@ FC: Fully Compatible
 BC: Feature of the smallest version number will works.
 EU: Event unavailable for tracing
 SO: lttng-ust .so unavailable
+UN: Untested
 
-+-----------------------------------------+-----+------+------+---------------------------------+
-|                      LTTng UST tracepoint API/ABI:                                            |
-|                    Probe provider vs LTTng UST library                                        |
-+-----------------------------------------+-----+------+-----+------+------+------+------+------+
-|                     LTTng-UST (control) | 2.7 |  2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 |
-| LTTng-UST (probe)                       |     |      |     |      |      |      |      |      |
-+-----------------------------------------+-----+------+-----+------+------+------+------+------+
-| 2.7                                     | FC  | BC   | BC  | BC   | BC   | BC   | SO   | SO   |
-| 2.8                                     | EU  | FC   | BC  | BC   | BC   | BC   | SO   | SO   |
-| 2.9                                     | EU  | EU   | FC  | BC   | BC   | BC   | SO   | SO   |
-| 2.10                                    | EU  | EU   | EU  | FC   | BC   | BC   | SO   | SO   |
-| 2.11                                    | EU  | EU   | EU  | EU   | FC   | BC   | SO   | SO   |
-| 2.12                                    | EU  | EU   | EU  | EU   | EU   | FC   | SO   | SO   |
-| 2.13                                    | SO  | SO   | SO  | SO   | SO   | SO   | FC   | BC   |
-| 2.14                                    | SO  | SO   | SO  | SO   | SO   | SO   | BC   | FC   |
-+-----------------------------------------+-----+------+-----+------+------+------+------+------+
++-----------------------------------------------------------------------------------------------------+
+|                      LTTng UST tracepoint API/ABI:                                                  |
+|                    Probe provider vs LTTng UST library                                              |
++-----------------------------------------+-----+-----+-----+------+------+------+------+------+------+
+|                     LTTng-UST (control) | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 | 2.15 |
+| LTTng-UST (probe)                       |     |     |     |      |      |      |      |      |      |
++-----------------------------------------+-----+-----+-----+------+------+------+------+------+------|
+| 2.7                                     | FC  | BC  | BC  | BC   | BC   | BC   | SO   | SO   | UN   |
+| 2.8                                     | EU  | FC  | BC  | BC   | BC   | BC   | SO   | SO   | UN   |
+| 2.9                                     | EU  | EU  | FC  | BC   | BC   | BC   | SO   | SO   | UN   |
+| 2.10                                    | EU  | EU  | EU  | FC   | BC   | BC   | SO   | SO   | UN   |
+| 2.11                                    | EU  | EU  | EU  | EU   | FC   | BC   | SO   | SO   | UN   |
+| 2.12                                    | EU  | EU  | EU  | EU   | EU   | FC   | SO   | SO   | UN   |
+| 2.13                                    | SO  | SO  | SO  | SO   | SO   | SO   | FC   | BC   | BC   |
+| 2.14                                    | SO  | SO  | SO  | SO   | SO   | SO   | BC   | FC   | BC   |
+| 2.15                                    | UN  | UN  | UN  | UN   | UN   | UN   | BC   | BC   | FC   |
++-----------------------------------------+-----+-----+-----+------+------+------+------+------+------+
 
 Using tracepoint.h as a reference for change between version.
 
@@ -138,13 +140,20 @@ test_matrix_enum = [
     ("lttng-ust-2.13", "lttng-tools-2.12", fail_so_1, 0),
     ("lttng-ust-2.13", "lttng-tools-2.13", success, 200),
     ("lttng-ust-2.13", "lttng-tools-2.14", success, 200),
+    ("lttng-ust-2.13", "lttng-tools-2.15", success, 200),
     ("lttng-ust-2.13", "lttng-tools-master", success, 200),
     ("lttng-ust-2.14", "lttng-tools-2.12", fail_so_1, 0),
     ("lttng-ust-2.14", "lttng-tools-2.13", success, 200),
     ("lttng-ust-2.14", "lttng-tools-2.14", success, 200),
+    ("lttng-ust-2.14", "lttng-tools-2.15", success, 200),
     ("lttng-ust-2.14", "lttng-tools-master", success, 200),
+    ("lttng-ust-2.15", "lttng-tools-2.13", success, 200),
+    ("lttng-ust-2.15", "lttng-tools-2.14", success, 200),
+    ("lttng-ust-2.15", "lttng-tools-2.15", success, 200),
+    ("lttng-ust-2.15", "lttng-tools-master", success, 200),
     ("lttng-ust-master", "lttng-tools-2.13", success, 200),
     ("lttng-ust-master", "lttng-tools-2.14", success, 200),
+    ("lttng-ust-master", "lttng-tools-2.15", success, 200),
     ("lttng-ust-master", "lttng-tools-master", success, 200),
 ]
 
@@ -199,13 +208,20 @@ test_matrix_base = [
     ("lttng-ust-2.13", "lttng-tools-2.12", fail_so_1),
     ("lttng-ust-2.13", "lttng-tools-2.13", success),
     ("lttng-ust-2.13", "lttng-tools-2.14", success),
+    ("lttng-ust-2.13", "lttng-tools-2.15", success),
     ("lttng-ust-2.13", "lttng-tools-master", success),
     ("lttng-ust-2.14", "lttng-tools-2.12", fail_so_1),
     ("lttng-ust-2.14", "lttng-tools-2.13", success),
     ("lttng-ust-2.14", "lttng-tools-2.14", success),
+    ("lttng-ust-2.14", "lttng-tools-2.15", success),
     ("lttng-ust-2.14", "lttng-tools-master", success),
+    ("lttng-ust-2.15", "lttng-tools-2.13", success),
+    ("lttng-ust-2.15", "lttng-tools-2.14", success),
+    ("lttng-ust-2.15", "lttng-tools-2.15", success),
+    ("lttng-ust-2.15", "lttng-tools-master", success),
     ("lttng-ust-master", "lttng-tools-2.13", success),
     ("lttng-ust-master", "lttng-tools-2.14", success),
+    ("lttng-ust-master", "lttng-tools-2.15", success),
     ("lttng-ust-master", "lttng-tools-master", success),
 ]
 

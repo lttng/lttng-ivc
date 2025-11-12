@@ -37,21 +37,22 @@ BC: Backward Compatible
 I: Incompatible
 UN: Untested
 
-+----------------------------------------------------------------------------------------------+
-| LTTng UST control library vs LTTng Tools                                                     |
-+-----------------------------------------+-----+-----+-----+------+------+------+------+------+
-|                             LTTng Tools | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 |
-| LTTng-UST (lttng-ust-ctl soname)        |     |     |     |      |      |      |      |      |
-+-----------------------------------------+-----+-----+-----+------+------+------+------+------+
-| 2.7 (2.0.0)                             | FC  | I   | I   | I    | I    | I    | I    | I    |
-| 2.8 (2.0.0)                             | BC  | FC  | I   | I    | I    | I    | I    | I    |
-| 2.9 (2.0.0)                             | BC  | BC  | FC  | I    | I    | I    | I    | I    |
-| 2.10 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   | I    |
-| 2.11 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   | I    |
-| 2.12 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   | I    |
-| 2.13 (5.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   | I    |
-| 2.14 (6.0.0)                            | UN  | UN  | UN  | UN   | UN   | UN   | I    | FC   |
-+-----------------------------------------+-----+-----+-----+------+------+------+------+------+
++-----------------------------------------------------------------------------------------------------+
+| LTTng UST control library vs LTTng Tools                                                            |
++-----------------------------------------+-----+-----+-----+------+------+------+------+------+------+
+|                             LTTng Tools | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 | 2.15 |
+| LTTng-UST (lttng-ust-ctl soname)        |     |     |     |      |      |      |      |      |      |
++-----------------------------------------+-----+-----+-----+------+------+------+------+------+------+
+| 2.7 (2.0.0)                             | FC  | I   | I   | I    | I    | I    | I    | I    | UN   |
+| 2.8 (2.0.0)                             | BC  | FC  | I   | I    | I    | I    | I    | I    | UN   |
+| 2.9 (2.0.0)                             | BC  | BC  | FC  | I    | I    | I    | I    | I    | UN   |
+| 2.10 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   | I    | UN   |
+| 2.11 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   | I    | UN   |
+| 2.12 (4.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   | I    | UN   |
+| 2.13 (5.0.0)                            | I   | I   | I   | FC   | FC   | FC   | FC   | I    | I    |
+| 2.14 (6.0.0)                            | UN  | UN  | UN  | UN   | UN   | UN   | I    | FC   | I    |
+| 2.15 (6.0.0)                            | UN  | UN  | UN  | UN   | UN   | UN   | I    | BC   | FC   |
++-----------------------------------------+-----+-----+-----+------+------+------+------+------+------+
 
 In this scenario:
 
@@ -183,13 +184,20 @@ test_matrix_label = [
     ),
     ("lttng-ust-2.13", "lttng-tools-2.13", True),
     ("lttng-ust-2.13", "lttng-tools-2.14", False),
+    ("lttng-ust-2.13", "lttng-tools-2.15", False),
     ("lttng-ust-2.13", "lttng-tools-master", False),
     ("lttng-ust-2.14", "lttng-tools-2.12", False),
     ("lttng-ust-2.14", "lttng-tools-2.13", True),
     ("lttng-ust-2.14", "lttng-tools-2.14", True),
+    ("lttng-ust-2.14", "lttng-tools-2.15", False),
     ("lttng-ust-2.14", "lttng-tools-master", False),
+    ("lttng-ust-2.15", "lttng-tools-2.13", True),
+    ("lttng-ust-2.15", "lttng-tools-2.14", True),
+    ("lttng-ust-2.15", "lttng-tools-2.15", True),
+    ("lttng-ust-2.15", "lttng-tools-master", True),
     ("lttng-ust-master", "lttng-tools-2.13", True),
     ("lttng-ust-master", "lttng-tools-2.14", True),
+    ("lttng-ust-master", "lttng-tools-2.15", True),
     ("lttng-ust-master", "lttng-tools-master", True),
 ]
 

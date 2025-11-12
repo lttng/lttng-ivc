@@ -44,6 +44,7 @@ matrix_base = [
     ("lttng-tools-2.12",),
     ("lttng-tools-2.13",),
     ("lttng-tools-2.14",),
+    ("lttng-tools-2.15",),
     ("lttng-tools-master",),
 ]
 
@@ -109,13 +110,20 @@ matrix_relayd = [
     ("lttng-tools-2.13", "lttng-tools-2.12"),
     ("lttng-tools-2.13", "lttng-tools-2.13"),
     ("lttng-tools-2.13", "lttng-tools-2.14"),
+    ("lttng-tools-2.13", "lttng-tools-2.15"),
     ("lttng-tools-2.13", "lttng-tools-master"),
     ("lttng-tools-2.14", "lttng-tools-2.12"),
     ("lttng-tools-2.14", "lttng-tools-2.13"),
     ("lttng-tools-2.14", "lttng-tools-2.14"),
+    ("lttng-tools-2.14", "lttng-tools-2.15"),
     ("lttng-tools-2.14", "lttng-tools-master"),
+    ("lttng-tools-2.15", "lttng-tools-2.13"),
+    ("lttng-tools-2.15", "lttng-tools-2.14"),
+    ("lttng-tools-2.15", "lttng-tools-2.15"),
+    ("lttng-tools-2.15", "lttng-tools-master"),
     ("lttng-tools-master", "lttng-tools-2.13"),
     ("lttng-tools-master", "lttng-tools-2.14"),
+    ("lttng-tools-master", "lttng-tools-2.15"),
     ("lttng-tools-master", "lttng-tools-master"),
 ]
 

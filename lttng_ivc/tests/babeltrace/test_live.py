@@ -95,13 +95,16 @@ test_matrix_live = [
     ("babeltrace-2.0", "lttng-tools-2.12"),
     ("babeltrace-2.0", "lttng-tools-2.13"),
     ("babeltrace-2.0", "lttng-tools-2.14"),
+    ("babeltrace-2.0", "lttng-tools-2.15"),
     ("babeltrace-2.0", "lttng-tools-master"),
     ("babeltrace-2.1", "lttng-tools-2.12"),
     ("babeltrace-2.1", "lttng-tools-2.13"),
     ("babeltrace-2.1", "lttng-tools-2.14"),
+    ("babeltrace-2.1", "lttng-tools-2.15"),
     ("babeltrace-2.1", "lttng-tools-master"),
     ("babeltrace-master", "lttng-tools-2.13"),
     ("babeltrace-master", "lttng-tools-2.14"),
+    ("babeltrace-master", "lttng-tools-2.15"),
     ("babeltrace-master", "lttng-tools-master"),
 ]
 
