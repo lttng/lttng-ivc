@@ -248,3 +248,20 @@ def clear_directory(top):
             os.remove(os.path.join(root, name))
         for name in dirs:
             os.rmdir(os.path.join(root, name))
+
+
+def version_compare(a, b):
+    """
+    0 if equal
+    positive if a greater than b
+    negative is a less than b
+    """
+    if a == b:
+        return 0
+
+    if a == "master":
+        return 1
+    elif b == "master":
+        return -1
+
+    return float(a) - float(b)
