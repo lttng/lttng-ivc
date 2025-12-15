@@ -462,7 +462,9 @@ def test_output_path_relayd(tmpdir, client, server, mode):
 
     # Prepare environment
     lttng_tools = ProjectFactory.get_precook(client)
+    lttng_tools_version = client.split("-")[2]
     relay = ProjectFactory.get_precook(server)
+    relay_version = server.split("-")[2]
 
     tools_runtime_path = os.path.join(str(tmpdir), "client")
     relayd_runtime_path = os.path.join(str(tmpdir), "relayd")
@@ -485,59 +487,74 @@ def test_output_path_relayd(tmpdir, client, server, mode):
         tests = [
             Output_test(
                 "",
-                "--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
+                ["--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port)],
                 "{}/auto-{}/{}".format(base_path, datetime_regex, trailing),
             ),
             Output_test(
                 "test",
-                "--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
+                ["--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port)],
                 "{}/test-{}/{}".format(base_path, datetime_regex, trailing),
             ),
             Output_test(
                 "test1",
-                "--set-url=net://127.0.0.1:{}:{}/".format(ctrl_port, data_port),
+                ["--set-url=net://127.0.0.1:{}:{}/".format(ctrl_port, data_port)],
                 "{}/test1-{}/{}".format(base_path, datetime_regex, trailing),
             ),
             Output_test(
                 "test-20190319-120000",
-                "--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
+                ["--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port)],
                 "{}/test-20190319-120000-{}/{}".format(
                     base_path, datetime_regex, trailing
                 ),
             ),
             Output_test(
                 "test3",
-                "--set-url=net://127.0.0.1:{}:{}/custom_output".format(
-                    ctrl_port, data_port
-                ),
+                [
+                    "--set-url=net://127.0.0.1:{}:{}/custom_output".format(
+                        ctrl_port, data_port
+                    )
+                ],
                 "{}/custom_output/{}".format(base_path, trailing),
             ),
             Output_test(
                 "test4",
-                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}".format(
-                    ctrl_port, data_port
-                ),
+                [
+                    "--ctrl-url=tcp4://127.0.0.1:{}".format(ctrl_port),
+                    "--data-url=tcp4://127.0.0.1:{}".format(data_port),
+                ],
                 "{}/test4-{}/{}".format(base_path, datetime_regex, trailing),
             ),
             Output_test(
                 "test5",
-                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output2 --data-url=tcp4://127.0.0.1:{}".format(
-                    ctrl_port, data_port
-                ),
+                [
+                    "--ctrl-url=tcp4://127.0.0.1:{}/custom_output2".format(ctrl_port),
+                    "--data-url=tcp4://127.0.0.1:{}".format(data_port),
+                ],
                 "{}/custom_output2/{}".format(base_path, trailing),
             ),
             Output_test(
                 "test6",
-                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}/custom_output3".format(
-                    ctrl_port, data_port
-                ),
+                [
+                    "--ctrl-url=tcp4://127.0.0.1:{}".format(ctrl_port),
+                    "--data-url=tcp4://127.0.0.1:{}/custom_output3".format(data_port),
+                ],
                 "{}/test6-{}/{}".format(base_path, datetime_regex, trailing),
             ),
         ]
 
         failed_tests = []
         for test in tests:
-            rt_tools.run("lttng create {} {}".format(test.name, test.command))
+            create_args = ["lttng", "create"] + test.command
+            if (
+                utils.version_compare(lttng_tools_version, "2.15") >= 0
+                and utils.version_compare(relay_version, "2.15") < 0
+            ):
+                create_args.append("--trace-format=ctf-1.8")
+
+            if test.name:
+                create_args.append(test.name)
+
+            rt_tools.run(create_args)
             rt_tools.run("lttng enable-channel -u --buffers-{} channel".format(mode))
             rt_tools.run("lttng enable-event -u tp:tptest -c channel")
             rt_tools.run("lttng start")
@@ -571,7 +588,9 @@ def test_output_path_snapshot_relayd_on_create(tmpdir, client, server, mode, sta
 
     # Prepare environment
     lttng_tools = ProjectFactory.get_precook(client)
+    lttng_tools_version = client.split("-")[2]
     relay = ProjectFactory.get_precook(server)
+    relay_version = server.split("-")[2]
 
     app_path = os.path.join(str(tmpdir), "app")
     app_sync_start = os.path.join(app_path, "sync_start")
@@ -598,38 +617,40 @@ def test_output_path_snapshot_relayd_on_create(tmpdir, client, server, mode, sta
         path_with_session_name_tests = [
             Output_test(
                 "",
-                "--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
+                ["--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port)],
                 "{}/auto-{}/{}".format(base_path, datetime_re, trailing),
             ),
             Output_test(
                 "test",
-                "--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
+                ["--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port)],
                 "{}/test-{}/{}".format(base_path, datetime_re, trailing),
             ),
             Output_test(
                 "test1",
-                "--set-url=net://127.0.0.1:{}:{}/".format(ctrl_port, data_port),
+                ["--set-url=net://127.0.0.1:{}:{}/".format(ctrl_port, data_port)],
                 "{}/test1-{}/{}".format(base_path, datetime_re, trailing),
             ),
             Output_test(
                 "test-20190319-120000",
-                "--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
+                ["--set-url=net://127.0.0.1:{}:{}".format(ctrl_port, data_port)],
                 "{}/test-20190319-120000-{}/{}".format(
                     base_path, datetime_re, trailing
                 ),
             ),
             Output_test(
                 "test4",
-                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}".format(
-                    ctrl_port, data_port
-                ),
+                [
+                    "--ctrl-url=tcp4://127.0.0.1:{}".format(ctrl_port),
+                    "--data-url=tcp4://127.0.0.1:{}".format(data_port),
+                ],
                 "{}/test4-{}/{}".format(base_path, datetime_re, trailing),
             ),
             Output_test(
                 "test6",
-                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}/custom_output3".format(
-                    ctrl_port, data_port
-                ),
+                [
+                    "--ctrl-url=tcp4://127.0.0.1:{}".format(ctrl_port),
+                    "--data-url=tcp4://127.0.0.1:{}/custom_output3".format(data_port),
+                ],
                 "{}/test6-{}/{}".format(base_path, datetime_re, trailing),
             ),
         ]
@@ -637,23 +658,27 @@ def test_output_path_snapshot_relayd_on_create(tmpdir, client, server, mode, sta
         custom_output_tests = [
             Output_test(
                 "test3",
-                "--set-url=net://127.0.0.1:{}:{}/custom_output".format(
-                    ctrl_port, data_port
-                ),
+                [
+                    "--set-url=net://127.0.0.1:{}:{}/custom_output".format(
+                        ctrl_port, data_port
+                    )
+                ],
                 "{}/custom_output/{}".format(base_path, trailing),
             ),
             Output_test(
                 "test5",
-                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output2 --data-url=tcp4://127.0.0.1:{}".format(
-                    ctrl_port, data_port
-                ),
+                [
+                    "--ctrl-url=tcp4://127.0.0.1:{}/custom_output2".format(ctrl_port),
+                    "--data-url=tcp4://127.0.0.1:{}".format(data_port),
+                ],
                 "{}/custom_output2/{}".format(base_path, trailing),
             ),
             Output_test(
                 "test7",
-                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output4 --data-url=tcp4://127.0.0.1:{}/custom_output4".format(
-                    ctrl_port, data_port
-                ),
+                [
+                    "--ctrl-url=tcp4://127.0.0.1:{}/custom_output4".format(ctrl_port),
+                    "--data-url=tcp4://127.0.0.1:{}/custom_output4".format(data_port),
+                ],
                 "{}/custom_output4/{}".format(base_path, trailing),
             ),
         ]
@@ -665,9 +690,17 @@ def test_output_path_snapshot_relayd_on_create(tmpdir, client, server, mode, sta
         # Create session using mi to get path and session name
         failed_tests = []
         for test in tests:
-            rt_tools.run(
-                "lttng create --snapshot {} {}".format(test.name, test.command)
-            )
+            create_args = ["lttng", "create", "--snapshot"] + test.command
+            if (
+                utils.version_compare(lttng_tools_version, "2.15") >= 0
+                and utils.version_compare(relay_version, "2.15") < 0
+            ):
+                create_args.append("--trace-format=ctf-1.8")
+
+            if test.name:
+                create_args.append(test.name)
+
+            rt_tools.run(create_args)
             rt_tools.run("lttng enable-channel -u --buffers-{} channel".format(mode))
             rt_tools.run("lttng enable-event -u tp:tptest -c channel")
             rt_tools.run("lttng start")
@@ -718,7 +751,9 @@ def test_output_path_snapshot_relayd_add_output(tmpdir, client, server, mode, st
 
     # Prepare environment
     lttng_tools = ProjectFactory.get_precook(client)
+    lttng_tools_version = client.split("-")[2]
     relay = ProjectFactory.get_precook(server)
+    relay_version = server.split("-")[2]
 
     app_path = os.path.join(str(tmpdir), "app")
     app_sync_start = os.path.join(app_path, "sync_start")
@@ -745,33 +780,35 @@ def test_output_path_snapshot_relayd_add_output(tmpdir, client, server, mode, st
         path_with_session_name_tests = [
             Output_test(
                 "test",
-                "net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
+                ["net://127.0.0.1:{}:{}".format(ctrl_port, data_port)],
                 "{}/test-{}/{}".format(base_path, datetime_re, trailing),
             ),
             Output_test(
                 "test1",
-                "net://127.0.0.1:{}:{}/".format(ctrl_port, data_port),
+                ["net://127.0.0.1:{}:{}/".format(ctrl_port, data_port)],
                 "{}/test1-{}/{}".format(base_path, datetime_re, trailing),
             ),
             Output_test(
                 "test-20190319-120000",
-                "net://127.0.0.1:{}:{}".format(ctrl_port, data_port),
+                ["net://127.0.0.1:{}:{}".format(ctrl_port, data_port)],
                 "{}/test-20190319-120000-{}/{}".format(
                     base_path, datetime_re, trailing
                 ),
             ),
             Output_test(
                 "test4",
-                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}".format(
-                    ctrl_port, data_port
-                ),
+                [
+                    "--ctrl-url=tcp4://127.0.0.1:{}".format(ctrl_port),
+                    "--data-url=tcp4://127.0.0.1:{}".format(data_port),
+                ],
                 "{}/test4-{}/{}".format(base_path, datetime_re, trailing),
             ),
             Output_test(
                 "test6",
-                "--ctrl-url=tcp4://127.0.0.1:{} --data-url=tcp4://127.0.0.1:{}/custom_output3".format(
-                    ctrl_port, data_port
-                ),
+                [
+                    "--ctrl-url=tcp4://127.0.0.1:{}".format(ctrl_port),
+                    "--data-url=tcp4://127.0.0.1:{}/custom_output3".format(data_port),
+                ],
                 "{}/test6-{}/{}".format(base_path, datetime_re, trailing),
             ),
         ]
@@ -779,21 +816,23 @@ def test_output_path_snapshot_relayd_add_output(tmpdir, client, server, mode, st
         custom_output_tests = [
             Output_test(
                 "test3",
-                "net://127.0.0.1:{}:{}/custom_output".format(ctrl_port, data_port),
+                ["net://127.0.0.1:{}:{}/custom_output".format(ctrl_port, data_port)],
                 "{}/custom_output/{}".format(base_path, trailing),
             ),
             Output_test(
                 "test5",
-                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output2 --data-url=tcp4://127.0.0.1:{}".format(
-                    ctrl_port, data_port
-                ),
+                [
+                    "--ctrl-url=tcp4://127.0.0.1:{}/custom_output2".format(ctrl_port),
+                    "--data-url=tcp4://127.0.0.1:{}".format(data_port),
+                ],
                 "{}/custom_output2/{}".format(base_path, trailing),
             ),
             Output_test(
                 "test7",
-                "--ctrl-url=tcp4://127.0.0.1:{}/custom_output4 --data-url=tcp4://127.0.0.1:{}/custom_output4".format(
-                    ctrl_port, data_port
-                ),
+                [
+                    "--ctrl-url=tcp4://127.0.0.1:{}/custom_output4".format(ctrl_port),
+                    "--data-url=tcp4://127.0.0.1:{}/custom_output4".format(data_port),
+                ],
                 "{}/custom_output4/{}".format(base_path, trailing),
             ),
         ]
@@ -805,11 +844,27 @@ def test_output_path_snapshot_relayd_add_output(tmpdir, client, server, mode, st
         # Create session using mi to get path and session name
         failed_tests = []
         for test in tests:
-            rt_tools.run("lttng create {} --snapshot --no-output".format(test.name))
+            create_args = [
+                "lttng",
+                "create",
+                "--snapshot",
+                "--no-output",
+            ]
+            if (
+                utils.version_compare(lttng_tools_version, "2.15") >= 0
+                and utils.version_compare(relay_version, "2.15") < 0
+            ):
+                create_args.append("--trace-format=ctf-1.8")
+
+            if test.name:
+                create_args.append(test.name)
+
+            rt_tools.run(create_args)
             rt_tools.run("lttng enable-channel -u --buffers-{} channel".format(mode))
             rt_tools.run("lttng enable-event -u tp:tptest -c channel")
             rt_tools.run(
-                "lttng snapshot add-output --name snapshot-1 {}".format(test.command)
+                ["lttng", "snapshot", "add-output", "--name", "snapshot-1"]
+                + test.command
             )
             rt_tools.run("lttng start")
 
