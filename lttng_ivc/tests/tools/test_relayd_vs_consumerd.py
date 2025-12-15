@@ -335,7 +335,9 @@ def test_relayd_vs_consumerd_streaming_base(
 
     # Prepare environment
     relayd = ProjectFactory.get_precook(relayd_label)
+    relayd_version = relayd_label.split("-")[2]
     consumerd = ProjectFactory.get_precook(consumerd_label)
+    consumerd_version = consumerd_label.split("-")[2]
     babeltrace = ProjectFactory.get_precook(Settings.default_babeltrace)
 
     relayd_runtime_path = os.path.join(str(tmpdir), "relayd")
@@ -360,8 +362,14 @@ def test_relayd_vs_consumerd_streaming_base(
         url = "net://localhost:{}:{}".format(ctrl_port, data_port)
 
         # Create session using mi to get path and session name
-        runtime_consumerd.run("lttng create --set-url={} trace ".format(url))
+        create_args = ["lttng", "create", "--set-url={}".format(url), "trace"]
+        if (
+            utils.version_compare(consumerd_version, "2.15") >= 0
+            and utils.version_compare(relayd_version, "2.15") < 0
+        ):
+            create_args.append("--trace-format=ctf-1.8")
 
+        runtime_consumerd.run(create_args)
         runtime_consumerd.run("lttng enable-event -u tp:tptest")
         runtime_consumerd.run("lttng start")
 
@@ -396,7 +404,9 @@ def test_relayd_vs_consumerd_streaming_regenerate_metadata(
 
     # Prepare environment
     relayd = ProjectFactory.get_precook(relayd_label)
+    relayd_version = relayd_label.split("-")[2]
     consumerd = ProjectFactory.get_precook(consumerd_label)
+    consumerd_version = consumerd_label.split("-")[2]
     babeltrace = ProjectFactory.get_precook(Settings.default_babeltrace)
 
     relayd_runtime_path = os.path.join(str(tmpdir), "relayd")
@@ -423,8 +433,14 @@ def test_relayd_vs_consumerd_streaming_regenerate_metadata(
         url = "net://localhost:{}:{}".format(ctrl_port, data_port)
 
         # Create session using mi to get path and session name
-        runtime_consumerd.run("lttng create --set-url={} trace ".format(url))
+        create_args = ["lttng", "create", "--set-url={}".format(url), "trace"]
+        if (
+            utils.version_compare(consumerd_version, "2.15") >= 0
+            and utils.version_compare(relayd_version, "2.15") < 0
+        ):
+            create_args.append("--trace-format=ctf-1.8")
 
+        runtime_consumerd.run(create_args)
         runtime_consumerd.run("lttng enable-event -u tp:tptest")
         runtime_consumerd.run("lttng start")
 
@@ -488,7 +504,9 @@ def test_relayd_vs_consumerd_live_base(tmpdir, relayd_label, consumerd_label, sc
 
     # Prepare environment
     relayd = ProjectFactory.get_precook(relayd_label)
+    relayd_version = relayd_label.split("-")[2]
     consumerd = ProjectFactory.get_precook(consumerd_label)
+    consumerd_version = consumerd_label.split("-")[2]
     babeltrace = ProjectFactory.get_precook(Settings.default_babeltrace)
 
     relayd_runtime_path = os.path.join(str(tmpdir), "relayd")
@@ -513,8 +531,14 @@ def test_relayd_vs_consumerd_live_base(tmpdir, relayd_label, consumerd_label, sc
         url = "net://localhost:{}:{}".format(ctrl_port, data_port)
 
         # Create session using mi to get path and session name
-        runtime_consumerd.run("lttng create --live --set-url={} trace ".format(url))
+        create_args = ["lttng", "create", "--live", "--set-url={}".format(url), "trace"]
+        if (
+            utils.version_compare(consumerd_version, "2.15") >= 0
+            and utils.version_compare(relayd_version, "2.15") < 0
+        ):
+            create_args.append("--trace-format=ctf-1.8")
 
+        runtime_consumerd.run(create_args)
         runtime_consumerd.run("lttng enable-event -u tp:tptest")
         runtime_consumerd.run("lttng start")
 
