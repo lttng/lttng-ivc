@@ -65,6 +65,7 @@ mi_xsd_file_name = [
     "mi-lttng-3.0.xsd",
     "mi-lttng-4.0.xsd",
     "mi-lttng-4.1.xsd",
+    "mi-lttng-4.2.xsd",
 ]
 
 
