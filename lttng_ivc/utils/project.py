@@ -485,7 +485,18 @@ class Lttng_tools(Project):
 
 
 class Babeltrace(Project):
-    pass
+    def __init__(self, label, git_path, sha1, tmpdir):
+        super(Babeltrace, self).__init__(
+            label=label, git_path=git_path, sha1=sha1, tmpdir=tmpdir
+        )
+        _, version = label.split("-")
+        if version == "master":
+            self.custom_configure_flags.extend(
+                [
+                    "--enable-vendor-catch2",
+                    "--enable-vendor-fmt",
+                ]
+            )
 
 
 class Urcu(Project):
