@@ -39,18 +39,18 @@ FC: Fully Compatible
 BC: Feature of the smallest version number will works.
 UN: Untested
 
-+--------------------------------------------------------------------------------------+
-|                   Babeltrace vs UST/Tools/Metadata                                   |
-+--------------------------+-----+-----+-----+------+------+------+------+------+------+
-|                    LTTng | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 | 2.15 |
-| Babeltrace               |     |     |     |      |      |      |      |      |      |
-+--------------------------+-----+-----+-----+------+------+------+------+------+------+
-| 1.3                      | FC  | BC  | BC  | BC   | BC   | BC   | BC   | UN   | UN   |
-| 1.4                      | FC  | FC  | FC  | FC   | FC   | FC   | FC   | UN   | UN   |
-| 1.5                      | FC  | FC  | FC  | FC   | FC   | FC   | FC   | UN   | UN   |
-| 2.0                      | FC  | FC  | FC  | FC   | FC   | FC   | FC   | FC   | FC   |
-| 2.1                      | UN  | UN  | UN  | UN   | UN   | UN   | FC   | FC   | FC   |
-+--------------------------+-----+-----+-----+------+------+------+------+------+------+
++---------------------------------------------------------------------------------------------+
+|                   Babeltrace vs UST/Tools/Metadata                                          |
++--------------------------+-----+-----+-----+------+------+------+------+------+------+------+
+|                    LTTng | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 | 2.15 | 2.16 |
+| Babeltrace               |     |     |     |      |      |      |      |      |      |      |
++--------------------------+-----+-----+-----+------+------+------+------+------+-------------+
+| 1.3                      | FC  | BC  | BC  | BC   | BC   | BC   | BC   | UN   | UN   | UN   |
+| 1.4                      | FC  | FC  | FC  | FC   | FC   | FC   | FC   | UN   | UN   | UN   |
+| 1.5                      | FC  | FC  | FC  | FC   | FC   | FC   | FC   | UN   | UN   | UN   |
+| 2.0                      | FC  | FC  | FC  | FC   | FC   | FC   | FC   | FC   | FC   | FC   |
+| 2.1                      | UN  | UN  | UN  | UN   | UN   | UN   | FC   | FC   | FC   | FC   |
++--------------------------+-----+-----+-----+------+------+------+------+------+------+------+
 
 """
 test_matrix_base_ust = [
@@ -78,15 +78,18 @@ test_matrix_base_ust = [
     ("babeltrace-2.0", "lttng-tools-2.13"),
     ("babeltrace-2.0", "lttng-tools-2.14"),
     ("babeltrace-2.0", "lttng-tools-2.15"),
+    ("babeltrace-2.0", "lttng-tools-2.16"),
     ("babeltrace-2.0", "lttng-tools-master"),
     ("babeltrace-2.1", "lttng-tools-2.12"),
     ("babeltrace-2.1", "lttng-tools-2.13"),
     ("babeltrace-2.1", "lttng-tools-2.14"),
     ("babeltrace-2.1", "lttng-tools-2.15"),
+    ("babeltrace-2.1", "lttng-tools-2.16"),
     ("babeltrace-2.1", "lttng-tools-master"),
     ("babeltrace-master", "lttng-tools-2.13"),
     ("babeltrace-master", "lttng-tools-2.14"),
     ("babeltrace-master", "lttng-tools-2.15"),
+    ("babeltrace-master", "lttng-tools-2.16"),
     ("babeltrace-master", "lttng-tools-master"),
 ]
 
@@ -116,15 +119,18 @@ test_matrix_base_modules = [
     ("babeltrace-2.0", "lttng-modules-2.13", "lttng-tools-2.13"),
     ("babeltrace-2.0", "lttng-modules-2.14", "lttng-tools-2.14"),
     ("babeltrace-2.0", "lttng-modules-2.15", "lttng-tools-2.15"),
+    ("babeltrace-2.0", "lttng-modules-2.16", "lttng-tools-2.16"),
     ("babeltrace-2.0", "lttng-modules-master", "lttng-tools-master"),
     ("babeltrace-2.1", "lttng-modules-2.12", "lttng-tools-2.12"),
     ("babeltrace-2.1", "lttng-modules-2.13", "lttng-tools-2.13"),
     ("babeltrace-2.1", "lttng-modules-2.14", "lttng-tools-2.14"),
     ("babeltrace-2.1", "lttng-modules-2.15", "lttng-tools-2.15"),
+    ("babeltrace-2.1", "lttng-modules-2.16", "lttng-tools-2.16"),
     ("babeltrace-2.1", "lttng-modules-master", "lttng-tools-master"),
     ("babeltrace-master", "lttng-modules-2.13", "lttng-tools-2.13"),
     ("babeltrace-master", "lttng-modules-2.14", "lttng-tools-2.14"),
     ("babeltrace-master", "lttng-modules-2.15", "lttng-tools-2.15"),
+    ("babeltrace-master", "lttng-modules-2.16", "lttng-tools-2.16"),
     ("babeltrace-master", "lttng-modules-master", "lttng-tools-master"),
 ]
 
@@ -188,6 +194,11 @@ test_matrix_same_trace_modules = [
     ),
     (
         ["babeltrace-2.0", "babeltrace-2.1"],
+        "lttng-modules-2.16",
+        "lttng-tools-2.16",
+    ),
+    (
+        ["babeltrace-2.0", "babeltrace-2.1"],
         "lttng-modules-master",
         "lttng-tools-master",
     ),
@@ -205,6 +216,11 @@ test_matrix_same_trace_modules = [
         ["babeltrace-2.1", "babeltrace-master"],
         "lttng-modules-2.15",
         "lttng-tools-2.15",
+    ),
+    (
+        ["babeltrace-2.1", "babeltrace-master"],
+        "lttng-modules-2.16",
+        "lttng-tools-2.16",
     ),
     (
         ["babeltrace-2.1", "babeltrace-master"],
@@ -239,10 +255,12 @@ test_matrix_same_trace_ust = [
     (["babeltrace-2.0", "babeltrace-2.1"], "lttng-tools-2.13"),
     (["babeltrace-2.0", "babeltrace-2.1"], "lttng-tools-2.14"),
     (["babeltrace-2.0", "babeltrace-2.1"], "lttng-tools-2.15"),
+    (["babeltrace-2.0", "babeltrace-2.1"], "lttng-tools-2.16"),
     (["babeltrace-2.0", "babeltrace-2.1"], "lttng-tools-master"),
     (["babeltrace-2.1", "babeltrace-master"], "lttng-tools-2.13"),
     (["babeltrace-2.1", "babeltrace-master"], "lttng-tools-2.14"),
     (["babeltrace-2.1", "babeltrace-master"], "lttng-tools-2.15"),
+    (["babeltrace-2.1", "babeltrace-master"], "lttng-tools-2.16"),
     (["babeltrace-2.1", "babeltrace-master"], "lttng-tools-master"),
 ]
 

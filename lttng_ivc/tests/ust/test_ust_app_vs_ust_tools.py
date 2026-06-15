@@ -40,24 +40,25 @@ NOTE: tracing between 2.7 and 2.8 should work but a problem with
 _ustctl_basic_type prevent event registration. Hence consider in further test
 that the event registration is expected to fail.
 
-+------------------------------------------------------------------------------------------+
-|              LTTng UST control protocol compatibility matrix                             |
-|   (between applications and tools linked on LTTng UST and liblttng-ust-ctl)              |
-+--------------------------+-----+-----+------------+------+------+----------+------+------+
-|              LTTng Tools | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13     | 2.14 | 2.15 |
-|                 Protocol | 6.0 | 6.1 | 7.1 | 7.2  | 8.0  | 8.1  | 8.1, 9.0 | 8-10 | 11   |
-| LTTng-UST (protocol)     |     |     |     |      |      |      |          |      |      |
-+--------------------------+-----+-----+-----+------+------+------+----------+------+------+
-| 2.7 (6.0)                | FC  | BC  | TU  | TU   | TU   | TU   | TU       | TU   | UN   |
-| 2.8 (6.1)                | BC  | FC  | TU  | TU   | TU   | TU   | TU       | Tu   | UN   |
-| 2.9 (7.1)                | TU  | TU  | FC  | BC   | TU   | TU   | TU       | TU   | UN   |
-| 2.10 (7.2)               | TU  | TU  | BC  | FC   | TU   | TU   | TU       | TU   | UN   |
-| 2.11 (8.0)               | TU  | TU  | TU  | TU   | FC   | BC   | BC       | BC   | UN   |
-| 2.12 (8.1)               | TU  | TU  | TU  | TU   | BC   | FC   | BC       | BC   | UN   |
-| 2.13 (9.0) (8.1)         | TU  | TU  | TU  | TU   | TU   | TU   | FC       | BC   | TU   |
-| 2.14 (10.0) (9.0) (8.1)  | TU  | TU  | TU  | TU   | TU   | TU   | TU       | FC   | TU   |
-| 2.15 (11.0)              | UN  | UN  | UN  | UN   | UN   | UN   | TU       | TU   | FC   |
-+--------------------------+-----+-----+-----+------+------+------+----------+------+------+
++-------------------------------------------------------------------------------------------------+
+|              LTTng UST control protocol compatibility matrix                                    |
+|   (between applications and tools linked on LTTng UST and liblttng-ust-ctl)                     |
++--------------------------+-----+-----+------------+------+------+----------+------+------+------+
+|              LTTng Tools | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13     | 2.14 | 2.15 | 2.16 |
+|                 Protocol | 6.0 | 6.1 | 7.1 | 7.2  | 8.0  | 8.1  | 8.1, 9.0 | 8-10 | 11   | 11   |
+| LTTng-UST (protocol)     |     |     |     |      |      |      |          |      |      |      |
++--------------------------+-----+-----+-----+------+------+------+----------+------+------+------+
+| 2.7 (6.0)                | FC  | BC  | TU  | TU   | TU   | TU   | TU       | TU   | UN   | UN   |
+| 2.8 (6.1)                | BC  | FC  | TU  | TU   | TU   | TU   | TU       | Tu   | UN   | UN   |
+| 2.9 (7.1)                | TU  | TU  | FC  | BC   | TU   | TU   | TU       | TU   | UN   | UN   |
+| 2.10 (7.2)               | TU  | TU  | BC  | FC   | TU   | TU   | TU       | TU   | UN   | UN   |
+| 2.11 (8.0)               | TU  | TU  | TU  | TU   | FC   | BC   | BC       | BC   | UN   | UN   |
+| 2.12 (8.1)               | TU  | TU  | TU  | TU   | BC   | FC   | BC       | BC   | UN   | UN   |
+| 2.13 (9.0) (8.1)         | TU  | TU  | TU  | TU   | TU   | TU   | FC       | BC   | TU   | TU   |
+| 2.14 (10.0) (9.0) (8.1)  | TU  | TU  | TU  | TU   | TU   | TU   | TU       | FC   | TU   | TU   |
+| 2.15 (11.0)              | UN  | UN  | UN  | UN   | UN   | UN   | TU       | TU   | FC   | BC   |
+| 2.16 (11.0)              | UN  | UN  | UN  | UN   | UN   | UN   | TU       | TU   | BC   | FC   |
++--------------------------+-----+-----+-----+------+------+------+----------+------+------+------+
 
 LTTng-ust 2.13 introduced the notion of
 LTTNG_UST_ABI_MAJOR_VERSION_OLDEST_COMPATIBLE see lttng-ust commit:
@@ -130,20 +131,29 @@ test_matrix_tracing_available = [
     ("lttng-ust-2.13", "lttng-tools-2.13", "Success"),
     ("lttng-ust-2.13", "lttng-tools-2.14", "Success"),
     ("lttng-ust-2.13", "lttng-tools-2.15", "Unsupported"),
+    ("lttng-ust-2.13", "lttng-tools-2.16", "Unsupported"),
     ("lttng-ust-2.13", "lttng-tools-master", "Unsupported"),
     ("lttng-ust-2.14", "lttng-tools-2.12", "Unsupported"),
     ("lttng-ust-2.14", "lttng-tools-2.13", "Unsupported"),
     ("lttng-ust-2.14", "lttng-tools-2.14", "Success"),
     ("lttng-ust-2.14", "lttng-tools-2.15", "Unsupported"),
+    ("lttng-ust-2.14", "lttng-tools-2.16", "Unsupported"),
     ("lttng-ust-2.14", "lttng-tools-master", "Unsupported"),
     # Tracing protocol version 11
     ("lttng-ust-2.15", "lttng-tools-2.13", "Unsupported"),
     ("lttng-ust-2.15", "lttng-tools-2.14", "Unsupported"),
     ("lttng-ust-2.15", "lttng-tools-2.15", "Success"),
+    ("lttng-ust-2.15", "lttng-tools-2.16", "Success"),
     ("lttng-ust-2.15", "lttng-tools-master", "Success"),
+    ("lttng-ust-2.16", "lttng-tools-2.13", "Unsupported"),
+    ("lttng-ust-2.16", "lttng-tools-2.14", "Unsupported"),
+    ("lttng-ust-2.16", "lttng-tools-2.15", "Success"),
+    ("lttng-ust-2.16", "lttng-tools-2.16", "Success"),
+    ("lttng-ust-2.16", "lttng-tools-master", "Success"),
     ("lttng-ust-master", "lttng-tools-2.13", "Unsupported"),
     ("lttng-ust-master", "lttng-tools-2.14", "Unsupported"),
     ("lttng-ust-master", "lttng-tools-2.15", "Success"),
+    ("lttng-ust-master", "lttng-tools-2.16", "Success"),
     ("lttng-ust-master", "lttng-tools-master", "Success"),
 ]
 
@@ -175,10 +185,22 @@ test_matrix_regen_statedump = [
         True,
         marks=pytest.mark.xfail(reason="Protocol unsupported"),
     ),
+    pytest.param(
+        "lttng-ust-2.13",
+        "lttng-tools-2.16",
+        True,
+        marks=pytest.mark.xfail(reason="Protocol unsupported"),
+    ),
     ("lttng-ust-2.14", "lttng-tools-2.14", True),
     pytest.param(
         "lttng-ust-2.14",
         "lttng-tools-2.15",
+        True,
+        marks=pytest.mark.xfail(reason="Protocol unsupported"),
+    ),
+    pytest.param(
+        "lttng-ust-2.14",
+        "lttng-tools-2.16",
         True,
         marks=pytest.mark.xfail(reason="Protocol unsupported"),
     ),
@@ -196,7 +218,23 @@ test_matrix_regen_statedump = [
         marks=pytest.mark.xfail(reason="Protocol unsupported"),
     ),
     ("lttng-ust-2.15", "lttng-tools-2.15", True),
+    ("lttng-ust-2.15", "lttng-tools-2.16", True),
     ("lttng-ust-2.15", "lttng-tools-master", True),
+    pytest.param(
+        "lttng-ust-2.16",
+        "lttng-tools-2.13",
+        True,
+        marks=pytest.mark.xfail(reason="Protocol unsupported"),
+    ),
+    pytest.param(
+        "lttng-ust-2.16",
+        "lttng-tools-2.14",
+        True,
+        marks=pytest.mark.xfail(reason="Protocol unsupported"),
+    ),
+    ("lttng-ust-2.16", "lttng-tools-2.15", True),
+    ("lttng-ust-2.16", "lttng-tools-2.16", True),
+    ("lttng-ust-2.16", "lttng-tools-master", True),
     pytest.param(
         "lttng-ust-master",
         "lttng-tools-2.13",
@@ -210,6 +248,7 @@ test_matrix_regen_statedump = [
         marks=pytest.mark.xfail(reason="Protocol unsupported"),
     ),
     ("lttng-ust-master", "lttng-tools-2.15", True),
+    ("lttng-ust-master", "lttng-tools-2.16", True),
     ("lttng-ust-master", "lttng-tools-master", True),
 ]
 
@@ -238,6 +277,12 @@ test_matrix_starglobing_enabler = [
         marks=pytest.mark.xfail(reason="Protocol unsupported"),
     ),
     pytest.param(
+        "lttng-ust-2.13",
+        "lttng-tools-2.16",
+        "Supported",
+        marks=pytest.mark.xfail(reason="Protocol unsupported"),
+    ),
+    pytest.param(
         "lttng-ust-2.14",
         "lttng-tools-2.13",
         "Supported",
@@ -247,6 +292,12 @@ test_matrix_starglobing_enabler = [
     pytest.param(
         "lttng-ust-2.14",
         "lttng-tools-2.15",
+        "Supported",
+        marks=pytest.mark.xfail(reason="Protocol unsupported"),
+    ),
+    pytest.param(
+        "lttng-ust-2.14",
+        "lttng-tools-2.16",
         "Supported",
         marks=pytest.mark.xfail(reason="Protocol unsupported"),
     ),
@@ -264,7 +315,23 @@ test_matrix_starglobing_enabler = [
         marks=pytest.mark.xfail(reason="Protocol unsupported"),
     ),
     ("lttng-ust-2.15", "lttng-tools-2.15", "Supported"),
+    ("lttng-ust-2.15", "lttng-tools-2.16", "Supported"),
     ("lttng-ust-2.15", "lttng-tools-master", "Supported"),
+    pytest.param(
+        "lttng-ust-2.16",
+        "lttng-tools-2.13",
+        "Supported",
+        marks=pytest.mark.xfail(reason="Protocol unsupported"),
+    ),
+    pytest.param(
+        "lttng-ust-2.16",
+        "lttng-tools-2.14",
+        "Supported",
+        marks=pytest.mark.xfail(reason="Protocol unsupported"),
+    ),
+    ("lttng-ust-2.16", "lttng-tools-2.15", "Supported"),
+    ("lttng-ust-2.16", "lttng-tools-2.16", "Supported"),
+    ("lttng-ust-2.16", "lttng-tools-master", "Supported"),
     pytest.param(
         "lttng-ust-master",
         "lttng-tools-2.13",
@@ -278,6 +345,7 @@ test_matrix_starglobing_enabler = [
         marks=pytest.mark.xfail(reason="Protocol unsupported"),
     ),
     ("lttng-ust-master", "lttng-tools-2.15", "Supported"),
+    ("lttng-ust-master", "lttng-tools-2.16", "Supported"),
     ("lttng-ust-master", "lttng-tools-master", "Supported"),
 ]
 

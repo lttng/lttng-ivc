@@ -36,16 +36,17 @@ FC: Fully Compatible
 I: Incompatible
 UN: Untested
 
-+------------------------------------------+
-| LTTng relayd vs. LTTng consumerd - CTF2  |
-+---------------------+------+------+------+
-|           Consumerd | 2.13 | 2.14 | 2.15 |
-| Relayd              |      |      |      |
-+---------------------+------+------+------+
-| 2.13                | I    | I    | I    |
-| 2.14                | I    | I    | I    |
-| 2.15                | I    | I    | FC   |
-+---------------------+------+------+------+
++-------------------------------------------------+
+| LTTng relayd vs. LTTng consumerd - CTF2         |
++---------------------+------+------+------+------+
+|           Consumerd | 2.13 | 2.14 | 2.15 | 2.16 |
+| Relayd              |      |      |      |      |
++---------------------+------+------+------+------+
+| 2.13                | I    | I    | I    | I    |
+| 2.14                | I    | I    | I    | I    |
+| 2.15                | I    | I    | FC   | FC   |
+| 2.16                | I    | I    | FC   | FC   |
++---------------------+------+------+------+------+
 """
 
 test_ctf2_matrix = [
@@ -67,6 +68,11 @@ test_ctf2_matrix = [
     ),
     pytest.param(
         "lttng-tools-2.13",
+        "lttng-tools-2.16",
+        marks=pytest.mark.xfail(reason="Relayd does not support CTF2"),
+    ),
+    pytest.param(
+        "lttng-tools-2.13",
         "lttng-tools-master",
         marks=pytest.mark.xfail(reason="Relayd does not support CTF2"),
     ),
@@ -87,6 +93,11 @@ test_ctf2_matrix = [
     ),
     pytest.param(
         "lttng-tools-2.14",
+        "lttng-tools-2.16",
+        marks=pytest.mark.xfail(reason="Sessiond does not support CTF2 via network"),
+    ),
+    pytest.param(
+        "lttng-tools-2.14",
         "lttng-tools-master",
         marks=pytest.mark.xfail(reason="Sessiond does not support CTF2 via network"),
     ),
@@ -103,12 +114,36 @@ test_ctf2_matrix = [
     pytest.param(
         "lttng-tools-2.15",
         "lttng-tools-2.15",
-        marks=pytest.mark.xfail(reason="Support not merged yet"),
+    ),
+    pytest.param(
+        "lttng-tools-2.15",
+        "lttng-tools-2.16",
     ),
     pytest.param(
         "lttng-tools-2.15",
         "lttng-tools-master",
-        marks=pytest.mark.xfail(reason="Supported not merge yet"),
+    ),
+    pytest.param(
+        "lttng-tools-2.16",
+        "lttng-tools-2.13",
+        marks=pytest.mark.xfail(reason="Sessiond does not support CTF2"),
+    ),
+    pytest.param(
+        "lttng-tools-2.16",
+        "lttng-tools-2.14",
+        marks=pytest.mark.xfail(reason="Sessiond does not support CTF2 via network"),
+    ),
+    pytest.param(
+        "lttng-tools-2.16",
+        "lttng-tools-2.15",
+    ),
+    pytest.param(
+        "lttng-tools-2.16",
+        "lttng-tools-2.16",
+    ),
+    pytest.param(
+        "lttng-tools-2.16",
+        "lttng-tools-master",
     ),
     pytest.param(
         "lttng-tools-master",
@@ -123,12 +158,14 @@ test_ctf2_matrix = [
     pytest.param(
         "lttng-tools-master",
         "lttng-tools-2.15",
-        marks=pytest.mark.xfail(reason="Support not merged yet"),
+    ),
+    pytest.param(
+        "lttng-tools-master",
+        "lttng-tools-2.16",
     ),
     pytest.param(
         "lttng-tools-master",
         "lttng-tools-master",
-        marks=pytest.mark.xfail(reason="Support not merged yet"),
     ),
 ]
 

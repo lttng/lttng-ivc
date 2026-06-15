@@ -34,22 +34,23 @@ FC: Fully Compatible
 I: Incompatible
 UN: Untested
 
-+--------------------------------------------------------------------------------------+
-|                 LTTng consumer daemon vs LTTng session daemon                        |
-+--------------------------+-----+-----+-----+------+------+------+------+------+------+
-|                 Sessiond | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 | 2.15 |
-| Consumerd                |     |     |     |      |      |      |      |      |      |
-+--------------------------+-----+-----+-----+------+------+------+------+------+------+
-| 2.7                      | FC  | I   | I   | I    | I    | I    | I    | UN   | UN   |
-| 2.8                      | I   | FC  | I   | I    | I    | I    | I    | UN   | UN   |
-| 2.9                      | I   | I   | FC  | I    | I    | I    | I    | UN   | UN   |
-| 2.10                     | I   | I   | I   | FC   | I    | I    | I    | UN   | UN   |
-| 2.11                     | I   | I   | I   | I    | FC   | I    | I    | UN   | UN   |
-| 2.12                     | I   | I   | I   | I    | I    | FC   | I    | I    | UN   |
-| 2.13                     | I   | I   | I   | I    | I    | I    | FC   | I    | I    |
-| 2.14                     | UN  | UN  | UN  | UN   | UN   | I    | I    | FC   | I    |
-| 2.15                     | UN  | UN  | UN  | UN   | UN   | UN   | I    | I    | FC   |
-+--------------------------+-----+-----+-----+------+------+------+------+------+------+
++---------------------------------------------------------------------------------------------+
+|                 LTTng consumer daemon vs LTTng session daemon                               |
++--------------------------+-----+-----+-----+------+------+------+------+------+------+------+
+|                 Sessiond | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 | 2.15 | 2.16 |
+| Consumerd                |     |     |     |      |      |      |      |      |      |      |
++--------------------------+-----+-----+-----+------+------+------+------+------+------+------+
+| 2.7                      | FC  | I   | I   | I    | I    | I    | I    | UN   | UN   | UN   |
+| 2.8                      | I   | FC  | I   | I    | I    | I    | I    | UN   | UN   | UN   |
+| 2.9                      | I   | I   | FC  | I    | I    | I    | I    | UN   | UN   | UN   |
+| 2.10                     | I   | I   | I   | FC   | I    | I    | I    | UN   | UN   | UN   |
+| 2.11                     | I   | I   | I   | I    | FC   | I    | I    | UN   | UN   | UN   |
+| 2.12                     | I   | I   | I   | I    | I    | FC   | I    | I    | UN   | UN   |
+| 2.13                     | I   | I   | I   | I    | I    | I    | FC   | I    | I    | I    |
+| 2.14                     | UN  | UN  | UN  | UN   | UN   | I    | I    | FC   | I    | I    |
+| 2.15                     | UN  | UN  | UN  | UN   | UN   | UN   | I    | I    | FC   | I    |
+| 2.16                     | UN  | UN  | UN  | UN   | UN   | UN   | I    | I    | I    | FC   |
++--------------------------+-----+-----+-----+------+------+------+------+------+------+------+
 
 """
 
@@ -105,19 +106,48 @@ test_matrix_consumerd = [
     ("lttng-tools-2.13", "lttng-tools-2.13", True),
     ("lttng-tools-2.13", "lttng-tools-2.14", False),
     ("lttng-tools-2.13", "lttng-tools-2.15", False),
+    ("lttng-tools-2.13", "lttng-tools-2.16", False),
     ("lttng-tools-2.13", "lttng-tools-master", False),
     ("lttng-tools-2.14", "lttng-tools-2.12", False),
     ("lttng-tools-2.14", "lttng-tools-2.13", False),
     ("lttng-tools-2.14", "lttng-tools-2.14", True),
     ("lttng-tools-2.14", "lttng-tools-2.15", False),
+    ("lttng-tools-2.14", "lttng-tools-2.16", False),
     ("lttng-tools-2.14", "lttng-tools-master", False),
     ("lttng-tools-2.15", "lttng-tools-2.13", False),
     ("lttng-tools-2.15", "lttng-tools-2.14", False),
     ("lttng-tools-2.15", "lttng-tools-2.15", True),
-    ("lttng-tools-2.15", "lttng-tools-master", True),
+    pytest.param(
+        "lttng-tools-2.15",
+        "lttng-tools-2.16",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail but does not"),
+    ),
+    pytest.param(
+        "lttng-tools-2.15",
+        "lttng-tools-master",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail but does not"),
+    ),
+    ("lttng-tools-2.16", "lttng-tools-2.13", False),
+    ("lttng-tools-2.16", "lttng-tools-2.14", False),
+    pytest.param(
+        "lttng-tools-2.16",
+        "lttng-tools-2.15",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail but does not"),
+    ),
+    ("lttng-tools-2.16", "lttng-tools-2.16", True),
+    ("lttng-tools-2.16", "lttng-tools-master", True),
     ("lttng-tools-master", "lttng-tools-2.13", False),
     ("lttng-tools-master", "lttng-tools-2.14", False),
-    ("lttng-tools-master", "lttng-tools-2.15", True),
+    pytest.param(
+        "lttng-tools-master",
+        "lttng-tools-2.15",
+        False,
+        marks=pytest.mark.xfail(reason="Should fail but does not"),
+    ),
+    ("lttng-tools-master", "lttng-tools-2.16", True),
     ("lttng-tools-master", "lttng-tools-master", True),
 ]
 

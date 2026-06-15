@@ -67,23 +67,24 @@ UN: Untested
 
 Note: actual testing is limited by lttng-ust and lttng-tools abi/api.
 
-+------------------------------------------------------------------------------------------+
-|             LTTng UST Python agent protocol vs LTTng session daemon                      |
-+------------------------------+-----+-----+-----+------+------+------+------+------+------+
-|                  LTTng Tools | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 | 2.15 |
-|                    Agent ABI | 1.0 | 2.0 | 2.0 | 2.0  | 2.0  | 2.0  | 2.0  | 2.0  | 2.0  |
-| LTTng-UST (Agent ABI)        |     |     |     |      |      |      |      |      |      |
-+------------------------------+-----+-----+-----+------+------+------+------+------+------+
-| 2.7                          | NA  | NA  | NA  | NA   | NA   | NA   | NA   | NA   | UN   |
-| 2.8 (2.0)                    | TU  | FC  | BC  | BC   | TU   | TU   | TU   | TU   | UN   |
-| 2.9 (2.0)                    | TU  | BC  | FC  | BC   | TU   | TU   | TU   | TU   | UN   |
-| 2.10 (2.0)                   | TU  | BC  | BC  | FC   | TU   | TU   | TU   | TU   | UN   |
-| 2.11 (2.0)                   | TU  | TU  | TU  | TU   | FC   | BC   | TU   | TU   | UN   |
-| 2.12 (2.0)                   | TU  | TU  | TU  | TU   | BC   | FC   | TU   | TU   | UN   |
-| 2.13 (2.0)                   | TU  | TU  | TU  | TU   | TU   | TU   | FC   | BC   | BC   |
-| 2.14 (2.0)                   | TU  | TU  | TU  | TU   | TU   | TU   | BC   | FC   | BC   |
-| 2.15 (2.0)                   | UN  | UN  | UN  | UN   | UN   | UN   | BC   | BC   | FC   |
-+------------------------------+-----+-----+-----+------+------+------+------+------+------+
++-------------------------------------------------------------------------------------------------+
+|             LTTng UST Python agent protocol vs LTTng session daemon                             |
++------------------------------+-----+-----+-----+------+------+------+------+------+------+------+
+|                  LTTng Tools | 2.7 | 2.8 | 2.9 | 2.10 | 2.11 | 2.12 | 2.13 | 2.14 | 2.15 | 2.16 |
+|                    Agent ABI | 1.0 | 2.0 | 2.0 | 2.0  | 2.0  | 2.0  | 2.0  | 2.0  | 2.0  | 2.0  |
+| LTTng-UST (Agent ABI)        |     |     |     |      |      |      |      |      |      |      |
++------------------------------+-----+-----+-----+------+------+------+------+------+------+------+
+| 2.7                          | NA  | NA  | NA  | NA   | NA   | NA   | NA   | NA   | UN   | UN   |
+| 2.8 (2.0)                    | TU  | FC  | BC  | BC   | TU   | TU   | TU   | TU   | UN   | UN   |
+| 2.9 (2.0)                    | TU  | BC  | FC  | BC   | TU   | TU   | TU   | TU   | UN   | UN   |
+| 2.10 (2.0)                   | TU  | BC  | BC  | FC   | TU   | TU   | TU   | TU   | UN   | UN   |
+| 2.11 (2.0)                   | TU  | TU  | TU  | TU   | FC   | BC   | TU   | TU   | UN   | UN   |
+| 2.12 (2.0)                   | TU  | TU  | TU  | TU   | BC   | FC   | TU   | TU   | UN   | UN   |
+| 2.13 (2.0)                   | TU  | TU  | TU  | TU   | TU   | TU   | FC   | BC   | BC   | BC   |
+| 2.14 (2.0)                   | TU  | TU  | TU  | TU   | TU   | TU   | BC   | FC   | BC   | BC   |
+| 2.15 (2.0)                   | UN  | UN  | UN  | UN   | UN   | UN   | BC   | BC   | FC   | BC   |
+| 2.16 (2.0)                   | UN  | UN  | UN  | UN   | UN   | UN   | BC   | BC   | BC   | FC   |
++------------------------------+-----+-----+-----+------+------+------+------+------+------+------+
 
 """
 
@@ -146,20 +147,29 @@ test_matrix_tracing_available = [
     ("lttng-ust-2.13", "lttng-tools-2.13", True),
     ("lttng-ust-2.13", "lttng-tools-2.14", True),
     ("lttng-ust-2.13", "lttng-tools-2.15", False),
+    ("lttng-ust-2.13", "lttng-tools-2.16", False),
     ("lttng-ust-2.13", "lttng-tools-master", False),
     ("lttng-ust-2.14", "lttng-tools-2.12", False),
     ("lttng-ust-2.14", "lttng-tools-2.13", False),
     ("lttng-ust-2.14", "lttng-tools-2.14", True),
     ("lttng-ust-2.14", "lttng-tools-2.15", False),
+    ("lttng-ust-2.14", "lttng-tools-2.16", False),
     ("lttng-ust-2.14", "lttng-tools-master", False),
     # Protocol changed to version 11
     ("lttng-ust-2.15", "lttng-tools-2.13", False),
     ("lttng-ust-2.15", "lttng-tools-2.14", False),
     ("lttng-ust-2.15", "lttng-tools-2.15", True),
+    ("lttng-ust-2.15", "lttng-tools-2.16", True),
     ("lttng-ust-2.15", "lttng-tools-master", True),
+    ("lttng-ust-2.16", "lttng-tools-2.13", False),
+    ("lttng-ust-2.16", "lttng-tools-2.14", False),
+    ("lttng-ust-2.16", "lttng-tools-2.15", True),
+    ("lttng-ust-2.16", "lttng-tools-2.16", True),
+    ("lttng-ust-2.16", "lttng-tools-master", True),
     ("lttng-ust-master", "lttng-tools-2.13", False),
     ("lttng-ust-master", "lttng-tools-2.14", False),
     ("lttng-ust-master", "lttng-tools-2.15", True),
+    ("lttng-ust-master", "lttng-tools-2.16", True),
     ("lttng-ust-master", "lttng-tools-master", True),
 ]
 
@@ -222,20 +232,29 @@ test_matrix_agent_interface = [
     ("lttng-ust-2.13", "lttng-tools-2.13", "Success"),
     ("lttng-ust-2.13", "lttng-tools-2.14", "Success"),
     ("lttng-ust-2.13", "lttng-tools-2.15", "Success"),
+    ("lttng-ust-2.13", "lttng-tools-2.16", "Success"),
     ("lttng-ust-2.13", "lttng-tools-master", "Success"),
     ("lttng-ust-2.14", "lttng-tools-2.12", error_ust_so_1),
     ("lttng-ust-2.14", "lttng-tools-2.13", "Success"),
     ("lttng-ust-2.14", "lttng-tools-2.14", "Success"),
     ("lttng-ust-2.14", "lttng-tools-2.15", "Success"),
+    ("lttng-ust-2.14", "lttng-tools-2.16", "Success"),
     ("lttng-ust-2.14", "lttng-tools-master", "Success"),
     # Protocol changed to 11
     ("lttng-ust-2.15", "lttng-tools-2.13", "Success"),
     ("lttng-ust-2.15", "lttng-tools-2.14", "Success"),
     ("lttng-ust-2.15", "lttng-tools-2.15", "Success"),
+    ("lttng-ust-2.15", "lttng-tools-2.16", "Success"),
     ("lttng-ust-2.15", "lttng-tools-master", "Success"),
+    ("lttng-ust-2.16", "lttng-tools-2.13", "Success"),
+    ("lttng-ust-2.16", "lttng-tools-2.14", "Success"),
+    ("lttng-ust-2.16", "lttng-tools-2.15", "Success"),
+    ("lttng-ust-2.16", "lttng-tools-2.16", "Success"),
+    ("lttng-ust-2.16", "lttng-tools-master", "Success"),
     ("lttng-ust-master", "lttng-tools-2.13", "Success"),
     ("lttng-ust-master", "lttng-tools-2.14", "Success"),
     ("lttng-ust-master", "lttng-tools-2.15", "Success"),
+    ("lttng-ust-master", "lttng-tools-2.16", "Success"),
     ("lttng-ust-master", "lttng-tools-master", "Success"),
 ]
 

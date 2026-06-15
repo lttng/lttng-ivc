@@ -18,11 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import pytest
+import contextlib
 import os
 import shutil
 import signal
 import subprocess
+
+import pytest
 
 import lttng_ivc.utils.ProjectFactory as ProjectFactory
 import lttng_ivc.utils.utils as utils
@@ -39,7 +41,9 @@ This depends on the .so version of lttng-ust. 2.13 bumped the .so name from
 
 FC: Fully Compatible
 BC: Feature of the smallest version number will works.
-TU: Tracing unavailable
+SO: lttng-ust .so unavailable
+EU: Event not available for tracing
+  - e.g., the probe LTTNG_UST_PROVIDER_MAJOR is greater than the LTTNG_UST_PROVIDER_MAJOR of the control lib
 
 """
 
@@ -49,81 +53,158 @@ Second tuple member: lttng-tool label
 Third tuple member: expected scenario
 """
 
+does_not_raise = contextlib.nullcontext
+
 test_matrix_base_app_tracing_available = [
-    ("lttng-ust-2.7", "lttng-tools-2.7", True),
-    ("lttng-ust-2.7", "lttng-tools-2.8", True),
-    ("lttng-ust-2.7", "lttng-tools-2.9", True),
-    ("lttng-ust-2.7", "lttng-tools-2.10", True),
-    ("lttng-ust-2.7", "lttng-tools-2.11", True),
-    ("lttng-ust-2.7", "lttng-tools-2.12", True),
+    ("lttng-ust-2.7", "lttng-tools-2.7", True, does_not_raise()),
+    ("lttng-ust-2.7", "lttng-tools-2.8", True, does_not_raise()),
+    ("lttng-ust-2.7", "lttng-tools-2.9", True, does_not_raise()),
+    ("lttng-ust-2.7", "lttng-tools-2.10", True, does_not_raise()),
+    ("lttng-ust-2.7", "lttng-tools-2.11", True, does_not_raise()),
+    ("lttng-ust-2.7", "lttng-tools-2.12", True, does_not_raise()),
     # The .so for ust 2.13 was bumped to .1.
-    ("lttng-ust-2.7", "lttng-tools-2.13", False),
-    ("lttng-ust-2.8", "lttng-tools-2.7", True),
-    ("lttng-ust-2.8", "lttng-tools-2.8", True),
-    ("lttng-ust-2.8", "lttng-tools-2.9", True),
-    ("lttng-ust-2.8", "lttng-tools-2.10", True),
-    ("lttng-ust-2.8", "lttng-tools-2.11", True),
-    ("lttng-ust-2.8", "lttng-tools-2.12", True),
+    (
+        "lttng-ust-2.7",
+        "lttng-tools-2.13",
+        False,
+        pytest.raises(subprocess.CalledProcessError),
+    ),
+    ("lttng-ust-2.8", "lttng-tools-2.7", True, does_not_raise()),
+    ("lttng-ust-2.8", "lttng-tools-2.8", True, does_not_raise()),
+    ("lttng-ust-2.8", "lttng-tools-2.9", True, does_not_raise()),
+    ("lttng-ust-2.8", "lttng-tools-2.10", True, does_not_raise()),
+    ("lttng-ust-2.8", "lttng-tools-2.11", True, does_not_raise()),
+    ("lttng-ust-2.8", "lttng-tools-2.12", True, does_not_raise()),
     # The .so for ust 2.13 was bumped to .1.
-    ("lttng-ust-2.8", "lttng-tools-2.13", False),
-    ("lttng-ust-2.9", "lttng-tools-2.7", True),
-    ("lttng-ust-2.9", "lttng-tools-2.8", True),
-    ("lttng-ust-2.9", "lttng-tools-2.9", True),
-    ("lttng-ust-2.9", "lttng-tools-2.10", True),
-    ("lttng-ust-2.9", "lttng-tools-2.11", True),
-    ("lttng-ust-2.9", "lttng-tools-2.12", True),
+    (
+        "lttng-ust-2.8",
+        "lttng-tools-2.13",
+        False,
+        pytest.raises(subprocess.CalledProcessError),
+    ),
+    ("lttng-ust-2.9", "lttng-tools-2.7", True, does_not_raise()),
+    ("lttng-ust-2.9", "lttng-tools-2.8", True, does_not_raise()),
+    ("lttng-ust-2.9", "lttng-tools-2.9", True, does_not_raise()),
+    ("lttng-ust-2.9", "lttng-tools-2.10", True, does_not_raise()),
+    ("lttng-ust-2.9", "lttng-tools-2.11", True, does_not_raise()),
+    ("lttng-ust-2.9", "lttng-tools-2.12", True, does_not_raise()),
     # The .so for ust was bumped to .1.
-    ("lttng-ust-2.9", "lttng-tools-2.13", False),
-    ("lttng-ust-2.10", "lttng-tools-2.7", True),
-    ("lttng-ust-2.10", "lttng-tools-2.8", True),
-    ("lttng-ust-2.10", "lttng-tools-2.9", True),
-    ("lttng-ust-2.10", "lttng-tools-2.10", True),
-    ("lttng-ust-2.10", "lttng-tools-2.11", True),
-    ("lttng-ust-2.10", "lttng-tools-2.12", True),
+    (
+        "lttng-ust-2.9",
+        "lttng-tools-2.13",
+        False,
+        pytest.raises(subprocess.CalledProcessError),
+    ),
+    ("lttng-ust-2.10", "lttng-tools-2.7", True, does_not_raise()),
+    ("lttng-ust-2.10", "lttng-tools-2.8", True, does_not_raise()),
+    ("lttng-ust-2.10", "lttng-tools-2.9", True, does_not_raise()),
+    ("lttng-ust-2.10", "lttng-tools-2.10", True, does_not_raise()),
+    ("lttng-ust-2.10", "lttng-tools-2.11", True, does_not_raise()),
+    ("lttng-ust-2.10", "lttng-tools-2.12", True, does_not_raise()),
     # The .so for ust was bumped to .1.
-    ("lttng-ust-2.10", "lttng-tools-2.13", False),
-    ("lttng-ust-2.11", "lttng-tools-2.7", True),
-    ("lttng-ust-2.11", "lttng-tools-2.8", True),
-    ("lttng-ust-2.11", "lttng-tools-2.9", True),
-    ("lttng-ust-2.11", "lttng-tools-2.10", True),
-    ("lttng-ust-2.11", "lttng-tools-2.11", True),
-    ("lttng-ust-2.11", "lttng-tools-2.12", True),
+    (
+        "lttng-ust-2.10",
+        "lttng-tools-2.13",
+        False,
+        pytest.raises(subprocess.CalledProcessError),
+    ),
+    ("lttng-ust-2.11", "lttng-tools-2.7", True, does_not_raise()),
+    ("lttng-ust-2.11", "lttng-tools-2.8", True, does_not_raise()),
+    ("lttng-ust-2.11", "lttng-tools-2.9", True, does_not_raise()),
+    ("lttng-ust-2.11", "lttng-tools-2.10", True, does_not_raise()),
+    ("lttng-ust-2.11", "lttng-tools-2.11", True, does_not_raise()),
+    ("lttng-ust-2.11", "lttng-tools-2.12", True, does_not_raise()),
     # The .so for ust was bumped to .1.
-    ("lttng-ust-2.11", "lttng-tools-2.13", False),
-    ("lttng-ust-2.12", "lttng-tools-2.7", True),
-    ("lttng-ust-2.12", "lttng-tools-2.8", True),
-    ("lttng-ust-2.12", "lttng-tools-2.9", True),
-    ("lttng-ust-2.12", "lttng-tools-2.10", True),
-    ("lttng-ust-2.12", "lttng-tools-2.11", True),
-    ("lttng-ust-2.12", "lttng-tools-2.12", True),
+    (
+        "lttng-ust-2.11",
+        "lttng-tools-2.13",
+        False,
+        pytest.raises(subprocess.CalledProcessError),
+    ),
+    ("lttng-ust-2.12", "lttng-tools-2.7", True, does_not_raise()),
+    ("lttng-ust-2.12", "lttng-tools-2.8", True, does_not_raise()),
+    ("lttng-ust-2.12", "lttng-tools-2.9", True, does_not_raise()),
+    ("lttng-ust-2.12", "lttng-tools-2.10", True, does_not_raise()),
+    ("lttng-ust-2.12", "lttng-tools-2.11", True, does_not_raise()),
+    ("lttng-ust-2.12", "lttng-tools-2.12", True, does_not_raise()),
     # The .so for ust was bumped to .1.
-    ("lttng-ust-2.12", "lttng-tools-2.13", False),
+    (
+        "lttng-ust-2.12",
+        "lttng-tools-2.13",
+        False,
+        pytest.raises(subprocess.CalledProcessError),
+    ),
     # For ust 2.13 the provider version is bumped from 1.0 to 2.0
     # See commit 04f0b55a6bafe380a1b9ce93267d5a7da963cbf9 in lttng-ust tree.
     # The .so for ust was bumped to .1.
-    ("lttng-ust-2.13", "lttng-tools-2.7", False),
-    ("lttng-ust-2.13", "lttng-tools-2.8", False),
-    ("lttng-ust-2.13", "lttng-tools-2.9", False),
-    ("lttng-ust-2.13", "lttng-tools-2.10", False),
-    ("lttng-ust-2.13", "lttng-tools-2.11", False),
-    ("lttng-ust-2.13", "lttng-tools-2.12", False),
-    ("lttng-ust-2.13", "lttng-tools-2.13", True),
-    ("lttng-ust-2.13", "lttng-tools-2.14", True),
-    ("lttng-ust-2.13", "lttng-tools-2.14", True),
-    ("lttng-ust-2.13", "lttng-tools-master", True),
-    ("lttng-ust-2.14", "lttng-tools-2.12", False),
-    ("lttng-ust-2.14", "lttng-tools-2.13", True),
-    ("lttng-ust-2.14", "lttng-tools-2.14", True),
-    ("lttng-ust-2.14", "lttng-tools-2.15", True),
-    ("lttng-ust-2.14", "lttng-tools-master", True),
-    ("lttng-ust-2.15", "lttng-tools-2.13", True),
-    ("lttng-ust-2.15", "lttng-tools-2.14", True),
-    ("lttng-ust-2.15", "lttng-tools-2.15", True),
-    ("lttng-ust-2.15", "lttng-tools-master", True),
-    ("lttng-ust-master", "lttng-tools-2.13", True),
-    ("lttng-ust-master", "lttng-tools-2.14", True),
-    ("lttng-ust-master", "lttng-tools-2.15", True),
-    ("lttng-ust-master", "lttng-tools-master", True),
+    (
+        "lttng-ust-2.13",
+        "lttng-tools-2.7",
+        False,
+        pytest.raises(subprocess.CalledProcessError),
+    ),
+    (
+        "lttng-ust-2.13",
+        "lttng-tools-2.8",
+        False,
+        pytest.raises(subprocess.CalledProcessError),
+    ),
+    (
+        "lttng-ust-2.13",
+        "lttng-tools-2.9",
+        False,
+        pytest.raises(subprocess.CalledProcessError),
+    ),
+    (
+        "lttng-ust-2.13",
+        "lttng-tools-2.10",
+        False,
+        pytest.raises(subprocess.CalledProcessError),
+    ),
+    (
+        "lttng-ust-2.13",
+        "lttng-tools-2.11",
+        False,
+        pytest.raises(subprocess.CalledProcessError),
+    ),
+    (
+        "lttng-ust-2.13",
+        "lttng-tools-2.12",
+        False,
+        pytest.raises(subprocess.CalledProcessError),
+    ),
+    ("lttng-ust-2.13", "lttng-tools-2.13", True, does_not_raise()),
+    ("lttng-ust-2.13", "lttng-tools-2.14", True, does_not_raise()),
+    ("lttng-ust-2.13", "lttng-tools-2.15", True, does_not_raise()),
+    ("lttng-ust-2.13", "lttng-tools-2.16", True, does_not_raise()),
+    ("lttng-ust-2.13", "lttng-tools-master", True, does_not_raise()),
+    (
+        "lttng-ust-2.14",
+        "lttng-tools-2.12",
+        False,
+        pytest.raises(subprocess.CalledProcessError),
+    ),
+    ("lttng-ust-2.14", "lttng-tools-2.13", True, does_not_raise()),
+    ("lttng-ust-2.14", "lttng-tools-2.14", True, does_not_raise()),
+    ("lttng-ust-2.14", "lttng-tools-2.15", True, does_not_raise()),
+    ("lttng-ust-2.14", "lttng-tools-2.16", True, does_not_raise()),
+    ("lttng-ust-2.14", "lttng-tools-master", True, does_not_raise()),
+    ("lttng-ust-2.15", "lttng-tools-2.13", True, does_not_raise()),
+    ("lttng-ust-2.15", "lttng-tools-2.14", True, does_not_raise()),
+    ("lttng-ust-2.15", "lttng-tools-2.15", True, does_not_raise()),
+    ("lttng-ust-2.15", "lttng-tools-2.16", True, does_not_raise()),
+    ("lttng-ust-2.15", "lttng-tools-master", True, does_not_raise()),
+    # LTTNG_UST_PROVIDER_MAJOR 3 -> 4
+    ("lttng-ust-2.16", "lttng-tools-2.13", False, does_not_raise()),
+    ("lttng-ust-2.16", "lttng-tools-2.14", False, does_not_raise()),
+    ("lttng-ust-2.16", "lttng-tools-2.15", False, does_not_raise()),
+    ("lttng-ust-2.16", "lttng-tools-2.16", True, does_not_raise()),
+    ("lttng-ust-2.16", "lttng-tools-master", True, does_not_raise()),
+    ("lttng-ust-master", "lttng-tools-2.13", False, does_not_raise()),
+    ("lttng-ust-master", "lttng-tools-2.14", False, does_not_raise()),
+    ("lttng-ust-master", "lttng-tools-2.15", False, does_not_raise()),
+    ("lttng-ust-master", "lttng-tools-2.16", True, does_not_raise()),
+    ("lttng-ust-master", "lttng-tools-master", True, does_not_raise()),
 ]
 
 event_registration_error = "Error: UST app recv reg unsupported version"
@@ -134,10 +215,11 @@ runtime_matrix_base_app_tracing_available = Settings.generate_runtime_test_matri
 
 
 @pytest.mark.parametrize(
-    "ust_label,tools_label,tracing_available", runtime_matrix_base_app_tracing_available
+    "ust_label,tools_label,tracing_available,expectation",
+    runtime_matrix_base_app_tracing_available,
 )
 def test_ust_app_tools_update_tracing_available(
-    tmpdir, ust_label, tools_label, tracing_available
+    tmpdir, ust_label, tools_label, tracing_available, expectation
 ):
 
     if tracing_available:
@@ -183,15 +265,8 @@ def test_ust_app_tools_update_tracing_available(
 
         # Run application
         cmd = "./app {}".format(nb_events)
-        if tracing_available:
+        with expectation:
             runtime_tools.run(cmd, cwd=app_path)
-        else:
-            # The app should not even launch here since the .so for lttng-ust
-            # does not match.
-            with pytest.raises(subprocess.CalledProcessError):
-                runtime_tools.run(cmd, cwd=app_path)
-            # Return early, nothing left to do.
-            return
 
         # Stop tracing
         runtime_tools.run("lttng stop")

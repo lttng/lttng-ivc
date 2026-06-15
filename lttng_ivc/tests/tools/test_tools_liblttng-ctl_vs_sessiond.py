@@ -41,6 +41,8 @@ result in a "Kernel create channel" msg that is simply wrong.
 
 2.12 uses symbols introduced in 2.12 hence using anything than 2.12 results in
 missing symbol.
+
+2.16: lttng_opt_is_tui and more introduced
 """
 
 test_matrix_basic_listing = [
@@ -95,19 +97,28 @@ test_matrix_basic_listing = [
     ("lttng-tools-2.13", "lttng-tools-2.13", "Success"),
     ("lttng-tools-2.13", "lttng-tools-2.14", "Success"),
     ("lttng-tools-2.13", "lttng-tools-2.15", "Success"),
+    ("lttng-tools-2.13", "lttng-tools-2.16", "Success"),
     ("lttng-tools-2.13", "lttng-tools-master", "Success"),
     ("lttng-tools-2.14", "lttng-tools-2.12", "Missing symbol"),
     ("lttng-tools-2.14", "lttng-tools-2.13", "Missing symbol"),
     ("lttng-tools-2.14", "lttng-tools-2.14", "Success"),
     ("lttng-tools-2.14", "lttng-tools-2.15", "Success"),
+    ("lttng-tools-2.14", "lttng-tools-2.16", "Success"),
     ("lttng-tools-2.14", "lttng-tools-master", "Success"),
     ("lttng-tools-2.15", "lttng-tools-2.13", "Missing symbol"),
     ("lttng-tools-2.15", "lttng-tools-2.14", "Missing symbol"),
     ("lttng-tools-2.15", "lttng-tools-2.15", "Success"),
+    ("lttng-tools-2.15", "lttng-tools-2.16", "Success"),
     ("lttng-tools-2.15", "lttng-tools-master", "Success"),
+    ("lttng-tools-2.16", "lttng-tools-2.13", "Missing symbol"),
+    ("lttng-tools-2.16", "lttng-tools-2.14", "Missing symbol"),
+    ("lttng-tools-2.16", "lttng-tools-2.15", "Missing symbol"),
+    ("lttng-tools-2.16", "lttng-tools-2.16", "Success"),
+    ("lttng-tools-2.16", "lttng-tools-master", "Success"),
     ("lttng-tools-master", "lttng-tools-2.13", "Missing symbol"),
     ("lttng-tools-master", "lttng-tools-2.14", "Missing symbol"),
-    ("lttng-tools-master", "lttng-tools-2.15", "Success"),
+    ("lttng-tools-master", "lttng-tools-2.15", "Missing symbol"),
+    ("lttng-tools-master", "lttng-tools-2.16", "Success"),
     ("lttng-tools-master", "lttng-tools-master", "Success"),
 ]
 
